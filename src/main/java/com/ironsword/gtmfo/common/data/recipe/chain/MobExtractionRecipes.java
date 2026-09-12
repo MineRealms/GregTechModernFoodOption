@@ -18,25 +18,27 @@ import static com.ironsword.gtmfo.GregTechModernFoodOption.id;
 public class MobExtractionRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider){
-        mob(provider, "milk_from_cow", 3, "minecraft:cow", GTMaterials.Milk.getFluid(10), 0f);
+        mob(provider, "milk_from_buffalo", 1, "gtmfo:italian_buffalo",
+                GTMFOFluids.ItalianBuffaloMilk.getFluid(10), 0f, 16);
+        mob(provider, "milk_from_cow", 3, "minecraft:cow", GTMaterials.Milk.getFluid(10), 0f, 16);
         mob(provider, "mushroom_soup_from_mooshroom", 2, "minecraft:mooshroom",
-                GTMFOFluids.MushroomSoup.getFluid(1), 0f);
-        mob(provider, "blood_from_cow", 4, "minecraft:cow", GTMFOFluids.Blood.getFluid(10), 0.5f);
-        mob(provider, "blood_from_chicken", 5, "minecraft:chicken", GTMFOFluids.Blood.getFluid(1), 0.5f);
-        mob(provider, "blood_from_sheep", 6, "minecraft:sheep", GTMFOFluids.Blood.getFluid(5), 0.5f);
-        mob(provider, "blood_from_pig", 7, "minecraft:pig", GTMFOFluids.Blood.getFluid(5), 0.5f);
-        mob(provider, "blood_from_villager", 8, "minecraft:villager", GTMFOFluids.Blood.getFluid(100), 0.5f);
-        mob(provider, "blood_from_player", 9, "minecraft:player", GTMFOFluids.Blood.getFluid(200), 1.5f);
-        mob(provider, "glue_from_horse", 10, "minecraft:horse", GTMaterials.Glue.getFluid(100), 1f);
+                GTMFOFluids.MushroomSoup.getFluid(1), 0f, 16);
+        mob(provider, "blood_from_cow", 4, "minecraft:cow", GTMFOFluids.Blood.getFluid(10), 0.5f, 16);
+        mob(provider, "blood_from_chicken", 5, "minecraft:chicken", GTMFOFluids.Blood.getFluid(1), 0.5f, 16);
+        mob(provider, "blood_from_sheep", 6, "minecraft:sheep", GTMFOFluids.Blood.getFluid(5), 0.5f, 16);
+        mob(provider, "blood_from_pig", 7, "minecraft:pig", GTMFOFluids.Blood.getFluid(5), 0.5f, 16);
+        mob(provider, "blood_from_villager", 8, "minecraft:villager", GTMFOFluids.Blood.getFluid(100), 0.5f, 64);
+        mob(provider, "blood_from_player", 9, "minecraft:player", GTMFOFluids.Blood.getFluid(200), 1.5f, 16);
+        mob(provider, "glue_from_horse", 10, "minecraft:horse", GTMaterials.Glue.getFluid(100), 1f, 24);
     }
 
     private static void mob(Consumer<FinishedRecipe> provider, String name, int circuit, String entityId,
-                            FluidStack output, float damage){
+                            FluidStack output, float damage, int eut){
         var builder = GTMFORecipeTypes.MOB_EXTRACTOR_RECIPES.recipeBuilder(id(name))
                 .circuitMeta(circuit)
                 .addData("mob_on_top", StringTag.valueOf(entityId))
                 .outputFluids(output)
-                .EUt(16).duration(20);
+                .EUt(eut).duration(20);
         if (damage > 0) {
             builder.addData("cause_damage", FloatTag.valueOf(damage));
         }
