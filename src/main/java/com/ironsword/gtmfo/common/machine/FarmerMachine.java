@@ -43,7 +43,7 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
             FarmerMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
 
     private static final int BASE_EU_CONSUMPTION = 16;
-    private static final int LENGTH = 9;
+    public static final int LENGTH = 9;
 
     private final int ticksPerAction;
 
@@ -67,6 +67,12 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
     private TickableSubscription tickSubs;
     private int seedSlot = 0;
 
+    private com.ironsword.gtmfo.common.machine.farmer.FarmerMode cachedMode;
+    private final List<com.ironsword.gtmfo.common.machine.farmer.FarmerMode> unusableHarvestingModes =
+            new java.util.ArrayList<>();
+    private boolean seedsAreEmpty = false;
+    private net.minecraftforge.common.util.FakePlayer fakePlayer;
+
     public FarmerMachine(IMachineBlockEntity holder, int tier, int ticksPerAction) {
         super(holder, tier);
         this.ticksPerAction = ticksPerAction;
@@ -86,8 +92,19 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
+            if (cachedMode == null) {
+                cachedMode = com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry.getAnyMode();
+            }
             tickSubs = subscribeServerTick(tickSubs, this::tick);
         }
+    }
+
+    /** Lazily created fake player used for drops and item use. */
+    public net.minecraftforge.common.util.FakePlayer getFakePlayer() {
+        if (fakePlayer == null && getLevel() instanceof ServerLevel serverLevel) {
+            fakePlayer = FakePlayerFactory.getMinecraft(serverLevel);
+        }
+        return fakePlayer;
     }
 
     @Override
@@ -113,86 +130,129 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
         }
 
         if (getLevel() instanceof ServerLevel serverLevel) {
-            operate(serverLevel, operationPosition);
+            operateServer(serverLevel);
         }
         updateOperationPosition();
     }
 
-    /** Harvests or plants at the given position. */
-    private void operate(ServerLevel level, BlockPos pos) {
-        var fakePlayer = FakePlayerFactory.getMinecraft(level);
-        BlockState state = level.getBlockState(pos);
+    /**
+     * Original {@code MetaTileEntityFarmer.operateServer}: first collect crops (if the output has room),
+     * then place a seed from the input slots.
+     */
+    private void operateServer(ServerLevel level) {
+        boolean didSomething = collectCrops(level);
 
-        // 1. harvest mature crops (right-click harvest for GTFO crops/berries, break otherwise)
-        if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
-            // try right-click harvest first (GTFO crops support this)
-            InteractionResult result = state.use(level, fakePlayer, InteractionHand.MAIN_HAND,
-                    new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false));
-            if (!result.consumesAction()) {
-                // vanilla-style: break and collect drops
-                List<ItemStack> drops = state.getBlock().getDrops(state,
-                        new net.minecraft.world.level.storage.loot.LootParams.Builder(level)
-                                .withParameter(net.minecraft.world.level.storage.loot.parameters.LootContextParams.ORIGIN,
-                                        Vec3.atCenterOf(pos))
-                                .withParameter(net.minecraft.world.level.storage.loot.parameters.LootContextParams.TOOL,
-                                        fakePlayer.getMainHandItem())
-                                .withOptionalParameter(
-                                        net.minecraft.world.level.storage.loot.parameters.LootContextParams.THIS_ENTITY,
-                                        fakePlayer));
-                level.removeBlock(pos, false);
-                for (ItemStack drop : drops) {
-                    if (!exportItems.insertItem(0, drop, true).isEmpty()) {
-                        net.minecraft.world.level.block.Block.popResource(level, pos, drop);
-                    } else {
-                        exportItems.insertItem(0, drop, false);
-                    }
-                }
-            }
-            return;
+        // If the output inventory has updated and isn't full, use all modes again
+        if (!unusableHarvestingModes.isEmpty() && !isExportFull()) {
+            unusableHarvestingModes.clear();
         }
 
-        // 2. plant a seed on empty farmland
-        if (state.isAir()) {
-            BlockPos below = pos.below();
-            if (level.getBlockState(below).is(Blocks.FARMLAND)) {
-                plantSeed(level, pos, fakePlayer);
-            }
+        didSomething |= placeSeed(level);
+
+        if (didSomething) {
+            level.playSound(null, getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5,
+                    com.ironsword.gtmfo.common.data.GTMFOSounds.FARMER_LASER.get(),
+                    net.minecraft.sounds.SoundSource.BLOCKS, 1.0f, 1.0f);
         }
     }
 
-    private void plantSeed(ServerLevel level, BlockPos pos, net.minecraftforge.common.util.FakePlayer fakePlayer) {
-        for (int i = 0; i < importItems.getSlots(); i++) {
-            ItemStack stack = importItems.getStackInSlot(i);
-            if (stack.isEmpty()) continue;
+    /** Original {@code collectCrops}. */
+    private boolean collectCrops(ServerLevel level) {
+        BlockState state = level.getBlockState(operationPosition);
+        if (state.isAir()) return false;
 
-            // GTFO seeds place their crop block directly (same rules as the planting event)
-            net.minecraft.world.level.block.Block crop = com.ironsword.gtmfo.common.data.GTMFOCrops
-                    .getCropFor(stack.getItem());
-            if (crop != null) {
-                if (!level.getBlockState(pos).isAir()) continue;
-                BlockPos below = pos.below();
-                boolean onFarmland = level.getBlockState(below).is(Blocks.FARMLAND);
-                boolean onWater = level.getBlockState(below).getFluidState()
-                        .is(net.minecraft.tags.FluidTags.WATER);
-                if (onFarmland || onWater) {
-                    level.setBlock(pos, crop.defaultBlockState(), 3);
-                    importItems.extractItem(i, 1, false);
-                    return;
-                }
-                continue;
-            }
-
-            // vanilla seeds
-            ItemStack toPlace = stack.copyWithCount(1);
-            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, toPlace);
-            InteractionResult result = toPlace.useOn(new net.minecraft.world.item.context.UseOnContext(
-                    fakePlayer, InteractionHand.MAIN_HAND,
-                    new BlockHitResult(Vec3.atCenterOf(pos.below()), Direction.UP, pos.below(), false)));
-            if (result.consumesAction()) {
-                importItems.extractItem(i, 1, false);
-                return;
+        boolean canHarvestBlock = true;
+        if (cachedMode == null || !cachedMode.canOperate(state, this, operationPosition, level)) {
+            var mode = com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry
+                    .findSuitableFarmerMode(state, this, operationPosition, level);
+            if (mode != null) {
+                cachedMode = mode;
+            } else {
+                canHarvestBlock = false;
             }
         }
+        if (canHarvestBlock && cachedMode != null && !unusableHarvestingModes.contains(cachedMode) &&
+                !isExportFull()) {
+            List<ItemStack> drops = cachedMode.getDrops(state, level, operationPosition, this);
+            if (canInsertIntoExport(drops, true)) {
+                canInsertIntoExport(drops, false);
+                cachedMode.harvest(state, level, operationPosition, this);
+                return true;
+            } else {
+                unusableHarvestingModes.add(cachedMode);
+            }
+        }
+        return false;
+    }
+
+    /** Original {@code placeSeed}. */
+    private boolean placeSeed(ServerLevel level) {
+        if (!level.getBlockState(operationPosition).isAir()) return false;
+        if (seedsAreEmpty && importItems.getStackInSlot(0).isEmpty()) return false;
+
+        seedsAreEmpty = false;
+        seedSlot = findUnemptySeedSlot(seedSlot + 1);
+        if (seedSlot == -1) {
+            seedsAreEmpty = true;
+            return false;
+        }
+        ItemStack seedItem = importItems.extractItem(seedSlot, 1, true);
+        boolean canPlaceSeed = true;
+        if (cachedMode == null || !cachedMode.canPlaceItem(seedItem) ||
+                !cachedMode.canPlaceAt(operationPosition, getPos(), getFrontFacing(), level)) {
+            var mode = com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry
+                    .findSuitableFarmerMode(seedItem, operationPosition, getPos(), getFrontFacing(), level);
+            if (mode != null) {
+                cachedMode = mode;
+            } else {
+                canPlaceSeed = false;
+                if (com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry
+                        .findSuitableFarmerMode(seedItem) == null) {
+                    // Move this unusable stack to the output
+                    ItemStack junk = importItems.extractItem(seedSlot, seedItem.getCount(), true);
+                    if (canInsertIntoExport(List.of(junk), true)) {
+                        canInsertIntoExport(List.of(importItems.extractItem(seedSlot, seedItem.getCount(), false)),
+                                false);
+                    }
+                }
+            }
+        }
+        if (canPlaceSeed && cachedMode != null) {
+            if (cachedMode.place(seedItem, level, operationPosition, this)) {
+                importItems.extractItem(seedSlot, 1, false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int findUnemptySeedSlot(int start) {
+        int slots = importItems.getSlots();
+        for (int i = 0; i < slots; i++) {
+            int index = (start + i) % slots;
+            if (!importItems.getStackInSlot(index).isEmpty()) return index;
+        }
+        return -1;
+    }
+
+    private boolean isExportFull() {
+        for (int i = 0; i < exportItems.getSlots(); i++) {
+            if (exportItems.getStackInSlot(i).isEmpty()) return false;
+        }
+        return true;
+    }
+
+    private boolean canInsertIntoExport(List<ItemStack> stacks, boolean simulate) {
+        int slot = 0;
+        for (ItemStack stack : stacks) {
+            if (stack.isEmpty()) continue;
+            ItemStack remaining = stack.copy();
+            for (int i = 0; i < exportItems.getSlots() && !remaining.isEmpty(); i++) {
+                remaining = exportItems.insertItem(i, remaining, simulate);
+            }
+            if (!remaining.isEmpty()) return false;
+        }
+        return true;
     }
 
     protected long getEnergyConsumedPerTick() {

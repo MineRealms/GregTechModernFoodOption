@@ -46,6 +46,7 @@ public class CommonProxy {
         GTMFOTools.init();
         GTMFOCovers.init();
         GTMFOLacing.init();
+        com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry.registerDefaultModes();
         GTMFOEntities.init(bus);
 
         bus.addGenericListener(MachineDefinition.class,CommonProxy::registerMachines);

@@ -55,6 +55,11 @@ public class GTFOCropBlock extends CropBlock {
         return 5;
     }
 
+    /** Public accessor for the (protected) age property, used by the farmer modes. */
+    public IntegerProperty ageProperty() {
+        return getAgeProperty();
+    }
+
     @Override
     protected Item getBaseSeedId() {
         return seedItem.get().asItem();
