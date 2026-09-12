@@ -66,8 +66,8 @@ public class Foods {
     public static final GTMFOFoodStats GORGONZOLA_TRIANGULAR =    food( 3    , 0.5f  , 32    , 2f    , 0     , 0     , 0     , 0     );
 
     //coffee
-    public static final GTMFOFoodStats COFFEE                = builder( 8    , 0.4f  , 0     , 0.5f  , 0.5f  , 0.5f  , 0     ).effect(MobEffects.REGENERATION,60,1,1f).effect(MobEffects.MOVEMENT_SPEED,1800,2,1f).item(GTMFOItems.CUP_EMPTY::asStack).build();
-    public static final GTMFOFoodStats COFFEE_ENERGIZING     = builder( 8    , 0.6f  , 0     , 0.5f  , 1f    , 0.5f  , 0     ).effect(MobEffects.REGENERATION,200,3,1f).effect(MobEffects.MOVEMENT_SPEED,2400,3,1f).effect(MobEffects.DAMAGE_BOOST,500,1,1f).effect(MobEffects.DAMAGE_RESISTANCE,500,1,1f).item(GTMFOItems.CUP_EMPTY::asStack).build();
+    public static final GTMFOFoodStats COFFEE                = builder( 8    , 0.4f  , 0     , 0.5f  , 0.5f  , 0.5f  , 0     ).drink().effect(MobEffects.REGENERATION,60,1,1f).effect(MobEffects.MOVEMENT_SPEED,1800,2,1f).item(GTMFOItems.CUP_EMPTY::asStack).build();
+    public static final GTMFOFoodStats COFFEE_ENERGIZING     = builder( 8    , 0.6f  , 0     , 0.5f  , 1f    , 0.5f  , 0     ).drink().effect(MobEffects.REGENERATION,200,3,1f).effect(MobEffects.MOVEMENT_SPEED,2400,3,1f).effect(MobEffects.DAMAGE_BOOST,500,1,1f).effect(MobEffects.DAMAGE_RESISTANCE,500,1,1f).item(GTMFOItems.CUP_EMPTY::asStack).build();
 
     //corn
     public static final GTMFOFoodStats POPCORN_BAG           = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.popcornHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.popcornSaturation, 0     , 0     , 0.5f  , 0     , 0     ).alwaysEat().item(GTMFOItems.PAPER_BAG::asStack).effect(MobEffects.JUMP,300,1,1f).build();
@@ -223,9 +223,9 @@ public class Foods {
     public static final GTMFOFoodStats PELMENI_SEASONED      =    food( 7    , 1f    , 24    , 0.5f  , 0     , 1f    , 1f    , 1f    );
     public static final GTMFOFoodStats ANTAF                 = builder( 5    , 0.5f  , 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
     public static final GTMFOFoodStats SORBET_PLAIN          = builder( 0    , 0     , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(12).build();
-    public static final GTMFOFoodStats SORBET_FRUIT          = builder( 4    , 0.5f  , 0     , 1f    , 0     , 0     , 0     ).alwaysEat().eatDuration(12).build();
-    public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).alwaysEat().eatDuration(12).effect(GTMFOEffects.CHORUS.get(),600,0,0.8f).build();
-    public static final GTMFOFoodStats SORBET_VIBRANT        = builder( 0    , 0     , 0     , 2f    , 0     , 0     , 2f    ).alwaysEat().eatDuration(12).effect(GTMFOEffects.FLY.get(),1200,0,0.8f).effect(MobEffects.POISON,1200,2,1f).effect(MobEffects.CONFUSION,1200,1,0.4f).build();
+    public static final GTMFOFoodStats SORBET_FRUIT          = builder( 4    , 0.5f  , 0     , 1f    , 0     , 0     , 0     ).eatDuration(12).build();
+    public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).eatDuration(12).effect(GTMFOEffects.CHORUS.get(),600,0,0.8f).build();
+    public static final GTMFOFoodStats SORBET_VIBRANT        = builder( 0    , 0     , 0     , 2f    , 0     , 0     , 2f    ).eatDuration(12).effect(GTMFOEffects.FLY.get(),1200,0,0.8f).effect(MobEffects.POISON,1200,2,1f).effect(MobEffects.CONFUSION,1200,1,0.4f).build();
     public static final GTMFOFoodStats FERMENTED_CHORUS      =    builder( 2    , 0.5f  , 0     , 0     , 0     , 0     , 2f    ).eatDuration(60).alwaysEat().effect(GTMFOEffects.CHORUS.get(),300,0,0.8f).build();
     public static final GTMFOFoodStats FERMENTED_CHORUS_PIE  =    builder( 6    , 1f    , 0     , 0     , 2f    , 0     , 2f    ).alwaysEat().effect(GTMFOEffects.CHORUS.get(),1200,0,1f).build();
 

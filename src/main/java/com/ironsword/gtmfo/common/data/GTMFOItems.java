@@ -217,8 +217,8 @@ public class GTMFOItems {
     //burger
     public static final ItemEntry<ExComponentItem> BURGER_BACON  = foodItem("burger_bacon" ,"Bacon Burger" ,"培根汉堡","burger/bacon" ,Foods.BURGER_MEAT);
     public static final ItemEntry<ExComponentItem> BURGER_CHEESE = foodItem("burger_cheese","Cheese Burger","芝士汉堡","burger/cheese",Foods.BURGER_CHEESE);
-    public static final ItemEntry<ExComponentItem> BURGER_CHUM   = foodItem("burger_chum"  ,"Chum Burger"  ,"海霸堡"  ,"burger/chum"  ,Foods.BURGER_CHUM);
-    public static final ItemEntry<ExComponentItem> BURGER_STEAK  = foodItem("burger_steak" ,"Steak Burger" ,"牛肉汉堡","burger/steak" ,Foods.BURGER_MEAT);
+    public static final ItemEntry<ExComponentItem> BURGER_CHUM   = foodItem("burger_chum"  ,"Chumburger"  ,"海霸堡"  ,"burger/chum"  ,Foods.BURGER_CHUM);
+    public static final ItemEntry<ExComponentItem> BURGER_STEAK  = foodItem("burger_steak" ,"Meat Burger" ,"牛肉汉堡","burger/steak" ,Foods.BURGER_MEAT);
     public static final ItemEntry<ExComponentItem> BURGER_VEGGIE = foodItem("burger_veggie","Veggie Burger","蔬菜汉堡","burger/veggie",Foods.BURGER_VEGGIE);
 
     public static final ItemEntry<Item> CAPLET_CAP           = item("caplet_cap"          ,"Caplet Cap"             ,"囊帽"            ,"caplet/cap"          );
@@ -290,8 +290,8 @@ public class GTMFOItems {
     public static final ItemEntry<Item> COTTON         = item("cotton"        ,"Cotton"           ,"棉花"    ,"crop/cotton"        );
     public static final ItemEntry<ExComponentItem> CUCUMBER       =  foodItem("cucumber", "Cucumber", "黄瓜", "crop/cucumber", Foods.CUCUMBER);
     public static final ItemEntry<ExComponentItem> CUCUMBER_SLICE =  foodItem("cucumber_slice", "Cucumber Slice", "黄瓜片", "crop/cucumber_slice", Foods.CUCUMBER_SLICE);
-    public static final ItemEntry<Item> EGGPLANT       = item("eggplant"      ,"Eggplant"         ,"茄子"    ,"crop/eggplant"      );
-    public static final ItemEntry<ExComponentItem> EGGPLANT_SLICE =  foodItem("eggplant_slice", "Eggplant Slice", "茄子片", "crop/eggplant_slice", Foods.EGGPLANT_SLICE);
+    public static final ItemEntry<Item> EGGPLANT       = item("eggplant"      ,"Aubergine"        ,"茄子"    ,"crop/eggplant"      );
+    public static final ItemEntry<ExComponentItem> EGGPLANT_SLICE =  foodItem("eggplant_slice", "Aubergine Slice", "茄子片", "crop/eggplant_slice", Foods.EGGPLANT_SLICE);
     public static final ItemEntry<Item> GARLIC_PURPLE  = item("garlic_purple" ,"Purple Garlic"    ,"紫大蒜"  ,"crop/garlic_purple" );
     public static final ItemEntry<Item> GARLIC_WHITE   = item("garlic_white"  ,"White Garlic"     ,"白大蒜"  ,"crop/garlic_white"  );
     public static final ItemEntry<Item> HOP            = item("hop"           ,"Hop"              ,"啤酒花"  ,"crop/hop"           );
@@ -485,8 +485,8 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SANDWICH_BACON_LARGE  =  foodItem("sandwich_bacon_large", "Large Bacon Sandwich", "大号培根三明治", "sandwich/bacon_large", Foods.SANDWICH_BACON_LARGE);
     public static final ItemEntry<ExComponentItem> SANDWICH_CHEESE       =  foodItem("sandwich_cheese", "Cheese Sandwich", "芝士三明治", "sandwich/cheese", Foods.SANDWICH_CHEESE);
     public static final ItemEntry<ExComponentItem> SANDWICH_CHEESE_LARGE =  foodItem("sandwich_cheese_large", "Large Cheese Sandwich", "大号芝士三明治", "sandwich/cheese_large", Foods.SANDWICH_CHEESE_LARGE);
-    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK        =  foodItem("sandwich_steak", "Steak Sandwich", "牛肉三明治", "sandwich/steak", Foods.SANDWICH_STEAK);
-    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK_LARGE  =  foodItem("sandwich_steak_large", "Large Steak Sandwich", "大号牛肉三明治", "sandwich/steak_large", Foods.SANDWICH_STEAK_LARGE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK        =  foodItem("sandwich_steak", "Meat Sandwich", "牛肉三明治", "sandwich/steak", Foods.SANDWICH_STEAK);
+    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK_LARGE  =  foodItem("sandwich_steak_large", "Large Meat Sandwich", "大号牛肉三明治", "sandwich/steak_large", Foods.SANDWICH_STEAK_LARGE);
     public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE       =  foodItem("sandwich_veggie", "Veggie Sandwich", "蔬菜三明治", "sandwich/veggie", Foods.SANDWICH_VEGGIE);
     public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE_LARGE =  foodItem("sandwich_veggie_large", "Large Veggie Sandwich", "大号蔬菜三明治", "sandwich/veggie_large", Foods.SANDWICH_VEGGIE_LARGE);
     public static final ItemEntry<ExComponentItem> SANDWICH_TOAST        =  foodItem("sandwich_toast", "Toast Sandwich", "吐司三明治", "sandwich/toast", Foods.SANDWICH_TOAST);
@@ -500,7 +500,7 @@ public class GTMFOItems {
 //    public static final ItemEntry<Item> SEED_COFFEE        = item("seed_coffee"       ,"Coffee Seed"             ,"咖啡种子"     ,"seed/coffee"       );
     public static final ItemEntry<Item> SEED_COTTON        = item("seed_cotton"       ,"Cotton Seeds"            ,"棉花种子"     ,"seed/cotton"       );
     public static final ItemEntry<Item> SEED_CUCUMBER      = item("seed_cucumber"     ,"Cucumber Seeds"          ,"黄瓜种子"     ,"seed/cucumber"     );
-    public static final ItemEntry<Item> SEED_EGGPLANT      = item("seed_eggplant"     ,"Eggplant Seeds"          ,"茄子种子"     ,"seed/eggplant"     );
+    public static final ItemEntry<Item> SEED_EGGPLANT      = item("seed_eggplant"     ,"Aubergine Seeds"          ,"茄子种子"     ,"seed/eggplant"     );
     public static final ItemEntry<Item> SEED_GARLIC_PURPLE = item("seed_garlic_purple","Purple Garlic Clove"     ,"紫大蒜瓣"     ,"seed/garlic_purple");
     public static final ItemEntry<Item> SEED_GARLIC_WHITE  = item("seed_garlic_white" ,"White Garlic Clove"      ,"白大蒜瓣"     ,"seed/garlic_white" );
     public static final ItemEntry<Item> SEED_GRAPE         = item("seed_grape"        ,"Grape Seeds"             ,"葡萄种子"     ,"seed/grape"        );
