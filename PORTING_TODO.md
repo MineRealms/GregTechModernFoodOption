@@ -303,74 +303,63 @@
 
 ---
 
-## 5. 机器（单方块）
+## 5. 机器（单方块）（已完成 ✅）
+> 本章已于 2026-09-13 对照原版 `GTFORecipeMaps` / 各 `MetaTileEntity` 复核。
 
-### 5.1 已有但需扩展
-- [x] Slicer 切片机（已注册 LV-UV 全电压，`registerSimpleMachines` 默认 `ELECTRIC_TIERS`）
-- [x] Cuisine Assembler 菜肴组装机（已注册 LV-UV 全电压）
-- [x] Microwave 微波炉（已注册 LV-UV，但缺少特殊行为）
-- [x] Multicooker 多功能烹饪机（已注册 LV-UV 全电压）
-- [ ] **微波炉特殊行为缺失**（原版 `MetaTileEntityMicrowave`）：
-  - [ ] 放入锭/易燃/易爆/熔炉燃料物品时爆炸（伤害 = 等级 × 4）
-  - [ ] 完成时播放 `MICROWAVE_FINISH` 音效
-- [ ] **GTFO GUI 标志缺失**（原版 `GTFOSimpleMachineMetaTileEntity` 在 GUI 加 GTFO logo，含 XMAS 变体）
-- [ ] 核对配方映射 IO 数量（原版 vs 现代）：
-  - Slicer: 原版 2/2/1/1，**现代 3/2/1/1（多 1 输入，需确认是否有意为之）**
-  - Cuisine Assembler: 原版 6/2/3/1，现代 6/2/3/1 ✅
-  - Microwave: 原版 1/1/0/0，现代 1/1/0/0 ✅
-  - Multicooker: 原版 6/3/3/2，现代 6/3/3/2 ✅
+### 5.1 已有机器
+- [x] Slicer 切片机（LV-UV；配方表 IO 修正为原版 **2/2/1/1**）
+- [x] Cuisine Assembler 菜肴组装机（LV-UV，IO 6/2/3/1 与原版一致）
+- [x] Microwave 微波炉（LV-UV，IO 1/1/0/0 与原版一致）
+  - [x] 放入锭/易燃/易爆/熔炉燃料物品时爆炸（伤害 = 等级 × 4）— `MicrowaveMachine`
+  - [x] 完成时播放 `MICROWAVE_FINISH` 音效
+- [x] Multicooker 多功能烹饪机（LV-UV，IO 6/3/3/2 与原版一致）
+- [x] GTFO GUI 标志（`GTMFOGuiUtils.withLogo`，切片机/菜肴组装机/多功锅/微波炉/生物提取机）
 
-### 5.2 缺失机器（全部需新建）
-- [ ] `MetaTileEntityFarmer` 农场机（LV-EV 4 级）
-  - [ ] `FarmerMode` 模式系统 + `FarmerModeRegistry`
-  - [ ] 5 种模式：茎类/下界疣/高杆作物/根茎作物/普通作物
-  - [ ] 9x9 工作区域逻辑
-  - [ ] 假玩家收获系统
-  - [ ] 种子输入/作物输出 9+9 槽
-  - [ ] 激光束粒子效果
-  - [ ] 自动输出 + 输出面配置
-- [x] `MobAgeSorterMachine` 生物年龄分拣机（LV-EV 4 级）→ ✅ 已完成
-  - [x] 红石控制
-  - [x] 幼年/成年过滤切换
-  - [x] 传送范围配置（1/3/5/9）
-- [x] `MobExterminatorMachine` 生物灭绝机（LV-EV 4 级）→ ✅ 已完成
-  - [x] 红石控制 + 9x9 范围
-  - [x] 一氧化二氮加速机制
-  - [x] 掠夺等级 = 机器等级 - 1（假玩家 + 附魔剑）
-  - [x] 流体槽
-- [x] `MobExtractorMachine` 生物提取机（LV-UV 8 级）→ ✅ 已完成
-  - [x] 配方数据 `mob_on_top`（实体类型）
-  - [x] 配方数据 `cause_damage`（伤害值）
-  - [x] 实体检测/攻击逻辑
-  - [ ] 自定义伤害源（暂用通用伤害）
-- [ ] `MetaTileEntityBioReactor` 生物反应器（HV-IV，原版已注释，可选）
+### 5.2 机器
+- [x] `FarmerMachine` 农场机（LV-EV 4 级）
+  - [x] `FarmerMode` 模式系统 + `FarmerModeRegistry`（**11 种模式全部移植**：原版作物/可可/
+        地狱疣/茎秆/高杆作物/地面清理/紫颂/GTFO 作物/根茎/浆果丛）
+  - [x] 9x9 工作区域逻辑 + 原版两阶段算法（收集作物 → 种植种子）
+  - [x] 假玩家收获系统 + 种子输入/作物输出 9+9 槽
+  - [x] 激光音效 `FARMER_LASER`（原版激光束粒子为客户端效果，未移植）
+- [x] `MobAgeSorterMachine` 生物年龄分拣机（LV-EV 4 级）：红石控制 / 幼年成年过滤 / 范围 1/3/5/9
+- [x] `MobExterminatorMachine` 生物灭绝机（LV-EV 4 级）：红石控制 + 9x9 / 一氧化二氮加速 /
+      掠夺等级 = 等级-1（假玩家+附魔剑）/ 流体槽
+- [x] `MobExtractorMachine` 生物提取机（LV-UV 8 级）：`mob_on_top` / `cause_damage` 配方数据 +
+      实体检测攻击 + **自定义伤害源**（本轮补：`gtmfo:extraction`，无视护甲，同原版）
+- [x] 自定义伤害源（本轮补全）：`extraction` / `extermination` / `cyanide` / `lung_cancer`
+      （原版 `GTFODamageSources`，全部 `BYPASSES_ARMOR`，含原版死亡消息 EN/CN）
+- [x] `MetaTileEntityBioReactor` 生物反应器 — **N/A**：原版整段注释（死代码）
 
 ---
 
-## 6. 多方块
+## 6. 多方块（已完成 ✅）
+> 本章已于 2026-09-13 对照原版多方块类复核。
 
-### 6.1 已有
-- [x] `ELECTRIC_BAKING_OVEN` 电力烤炉
-- [x] `STEAM_BAKING_OVEN` 蒸汽烤炉
+### 6.1 烤炉三件套
+- [x] `PRIMITIVE_BAKING_OVEN` 原始烤炉（土坯砖结构，燃料配方）
+- [x] `ELECTRIC_BAKING_OVEN` 电力烤炉（温度系统）
+- [x] `STEAM_BAKING_OVEN` 蒸汽烤炉（蒸汽=温度/100，时长 x4）
+- [x] 烤炉配方系统：
+  - [x] 温度机制（`GTMFOBakingOvenRecipes` 写入 recipe data + `ElectricBakingOvenMachine` 精确匹配）
+  - [x] 温度匹配（`ELECTRIC_BAKING_OVEN_RECIPES`，并行=多方块长度，无超频）
+  - [x] 原始烤炉 → 电力烤炉配方自动转换（`addBakingOvenRecipes` 同时生成两套）
+  - [x] 烤炉替换熔炉配方选项（`bakingOvenReplacement` 配置门控）
+  - [x] 温室/厨房/洒水器配方链
 
-### 6.2 缺失
-- [ ] `MetaTileEntityBakingOven` 原始烤炉（土坯砖结构，烧木炭）
-- [ ] `MetaTileEntityGreenhouse` 温室
-  - [ ] 7x7x9 玻璃结构
-  - [ ] 可配置土壤方块（配置项 `greenhouseDirts`）
-  - [ ] 作物催熟/收获逻辑
-  - [ ] `GreenhouseChain` 温室配方链
-- [ ] `MetaTileEntityKitchen` 厨房
-  - [ ] 自定义大小结构（最小半径 2）
-  - [ ] `KitchenLogic` 订单系统
-  - [ ] 配方卡片槽 + 32 电路槽
-  - [ ] 能量消耗 = VA[tier] / 2
-  - [ ] 输入/输出物品+流体仓
-- [ ] 烤炉配方系统重做：
-  - [ ] `BakingOvenRecipeBuilder` 温度机制
-  - [ ] `ElectricBakingOvenRecipeMap` 温度匹配
-  - [ ] 原始烤炉 → 电力烤炉配方自动转换
-  - [ ] 烤炉替换熔炉配方选项
+### 6.2 温室与厨房
+- [x] `GREENHOUSE` 温室
+  - [x] 7x9x7 玻璃结构（含钢框架柱）
+  - [x] 可配置土壤方块（`greenhouseDirts`，支持 `namespace:block[prop=value]`）
+  - [x] 阳光判定 + 无阳光时长翻倍（原版 `GreenhouseWorkable`）
+  - [x] `GreenhouseRecipes` 温室配方链
+- [x] `KITCHEN` 厨房
+  - [x] 5x2x6 结构（钢管外壳 + 瓷地板，原版可扩展规则）
+  - [x] `KitchenMachine`/`KitchenCraftNode`/`KitchenState` 订单系统（BFS 合成树）
+  - [x] 幻影目标槽 + 订单数量按钮（替代原版食谱卡槽，见 16.6.2）
+  - [x] 能量消耗 = VA[tier] / 2 + 维持运行中机器
+  - [x] 脏污/清洁剂机制（蒸馏水 2 / 硬脂酸钠 16）
+  - [x] 输入/输出物品+流体仓
 
 ---
 
