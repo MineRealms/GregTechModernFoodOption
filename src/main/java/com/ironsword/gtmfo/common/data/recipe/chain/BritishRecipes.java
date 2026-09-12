@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -79,10 +80,8 @@ public class BritishRecipes {
                 .inputFluids(GTMFOFluids.TomatoSauce.getFluid(100))
                 .outputItems(GTMFOItems.BEANS_WITH_SAUCE.asStack())
                 .EUt(8).duration(80).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("baked_beans"))
-                .inputItems(GTMFOItems.BEANS_WITH_SAUCE.asStack())
-                .outputItems(GTMFOItems.BAKED_BEANS.asStack())
-                .EUt(30).duration(1000).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "baked_beans", GTMFOItems.BEANS_WITH_SAUCE.asStack(),
+                GTMFOItems.BAKED_BEANS.asStack(), 1000, 450, 3);
         VanillaRecipeHelper.addShapelessRecipe(provider, id("beans_on_toast_hand"),
                 GTMFOItems.BEANS_ON_TOAST.asStack(),
                 GTMFOItems.BAKED_BEANS.asStack(), GTMFOItems.TOAST.asStack());
@@ -104,10 +103,8 @@ public class BritishRecipes {
                         GTMFOItems.SAUSAGE_RAW.asStack())
                 .outputItems(GTMFOItems.SAUSAGE_ROLL_RAW.asStack())
                 .EUt(8).duration(100).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("sausage_roll"))
-                .inputItems(GTMFOItems.SAUSAGE_ROLL_RAW.asStack())
-                .outputItems(GTMFOItems.SAUSAGE_ROLL.asStack())
-                .EUt(30).duration(250).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "sausage_roll", GTMFOItems.SAUSAGE_ROLL_RAW.asStack(),
+                GTMFOItems.SAUSAGE_ROLL.asStack(), 250, 460, 2);
 
         GTRecipeTypes.EXTRUDER_RECIPES.recipeBuilder(id("sausage_raw"))
                 .inputItems(GTMFOItems.MEAT_INGOT.asStack())

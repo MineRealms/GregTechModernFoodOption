@@ -31,6 +31,9 @@ public class PrimitiveBakingOvenMachine extends PrimitiveWorkableMachine impleme
                 .widget(new SlotWidget(importItems.storage, 0, 53, 20, true, true)
                         .setBackgroundTexture(new GuiTextureGroup(GuiTextures.PRIMITIVE_SLOT,
                                 GuiTextures.PRIMITIVE_FURNACE_OVERLAY)))
+                .widget(new SlotWidget(importItems.storage, 1, 53, 38, true, true)
+                        .setBackgroundTexture(new GuiTextureGroup(GuiTextures.PRIMITIVE_SLOT,
+                                GuiTextures.PRIMITIVE_FURNACE_OVERLAY)))
                 .widget(new ProgressWidget(recipeLogic::getProgressPercent, 78, 31, 20, 15,
                         GuiTextures.PRIMITIVE_BLAST_FURNACE_PROGRESS_BAR))
                 .widget(new SlotWidget(exportItems.storage, 0, 105, 29, true, false)

@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.GTMFOItems;
@@ -87,19 +88,13 @@ public class PizzaRecipes {
                 .outputItems(GTMFOItems.PIZZA_VEGGIE_RAW.asStack())
                 .EUt(30).duration(400).save(provider);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("pizza_cheese"))
-                .inputItems(GTMFOItems.PIZZA_CHEESE_RAW.asStack())
-                .outputItems(GTMFOBlocks.PIZZA_CHEESE.asStack())
-                .EUt(60).duration(1400).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "pizza_cheese", GTMFOItems.PIZZA_CHEESE_RAW.asStack(),
+                GTMFOBlocks.PIZZA_CHEESE.asStack(), 1400, 645, 12);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("pizza_meat"))
-                .inputItems(GTMFOItems.PIZZA_MEAT_RAW.asStack())
-                .outputItems(GTMFOBlocks.PIZZA_MEAT.asStack())
-                .EUt(60).duration(1600).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "pizza_meat", GTMFOItems.PIZZA_MEAT_RAW.asStack(),
+                GTMFOBlocks.PIZZA_MEAT.asStack(), 1600, 645, 16);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("pizza_veggie"))
-                .inputItems(GTMFOItems.PIZZA_VEGGIE_RAW.asStack())
-                .outputItems(GTMFOBlocks.PIZZA_VEGGIE.asStack())
-                .EUt(60).duration(1200).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "pizza_veggie", GTMFOItems.PIZZA_VEGGIE_RAW.asStack(),
+                GTMFOBlocks.PIZZA_VEGGIE.asStack(), 1200, 645, 10);
     }
 }

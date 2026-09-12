@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -79,10 +80,8 @@ public class SmoreRecipes {
                 .outputItems(GTMFOItems.GRAHAM_CRACKER_DOUGH.asStack(10))
                 .EUt(80).duration(200).save(provider);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("graham_cracker_dough_hot"))
-                .inputItems(GTMFOItems.GRAHAM_CRACKER_DOUGH.asStack())
-                .outputItems(GTMFOItems.GRAHAM_CRACKER_DOUGH_HOT.asStack())
-                .EUt(30).duration(400).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "graham_cracker_dough_hot", GTMFOItems.GRAHAM_CRACKER_DOUGH.asStack(),
+                GTMFOItems.GRAHAM_CRACKER_DOUGH_HOT.asStack(), 400, 450, 3);
 
         GTRecipeTypes.BENDER_RECIPES.recipeBuilder(id("graham_cracker_dough_chunk_hot"))
                 .inputItems(GTMFOItems.GRAHAM_CRACKER_DOUGH_HOT.asStack())

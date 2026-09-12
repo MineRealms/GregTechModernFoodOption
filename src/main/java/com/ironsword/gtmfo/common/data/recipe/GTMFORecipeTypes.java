@@ -67,6 +67,14 @@ public class GTMFORecipeTypes {
 
     //multi_block
     public static final GTRecipeType BAKING_OVEN_RECIPES = GTRecipeTypes.register("baking_oven",GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(2,1,0,0)
+            .setEUIO(IO.IN)
+            .setSound(GTSoundEntries.FURNACE)
+            .setSlotOverlay(false,false,true,GuiTextures.FURNACE_OVERLAY_1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT);
+
+    /** Electric baking oven: recipes carry a {@code temperature} data tag, see {@code ElectricBakingOvenMachine}. */
+    public static final GTRecipeType ELECTRIC_BAKING_OVEN_RECIPES = GTRecipeTypes.register("electric_baking_oven",GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1,1,0,0)
             .setEUIO(IO.IN)
             .setSound(GTSoundEntries.FURNACE)

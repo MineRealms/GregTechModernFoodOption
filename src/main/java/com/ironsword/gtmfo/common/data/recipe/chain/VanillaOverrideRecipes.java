@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -34,28 +35,24 @@ public class VanillaOverrideRecipes {
 
     private static void baking(Consumer<FinishedRecipe> provider){
         // potato is always overridden
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("baked_potato"))
-                .inputItems(Items.POTATO)
-                .outputItems(Items.BAKED_POTATO)
-                .EUt(60).duration(450).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "baked_potato", new net.minecraft.world.item.ItemStack(Items.POTATO),
+                new net.minecraft.world.item.ItemStack(Items.BAKED_POTATO), 450, 435, 1);
 
         if (GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.useBakingOvenForMeats) {
-            bakedMeat(provider, "beef", Items.BEEF, Items.COOKED_BEEF, 1000);
-            bakedMeat(provider, "porkchop", Items.PORKCHOP, Items.COOKED_PORKCHOP, 900);
-            bakedMeat(provider, "mutton", Items.MUTTON, Items.COOKED_MUTTON, 800);
-            bakedMeat(provider, "chicken", Items.CHICKEN, Items.COOKED_CHICKEN, 1500);
-            bakedMeat(provider, "rabbit", Items.RABBIT, Items.COOKED_RABBIT, 1000);
-            bakedMeat(provider, "cod", Items.COD, Items.COOKED_COD, 400);
-            bakedMeat(provider, "salmon", Items.SALMON, Items.COOKED_SALMON, 400);
+            bakedMeat(provider, "beef", Items.BEEF, Items.COOKED_BEEF, 1000, 500, 2);
+            bakedMeat(provider, "porkchop", Items.PORKCHOP, Items.COOKED_PORKCHOP, 900, 490, 1);
+            bakedMeat(provider, "mutton", Items.MUTTON, Items.COOKED_MUTTON, 800, 500, 2);
+            bakedMeat(provider, "chicken", Items.CHICKEN, Items.COOKED_CHICKEN, 1500, 520, 2);
+            bakedMeat(provider, "rabbit", Items.RABBIT, Items.COOKED_RABBIT, 1000, 500, 2);
+            bakedMeat(provider, "cod", Items.COD, Items.COOKED_COD, 400, 485, 2);
+            bakedMeat(provider, "salmon", Items.SALMON, Items.COOKED_SALMON, 400, 475, 2);
         }
     }
 
     private static void bakedMeat(Consumer<FinishedRecipe> provider, String name, net.minecraft.world.item.Item raw,
-                                  net.minecraft.world.item.Item cooked, int duration){
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("cooked_" + name))
-                .inputItems(raw)
-                .outputItems(cooked)
-                .EUt(60).duration(duration).save(provider);
+                                  net.minecraft.world.item.Item cooked, int duration, int temperature, int fuel){
+        GTMFOBakingOvenRecipes.add(provider, "cooked_" + name, new net.minecraft.world.item.ItemStack(raw),
+                new net.minecraft.world.item.ItemStack(cooked), duration, temperature, fuel);
     }
 
     private static void soups(Consumer<FinishedRecipe> provider){

@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -258,38 +259,24 @@ public class KebabRecipes {
 
     private static void baking(Consumer<FinishedRecipe> provider){
         int baseDuration = 400;
+        int baseTemp = 475;
+        int baseFuelKebab = 4;
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_kubideh_cooked"))
-                .inputItems(GTMFOItems.KEBAB_KUBIDEH_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_KUBIDEH.asStack())
-                .EUt(60).duration(baseDuration + 100).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_barg_cooked"))
-                .inputItems(GTMFOItems.KEBAB_BARG_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_BARG.asStack())
-                .EUt(60).duration(baseDuration + 100).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_tomato_cooked"))
-                .inputItems(GTMFOItems.KEBAB_TOMATO_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_TOMATO.asStack())
-                .EUt(60).duration(baseDuration).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_onion_cooked"))
-                .inputItems(GTMFOItems.KEBAB_ONION_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_ONION.asStack())
-                .EUt(60).duration(baseDuration).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_chum_cooked"))
-                .inputItems(GTMFOItems.KEBAB_CHUM_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_CHUM.asStack())
-                .EUt(60).duration(baseDuration).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_carrot_cooked"))
-                .inputItems(GTMFOItems.KEBAB_CARROT_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_CARROT.asStack())
-                .EUt(60).duration(baseDuration).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_fat_cooked"))
-                .inputItems(GTMFOItems.KEBAB_FAT_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_FAT.asStack())
-                .EUt(60).duration(baseDuration).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("kebab_meat_cooked"))
-                .inputItems(GTMFOItems.KEBAB_MEAT_RAW.asStack())
-                .outputItems(GTMFOItems.KEBAB_MEAT.asStack())
-                .EUt(60).duration(baseDuration + 50).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_kubideh_cooked", GTMFOItems.KEBAB_KUBIDEH_RAW.asStack(),
+                GTMFOItems.KEBAB_KUBIDEH.asStack(), baseDuration + 100, baseTemp + 10, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_barg_cooked", GTMFOItems.KEBAB_BARG_RAW.asStack(),
+                GTMFOItems.KEBAB_BARG.asStack(), baseDuration + 100, baseTemp + 15, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_tomato_cooked", GTMFOItems.KEBAB_TOMATO_RAW.asStack(),
+                GTMFOItems.KEBAB_TOMATO.asStack(), baseDuration, baseTemp, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_onion_cooked", GTMFOItems.KEBAB_ONION_RAW.asStack(),
+                GTMFOItems.KEBAB_ONION.asStack(), baseDuration, baseTemp, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_chum_cooked", GTMFOItems.KEBAB_CHUM_RAW.asStack(),
+                GTMFOItems.KEBAB_CHUM.asStack(), baseDuration, baseTemp, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_carrot_cooked", GTMFOItems.KEBAB_CARROT_RAW.asStack(),
+                GTMFOItems.KEBAB_CARROT.asStack(), baseDuration, baseTemp, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_fat_cooked", GTMFOItems.KEBAB_FAT_RAW.asStack(),
+                GTMFOItems.KEBAB_FAT.asStack(), baseDuration, baseTemp, baseFuelKebab);
+        GTMFOBakingOvenRecipes.add(provider, "kebab_meat_cooked", GTMFOItems.KEBAB_MEAT_RAW.asStack(),
+                GTMFOItems.KEBAB_MEAT.asStack(), baseDuration + 50, baseTemp + 10, baseFuelKebab);
     }
 }

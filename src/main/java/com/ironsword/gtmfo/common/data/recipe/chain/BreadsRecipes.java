@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.ironsword.gtmfo.common.data.GTMFOItems;
 import com.ironsword.gtmfo.common.data.material.GTMFOFluids;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
 import com.ironsword.gtmfo.common.data.recipe.RecipeUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -109,18 +110,12 @@ public class BreadsRecipes {
                 0.35f);
 
         // baking oven (original addBakingOvenRecipes)
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bun_baked"))
-                .inputItems(GTMFOItems.BUN_UNBAKED.asStack())
-                .outputItems(GTMFOItems.BUN.asStack())
-                .EUt(60).duration(150).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("baguette_baked"))
-                .inputItems(GTMFOItems.BAGUETTE_UNCOOKED.asStack())
-                .outputItems(GTMFOItems.BAGUETTE.asStack())
-                .EUt(60).duration(150).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bread_baked"))
-                .inputItems(GTMFOItems.BREAD_UNBAKED.asStack())
-                .outputItems(Items.BREAD.getDefaultInstance())
-                .EUt(60).duration(150).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "bun_baked", GTMFOItems.BUN_UNBAKED.asStack(),
+                GTMFOItems.BUN.asStack(), 150, 490, 2);
+        GTMFOBakingOvenRecipes.add(provider, "baguette_baked", GTMFOItems.BAGUETTE_UNCOOKED.asStack(),
+                GTMFOItems.BAGUETTE.asStack(), 150, 490, 2);
+        GTMFOBakingOvenRecipes.add(provider, "bread_baked", GTMFOItems.BREAD_UNBAKED.asStack(),
+                Items.BREAD.getDefaultInstance(), 150, 490, 2);
 
         //slice
         VanillaRecipeHelper.addShapedRecipe(provider,id("bun_sliced_by_hand"),
@@ -195,10 +190,8 @@ public class BreadsRecipes {
                 'E',Items.EGG.getDefaultInstance(),
                 'B',GTMFOItems.CAKE_BOTTOM_BAKED.asStack(),
                 'M',new FluidContainerIngredient(GTMaterials.Milk.getFluidTag(), 1000));
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("cake_bottom_baked"))
-                .inputItems(GTMFOItems.CAKE_BOTTOM.asStack())
-                .outputItems(GTMFOItems.CAKE_BOTTOM_BAKED.asStack())
-                .EUt(60).duration(500).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "cake_bottom_baked", GTMFOItems.CAKE_BOTTOM.asStack(),
+                GTMFOItems.CAKE_BOTTOM_BAKED.asStack(), 500, 445, 3);
         GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("cake"))
                 .inputItems(Items.SUGAR)
                 .inputItems(Items.EGG)
@@ -274,10 +267,8 @@ public class BreadsRecipes {
     }
 
     private static void toast(Consumer<FinishedRecipe> provider){
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("toast"))
-                .inputItems(GTMFOItems.BREAD_SLICE.asStack())
-                .outputItems(GTMFOItems.TOAST.asStack())
-                .EUt(60).duration(50).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "toast", GTMFOItems.BREAD_SLICE.asStack(),
+                GTMFOItems.TOAST.asStack(), 50, 445, 2);
     }
 
     private static void sandwich(Consumer<FinishedRecipe> provider){

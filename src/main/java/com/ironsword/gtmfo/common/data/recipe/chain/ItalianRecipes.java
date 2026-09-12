@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -239,10 +240,8 @@ public class ItalianRecipes {
                 .outputItems(GTMFOItems.SEASONED_PORK.asStack())
                 .EUt(24).duration(40).save(provider);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("porchetta"))
-                .inputItems(GTMFOItems.SEASONED_PORK.asStack())
-                .outputItems(GTMFOItems.PORCHETTA.asStack())
-                .EUt(60).duration(2000).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "porchetta", GTMFOItems.SEASONED_PORK.asStack(),
+                GTMFOItems.PORCHETTA.asStack(), 2000, 470, 4);
         GTMFORecipeTypes.SLICER_RECIPES.recipeBuilder(id("porchetta_slice"))
                 .inputItems(GTMFOItems.PORCHETTA.asStack())
                 .notConsumable(GTMFOItems.SLICER_BLADE_FLAT.asStack())
@@ -295,18 +294,12 @@ public class ItalianRecipes {
                 .outputItems(GTMFOItems.LASAGNA_CHUM_RAW.asStack())
                 .EUt(16).duration(400).save(provider);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("lasagna_napoletana_cooked"))
-                .inputItems(GTMFOItems.LASAGNA_NAPOLETANA_RAW.asStack())
-                .outputItems(GTMFOItems.LASAGNA_NAPOLETANA_COOKED.asStack())
-                .EUt(60).duration(1500).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("lasagna_pesto_cooked"))
-                .inputItems(GTMFOItems.LASAGNA_PESTO_RAW.asStack())
-                .outputItems(GTMFOItems.LASAGNA_PESTO_COOKED.asStack())
-                .EUt(60).duration(1750).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("lasagna_chum_cooked"))
-                .inputItems(GTMFOItems.LASAGNA_CHUM_RAW.asStack())
-                .outputItems(GTMFOItems.LASAGNA_CHUM_COOKED.asStack())
-                .EUt(60).duration(2000).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "lasagna_napoletana_cooked", GTMFOItems.LASAGNA_NAPOLETANA_RAW.asStack(),
+                GTMFOItems.LASAGNA_NAPOLETANA_COOKED.asStack(), 1500, 465, 2);
+        GTMFOBakingOvenRecipes.add(provider, "lasagna_pesto_cooked", GTMFOItems.LASAGNA_PESTO_RAW.asStack(),
+                GTMFOItems.LASAGNA_PESTO_COOKED.asStack(), 1750, 465, 2);
+        GTMFOBakingOvenRecipes.add(provider, "lasagna_chum_cooked", GTMFOItems.LASAGNA_CHUM_RAW.asStack(),
+                GTMFOItems.LASAGNA_CHUM_COOKED.asStack(), 2000, 1570, 3);
 
         GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("lasagna_napoletana"))
                 .inputItems(GTMFOItems.CERAMIC_PLATE.asStack(4), GTMFOItems.LASAGNA_NAPOLETANA_COOKED.asStack())

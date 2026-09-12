@@ -15,8 +15,10 @@ import com.mojang.datafixers.util.Pair;
 import com.ironsword.gtmfo.GregTechModernFoodOption;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
+import com.ironsword.gtmfo.common.machine.ElectricBakingOvenMachine;
 import com.ironsword.gtmfo.common.machine.GreenhouseMachine;
 import com.ironsword.gtmfo.common.machine.PrimitiveBakingOvenMachine;
+import com.ironsword.gtmfo.common.machine.SteamBakingOvenMachine;
 import com.ironsword.gtmfo.common.machine.kitchen.KitchenMachine;
 
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
@@ -46,32 +48,38 @@ public class GTMFOMultiMachines {
             .register();
 
     public static final MultiblockMachineDefinition ELECTRIC_BAKING_OVEN = REGISTRATE
-            .multiblock("electric_baking_oven", WorkableElectricMultiblockMachine::new)
+            .multiblock("electric_baking_oven", ElectricBakingOvenMachine::new)
             .langValue("Electric Baking Oven")
             .rotationState(RotationState.ALL)
-            .recipeType(GTMFORecipeTypes.BAKING_OVEN_RECIPES)
+            .recipeType(GTMFORecipeTypes.ELECTRIC_BAKING_OVEN_RECIPES)
+            .recipeModifier(ElectricBakingOvenMachine::bakingOvenModifier)
             .appearanceBlock(GTMFOBlocks.BISMUTH_BRONZE_CASING)
             .pattern(definition-> FactoryBlockPattern.start(BACK, UP, RIGHT)
                     .aisle("XXXX", "YXXX", "XXXX", "####")
-                    .aisle("XXXX", "GFFX", "GOOX", "XXXX").setRepeatable(2, 14)
+                    .aisle("XXXX", "GFFX", "GIIX", "XXXX").setRepeatable(2, 14)
                     .aisle("XXXX", "XXXX", "XXXX", "####")
                     .where('X', Predicates.blocks(GTMFOBlocks.BISMUTH_BRONZE_CASING.get()).setMinGlobalLimited(10).or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('F', Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,GTMaterials.Steel)))
                     .where('G', Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('#', Predicates.any())
-                    .where('O', Predicates.air())
+                    .where('I', ElectricBakingOvenMachine.lengthIndicator())
                     .where('Y', Predicates.controller(Predicates.blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(
                     GregTechModernFoodOption.id("block/bismuth_bronze_casing"),
                     GTCEu.id("block/machines/baking_oven"))
+            .tooltips(
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.electric_baking_oven.tooltip.1"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.electric_baking_oven.tooltip.2"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.electric_baking_oven.tooltip.3"))
             .register();
 
     public static final MultiblockMachineDefinition STEAM_BAKING_OVEN = REGISTRATE
-            .multiblock("steam_baking_oven", WorkableElectricMultiblockMachine::new)
+            .multiblock("steam_baking_oven", SteamBakingOvenMachine::new)
             .langValue("Steam Baking Oven")
             .rotationState(RotationState.ALL)
             .recipeType(GTMFORecipeTypes.BAKING_OVEN_RECIPES)
+            .recipeModifier(SteamBakingOvenMachine::steamBakingOvenModifier)
             .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition->FactoryBlockPattern.start()
                     .aisle("XXXX", "XGGX", "XXXX")
@@ -196,5 +204,24 @@ public class GTMFOMultiMachines {
                 Pair.of("Any size larger than the Preview up to 15x15 is fine.", "可以搭建大于预览所示尺寸的厨房"));
         GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.5",
                 Pair.of("§4Requires cleaning Products to remain efficient!", "§4需要清洁剂来保持运行效率！"));
+
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.electric_baking_oven.tooltip.1",
+                Pair.of("Only runs recipes if the required temperature is set.", "仅在达到所需温度后才能处理配方。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.electric_baking_oven.tooltip.2",
+                Pair.of("The §aEU§7 per tick required is exponentially related to the current temperature.",
+                        "每 tick 消耗的 §aEU§7 与当前温度呈指数关系。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.electric_baking_oven.tooltip.3",
+                Pair.of("Extend the multiblock out by §a1§7 block to run an extra recipe in parallel.",
+                        "多方块长度每增加 §a1§7 格，最大并行数加一。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.multiblock.electric_baking_oven.tooltip.1",
+                Pair.of("Temperature: §a%dK§7.", "温度：§a%dK§7。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.multiblock.electric_baking_oven.tooltip.2",
+                Pair.of("Not enough energy can be inputted to reach the target!", "输入的能量不足以达到目标温度！"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.multiblock.electric_baking_oven.tooltip.4",
+                Pair.of("§7Consumption: §r%d EU/t.", "§7能耗：§r%d EU/t。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.multiblock.electric_baking_oven.tooltip.5",
+                Pair.of("§7Target temperature: §a%dK§7.", "§7目标温度：§a%dK§7。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.recipe.baking_oven_temperature",
+                Pair.of("Temperature: %dK", "温度：%dK"));
     }
 }

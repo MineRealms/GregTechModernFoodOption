@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -429,10 +430,8 @@ public class CoreChain {
                 .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
                 .outputItems(GTMFOItems.BACON_RAW.asStack(6))
                 .EUt(18).duration(30).save(provider);
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bacon"))
-                .inputItems(GTMFOItems.BACON_RAW.asStack())
-                .outputItems(GTMFOItems.BACON.asStack())
-                .EUt(60).duration(500).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "bacon", GTMFOItems.BACON_RAW.asStack(),
+                GTMFOItems.BACON.asStack(), 500, 435, 1);
     }
 
     private static void drink(Consumer<FinishedRecipe> provider){
@@ -481,10 +480,8 @@ public class CoreChain {
                     .EUt(8).duration(80).save(provider);
         }
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("mince_meat_cooked"))
-                .inputItems(GTMFOItems.MINCE_MEAT.asStack())
-                .outputItems(GTMFOItems.MINCE_MEAT_COOKED.asStack())
-                .EUt(30).duration(200).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "mince_meat_cooked", GTMFOItems.MINCE_MEAT.asStack(),
+                GTMFOItems.MINCE_MEAT_COOKED.asStack(), 200, 400, 1);
 
         GTRecipeTypes.EXTRUDER_RECIPES.recipeBuilder(id("meat_ingot"))
                 .inputItems(TagPrefix.dust, GTMaterials.Meat)
@@ -492,10 +489,8 @@ public class CoreChain {
                 .outputItems(GTMFOItems.MEAT_INGOT.asStack())
                 .EUt(28).duration(20).save(provider);
 
-        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("meat_ingot_cooked"))
-                .inputItems(GTMFOItems.MEAT_INGOT.asStack())
-                .outputItems(GTMFOItems.MEAT_INGOT_COOKED.asStack())
-                .EUt(30).duration(200).save(provider);
+        GTMFOBakingOvenRecipes.add(provider, "meat_ingot_cooked", GTMFOItems.MEAT_INGOT.asStack(),
+                GTMFOItems.MEAT_INGOT_COOKED.asStack(), 200, 400, 1);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("paper_bag"))
                 .inputItems(Items.PAPER, 3)
