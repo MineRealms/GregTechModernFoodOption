@@ -50,6 +50,9 @@ public class GTMFORecipes {
         GreenhouseRecipes.init(provider);
         LacingRecipes.init(provider);
         SmoreRecipes.init(provider);
+        if (com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.vanillaOverrideChain) {
+            VanillaOverrideRecipes.init(provider);
+        }
 
 
         doughRecipes(provider);
@@ -60,8 +63,29 @@ public class GTMFORecipes {
 
     public static void remove(Consumer<ResourceLocation> consumer){
         BreadsRecipes.remove(consumer);
+        vanillaOverrides(consumer);
         // replaced by GTMFO's guaiacol-yielding version (VanillinRecipes)
         consumer.accept(com.gregtechceu.gtceu.GTCEu.id("distill_creosote"));
+    }
+
+    private static void vanillaOverrides(Consumer<ResourceLocation> consumer){
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.vanillaOverrideChain) return;
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "baked_potato"));
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "mushroom_stew"));
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "beetroot_soup"));
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "rabbit_stew"));
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "golden_carrot"));
+        consumer.accept(ResourceLocation.tryBuild("minecraft", "golden_apple"));
+        if (com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.useBakingOvenForMeats) {
+            for (String meat : new String[] { "cooked_beef", "cooked_porkchop", "cooked_mutton", "cooked_chicken",
+                    "cooked_rabbit", "cooked_cod", "cooked_salmon" }) {
+                consumer.accept(ResourceLocation.tryBuild("minecraft", meat));
+            }
+        }
+        if (com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.useRollingPinForPaper) {
+            consumer.accept(ResourceLocation.tryBuild("minecraft", "paper"));
+            consumer.accept(ResourceLocation.tryBuild("minecraft", "sticky_piston"));
+        }
     }
 
     private static void doughRecipes(Consumer<FinishedRecipe> provider){

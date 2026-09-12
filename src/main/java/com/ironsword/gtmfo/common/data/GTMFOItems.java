@@ -563,8 +563,8 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SORBET_VIBRANT = foodItem("sorbet_vibrant","Vibrant Sorbet","Vibrant Sorbet","sorbet/vibrant",Foods.SORBET_VIBRANT);
 
     //structural_mesh
-//    public static final ItemEntry<Item> APPLE_STRUCTURAL_MESH  = item("apple_structural_mesh" ,"Apple Structural Mesh" ,"苹果纤维骨架"  ,"structural_mesh/apple" );
-//    public static final ItemEntry<Item> CARROT_STRUCTURAL_MESH = item("carrot_structural_mesh","Carrot Structural Mesh","胡萝卜纤维骨架","structural_mesh/carrot");
+    public static final ItemEntry<Item> APPLE_STRUCTURAL_MESH  = item("apple_structural_mesh" ,"Apple Structural Mesh" ,"苹果纤维骨架"  ,"structural_mesh/apple" );
+    public static final ItemEntry<Item> CARROT_STRUCTURAL_MESH = item("carrot_structural_mesh","Carrot Structural Mesh","胡萝卜纤维骨架","structural_mesh/carrot");
 
     //utility
 //    public static final ItemEntry<Item> KITCHEN_RECIPE = item("kitchen_recipe","utility/kitchen_recipe");
