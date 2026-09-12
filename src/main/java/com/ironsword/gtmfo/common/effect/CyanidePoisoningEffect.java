@@ -37,7 +37,9 @@ public class CyanidePoisoningEffect extends MobEffect {
         } else if (phase == 160) {
             entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1000, 0));
         } else if (phase < 200 && phase % 5 == 0) {
-            entity.hurt(entity.damageSources().magic(), (float) Math.pow((double) (200 - phase) / 80, 2));
+            entity.hurt(com.ironsword.gtmfo.common.data.GTMFODamageTypes.source(entity.level(),
+                    com.ironsword.gtmfo.common.data.GTMFODamageTypes.CYANIDE),
+                    (float) Math.pow((double) (200 - phase) / 80, 2));
             entity.invulnerableTime = 0;
         } else if (phase < 100) {
             sendMessage(entity, "gtmfo.cyanide.3");

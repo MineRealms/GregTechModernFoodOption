@@ -52,7 +52,9 @@ public class MobExtractorMachine extends SimpleTieredMachine {
 
     public void damageTarget(float damage) {
         if (attackableTarget != null && damage > 0) {
-            attackableTarget.hurt(getLevel().damageSources().generic(), damage);
+            // original GTFODamageSources.EXTRACTION: bypasses armor
+            attackableTarget.hurt(com.ironsword.gtmfo.common.data.GTMFODamageTypes.source(
+                    getLevel(), com.ironsword.gtmfo.common.data.GTMFODamageTypes.EXTRACTION), damage);
         }
     }
 

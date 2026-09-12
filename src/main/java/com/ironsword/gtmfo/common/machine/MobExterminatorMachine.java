@@ -131,7 +131,9 @@ public class MobExterminatorMachine extends TieredEnergyMachine implements IFanc
             sword.enchant(Enchantments.MOB_LOOTING, looting);
         }
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, sword);
-        mob.hurt(mob.damageSources().playerAttack(fakePlayer), 40.0F);
+        // original GTFODamageSources.getExterminationDamage: entity damage (for looting), bypasses armor
+        mob.hurt(com.ironsword.gtmfo.common.data.GTMFODamageTypes.source(
+                getLevel(), com.ironsword.gtmfo.common.data.GTMFODamageTypes.EXTERMINATION, fakePlayer), 40.0F);
     }
 
     protected long getEnergyConsumedPerKill() {

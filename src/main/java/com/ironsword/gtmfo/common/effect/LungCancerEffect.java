@@ -31,7 +31,8 @@ public class LungCancerEffect extends MobEffect {
         if (attr == null) return;
         attr.setBaseValue(attr.getBaseValue() - 1);
         if (attr.getBaseValue() <= 0) {
-            entity.hurt(entity.damageSources().magic(), Float.MAX_VALUE);
+            entity.hurt(com.ironsword.gtmfo.common.data.GTMFODamageTypes.source(entity.level(),
+                    com.ironsword.gtmfo.common.data.GTMFODamageTypes.LUNG_CANCER), Float.MAX_VALUE);
         } else {
             entity.setHealth(Math.min((float) attr.getBaseValue(), entity.getHealth()));
         }
