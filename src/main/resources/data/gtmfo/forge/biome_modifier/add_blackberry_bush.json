@@ -1,6 +1,7 @@
 {
-  "type": "forge:add_features",
+  "type": "gtmfo:config_gated_features",
   "biomes": "#gtmfo:has_blackberry_bush",
   "features": "gtmfo:patch_blackberry_common",
-  "step": "vegetal_decoration"
+  "step": "vegetal_decoration",
+  "kind": "berries"
 }

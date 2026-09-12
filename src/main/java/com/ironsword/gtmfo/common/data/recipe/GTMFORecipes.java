@@ -73,6 +73,10 @@ public class GTMFORecipes {
 
     public static void remove(Consumer<ResourceLocation> consumer){
         BreadsRecipes.remove(consumer);
+        // original GTFOChainsConfig.deleteBreadRecipe: removes the vanilla bread recipe
+        if (com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.deleteBreadRecipe) {
+            consumer.accept(ResourceLocation.tryBuild("minecraft", "bread"));
+        }
         vanillaOverrides(consumer);
         // replaced by GTMFO's guaiacol-yielding version (VanillinRecipes)
         consumer.accept(com.gregtechceu.gtceu.GTCEu.id("distill_creosote"));

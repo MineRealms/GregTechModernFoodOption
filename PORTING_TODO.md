@@ -79,69 +79,77 @@
 ---
 
 ## 1. 基础设施 / 核心系统
+> 本章已于 2026-09-13 逐项对照原版源码复核（核对事实，非凭经验）。
 
 ### 1.1 注册系统
 - [x] GTRegistrate 注册器 (`GTMFORegistries`)
-- [x] 创造模式标签页 (`GTMFOCreativeModeTabs`) — 原版有 8 个分类页，现代版需拆分
-- [ ] 拆分创造标签页：主分类 / 食物 / 作物 / 工具 / 方块 / 饮品 / 果蔬（原版 `GTFOValues` 中定义 8 个 `BaseCreativeTab`）
-- [ ] 网络包系统（原版 `PacketAppleCoreFoodDivisorUpdate` 等自定义包）
-- [ ] 数据码/同步 ID 系统（原版 `assignId()` 机制）
+- [x] 创造模式标签页 (`GTMFOCreativeModeTabs`)
+- [x] 拆分创造标签页：主分类 / 食物 / 作物 / 工具 / 方块 / 药品与酒 / 饮品 / 果蔬
+      （与原版 `GTFOValues` 的 8 个 `BaseCreativeTab` 一一对应，`assignTabs()` 按原版规则归类）
+- [x] 网络包系统 — **不需要**：原版唯一自定义包 `PacketAppleCoreFoodDivisorUpdate` 仅服务
+      AppleCore 兼容（1.20.1 无该模组）；其余同步均改用 LDLib `@Persisted/@DescSynced` 同步字段
+- [x] 数据码/同步 ID 系统 — **已由现代同步系统替代**：原版 6 个 `assignId()`
+      （UPDATE_OPERATION_POS / SPRINKLER_DATA / SPRINKLER_EXISTENCE / FARMER_OUTPUT_FACING /
+      KITCHEN_STATUS / KITCHEN_ORDER）在移植版对应 `@Persisted @DescSynced` 字段
+      （洒水器/农夫 operationPosition、厨房状态等）
 
 ### 1.2 配置系统
 - [x] Toma Configuration 基础框架 (`GTMFOConfigHolder`)
-- [ ] 补全配置项（原版 `GTFOConfig` 有 9 大配置组、80+ 配置项）：
-  - [ ] `GTFOChainsConfig` — 删面包配方 / 硬核模式
-  - [ ] `GTFOVanillaOverridesConfig` — 原版食物链覆写 / 烤炉烤肉 / 擀面杖造纸
-  - [ ] `GTFOOtherFoodModConfig` — AppleCore 兼容 / 外来食物数值削减
-  - [ ] `GTFONCConfig` — NuclearCraft 兼容 / S'more 链 / Smogus
-  - [ ] `GTFOAAConfig` — ActuallyAdditions 兼容 / 禁用咖啡机
-  - [ ] `GTFOFoodConfig` — 各食物饥饿值/饱和度覆写
-  - [ ] `GTFOPotionConfig` — 药水功能开关
-  - [ ] `GTFOWorldGenConfig` — 世界生成开关
-  - [ ] `GTFOMiscConfig` — 温室土壤、烤炉替换熔炉等杂项
+- [x] 补全配置项（已逐字段与原版 `GTFOConfig` 对比：9 组字段数完全一致，另加 DevConfigs）：
+  - [x] `GTFOChainsConfig` — deleteBreadRecipe / makeChainsHarder（原版 popcornChain/mineralWaterChain/purpleDrinkChain 在原版即为注释，未移植）
+  - [x] `GTFOVanillaOverridesConfig` — vanillaOverrideChain / useBakingOvenForMeats / useRollingPinForPaper
+  - [x] `GTFOOtherFoodModConfig` — 5 项（AppleCore 相关，1.20.1 无 AppleCore，字段保留但无作用）
+  - [x] `GTFONCConfig` — 3 项（NuclearCraft 不存在，字段保留）
+  - [x] `GTFOAAConfig` — 2 项（ActuallyAdditions 不存在，字段保留）
+  - [x] `GTFOFoodConfig` — 20 项，全部接入 `Foods`
+  - [x] `GTFOPotionConfig` — 3 项，全部接入效果
+  - [x] `GTFOWorldGenConfig` — enableGTFOTrees / enableGTFOBerries
+        （新增 `GTMFOBiomeModifiers` 自定义 biome modifier，20 个世界生成 JSON 改用
+        `gtmfo:config_gated_features` 类型，配置实际生效）
+  - [x] `GTFOMiscConfig` — 5 项（greenhouseDirts / bakingOvenReplacement 等已接入）
 
 ### 1.3 核心 API / Mixin
 - [x] `GTMFOFoodStats` 食物组件系统（6 维营养）
 - [x] `INutrients` / `Nutrients` / `NutrientsTracker` 营养能力
 - [x] FoodPropertiesMixin / ItemMixin（**已修复**：mixin 配置此前为空列表 + plugin 返回 false + refmap 名不匹配，导致进食时长从未生效；现已启用并修正：非食物不再被覆盖为 0，容器返还由 GTCEu FoodStats 组件处理，PlayerMixin 已移除（营养素由组件应用））
-- [ ] `IEatingDuration` 进食时长接口补全
-- [ ] `IContainerItem` 容器返还接口补全
-- [ ] `RecipeMapFluidCannerMixin`（原版 late mixin，修改流体罐装器配方）
-- [ ] AppleSkin 联动 Mixin（原版有 4 个 AppleSkin 集成类）
+- [x] `IEatingDuration` 进食时长接口 — 已实现于 `FoodPropertiesMixin`，`ItemMixin.getUseDuration` 读取
+- [x] `IContainerItem` 容器返还接口 — 已实现于 `FoodPropertiesMixin`（`GTMFOFoodStats` 写入）
+- [x] `RecipeMapFluidCannerMixin`（原版 late mixin）— **已用现代等价方案实现**：
+      `LacingCannerLogic`（`GTRecipeType.ICustomRecipeLogic`）在流体罐装机动态生成掺加配方
+- [x] AppleSkin 联动 — **不需要**：移植版使用标准 `FoodProperties`，AppleSkin 可直接读取；
+      原版 4 个 AppleSkin 集成类仅为 MetaItem 兼容层（1.20.1 无 MetaItem）
 
 ### 1.4 已有但未使用的脚手架（可复用）
-- [ ] `WoodBlock`（去皮原木逻辑，未注册）
-- [ ] `LogBlock`（自然原木状态，未注册）
-- [ ] `PlacedFoodBlock`（放置食物方块基类，未使用）
-- [ ] `PlaceableFoodItem`（可放置食物物品，未使用）
-- [ ] `CreativeFlyEffect`（创造飞行药水逻辑，未注册）
-- [ ] `BoxBuilder`（形状构建工具，仅 11 处引用）
-- [ ] `NutrientCommands`（营养指令，需确认接线）
+- [ ] `WoodBlock` / `LogBlock` — 移植版自有类（原版无对应类），当前未注册（树木使用 `GTFOBlockLog`/`GTFOBlockPlanks`，已注册）
+- [ ] `PlacedFoodBlock` / `PlaceableFoodItem` — 移植版自有脚手架，当前未使用（食物方块用 `SmoreBlock`/`PizzaBlock`，已注册）
+- [x] `CreativeFlyEffect` — 已注册为 `GTMFOEffects.FLY`（创造之力），飞行权限在效果内管理
+- [x] `BoxBuilder` — 已使用（11 处引用）
+- [x] `NutrientCommands` — 已接线（`ForgeCommonEventListener` 注册指令）
 
 ### 1.5 事件处理器（原版 `GTFOEventHandler` + `GTFODropsEventHandler`，共 300+ 行）
-- [ ] `onMaterialsInit` 材料初始化事件
-- [ ] `onLivingUpdate` 实体更新事件：
-  - [ ] 创造飞行药水的持久化 NBT 管理（`PERSISTED_NBT_TAG`）
-  - [ ] 雪人生成药水逻辑
-  - [ ] 台阶辅助药水（跳跃提升集合 `jumpBoostSet`）
-  - [ ] 药水颜色计算事件 `PotionColorCalculationEvent`
-  - [ ] 成瘾/戒断药水（已注释，可选）
-- [ ] 进度事件 `AdvancementEvent`
-- [ ] 方块事件 `BlockEvent`
-- [ ] 世界事件 `WorldEvent`
-- [ ] 玩家事件 `PlayerEvent`（tick/重生等）
-- [ ] `GTFODropsEventHandler` 掉落事件处理：
-  - [ ] 猪/牛/鸡/羊/兔死亡时 1/3 概率掉落 `SCRAP_MEAT` 碎肉
-  - [ ] 碎肉数量随掠夺等级增加（`rand.nextInt(lootingLevel) + 1`）
-- [ ] 假玩家处理 `GregFakePlayer`
+- [x] `onMaterialsInit` 材料初始化 — 移植版在 `GTMFOMaterials`/`GTMFOFluids` 静态注册（等价）
+- [x] `onLivingUpdate` 实体更新事件：
+  - [x] 创造飞行药水的持久化管理 — `CreativeFlyEffect` 效果内管理（进入授予 mayfly、结束回收，非创造模式）
+  - [x] 雪人生成药水逻辑 — `SnowGolemSpawnerEffect`（射线追踪 + 生成强雪傀儡 + 速度 IV）
+  - [x] 台阶辅助药水 — `StepAssistEffect`（`setMaxUpStep`，配置门控）
+  - [x] 药水颜色计算事件 — 氰化物掺加以 `visible=false` 隐藏粒子（等价）
+  - [x] 成瘾/戒断药水 — 原版即为注释，不移植
+- [x] 进度事件 `AdvancementEvent` — 仅 AppleCore 食物削减用，1.20.1 无对应，N/A
+- [x] 方块事件 `BlockEvent`（浆果生长效率）— 移植版在 `GTFOBerryBushBlock.randomTick` 内处理
+- [x] 世界事件 `WorldEvent` — 原版仅初始化假玩家，移植版按需创建（`FakePlayerFactory`）
+- [x] 玩家事件 `PlayerEvent` — 仅 AppleCore 登录同步，N/A
+- [x] `GTFODropsEventHandler` 掉落事件处理：
+  - [x] 猪/牛/鸡/羊/兔死亡 1/3 概率掉落 `SCRAP_MEAT` — `GTMFODropsHandler`
+  - [x] 碎肉数量随掠夺等级增加（`rand.nextInt(lootingLevel) + 1`）— 已实现
+- [x] 假玩家处理 — 移植版使用 `FakePlayerFactory.getMinecraft`（农夫/屠宰机/提取机）
 
 ### 1.6 配方表修改（原版 `CommonProxy.preLoad`）
-- [ ] `RecipeMaps.BREWING_RECIPES.setMaxOutputs(1)` 酿造配方表输出扩容
-- [ ] `RecipeMaps.EXTRACTOR_RECIPES.setMaxInputs(2)` 提取器输入扩容
-- [ ] `RecipeMaps.FERMENTING_RECIPES.setMaxInputs(1) / setMaxOutputs(1)` 发酵配方表
-- [ ] `RecipeMaps.COMPRESSOR_RECIPES.setMaxFluidInputs(1) / setMaxFluidOutputs(1)` 压缩机流体扩容
-- [ ] 杂草种子掉落注册（`addGrassSeed`，配置权重 `unknownSeedsWeight`）
-- [ ] Lacing 掺加注册表（3 种：氰化物/抗精神分裂/肺癌 + 物品图案字符串）
+- [x] `BREWING_RECIPES.setMaxIOSize(1,1,1,1)` 酿造配方表输出扩容
+- [x] `EXTRACTOR_RECIPES.setMaxIOSize(2,1,0,1)` 提取器输入扩容
+- [x] `FERMENTING_RECIPES.setMaxIOSize(1,1,1,1)` 发酵配方表
+- [x] `COMPRESSOR_RECIPES.setMaxIOSize(1,1,1,1)` 压缩机流体扩容
+- [x] 杂草种子掉落注册 — `GTMFOLootModifiers` + `UnknownSeedsLootModifier`（概率 0.125×weight/(weight+1)，权重来自配置）
+- [x] Lacing 掺加注册表（3 种：氰化物 / 抗精神分裂 / 肺癌）— `GTMFOLacing`，并支持动态罐装配方
 
 ---
 

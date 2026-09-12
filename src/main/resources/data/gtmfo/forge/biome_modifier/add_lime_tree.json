@@ -1,6 +1,7 @@
 {
-  "type": "forge:add_features",
+  "type": "gtmfo:config_gated_features",
   "biomes": "#gtmfo:has_lime_tree",
   "features": "gtmfo:lime_tree",
-  "step": "vegetal_decoration"
+  "step": "vegetal_decoration",
+  "kind": "trees"
 }
