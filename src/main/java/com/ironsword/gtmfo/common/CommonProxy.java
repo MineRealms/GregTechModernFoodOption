@@ -58,6 +58,7 @@ public class CommonProxy {
         GTMFOEffects.init(bus);
         GTMFOSounds.init(bus);
         GTMFOParticles.init(bus);
+        GTMFOLootModifiers.init(bus);
         GTMFODataGen.initEntityLang();
         GTMFODataGen.initTabLang();
     }
@@ -70,6 +71,11 @@ public class CommonProxy {
 
     public static void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event){
         GTMFORecipeTypes.init();
+        // recipe table capacity adjustments (original CommonProxy.preLoad)
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.BREWING_RECIPES.setMaxIOSize(1, 1, 1, 1);
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.EXTRACTOR_RECIPES.setMaxIOSize(2, 1, 0, 1);
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.FERMENTING_RECIPES.setMaxIOSize(1, 1, 1, 1);
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMPRESSOR_RECIPES.setMaxIOSize(1, 1, 1, 1);
     }
 
     @SubscribeEvent
