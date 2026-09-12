@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.mojang.datafixers.util.Pair;
 import com.ironsword.gtmfo.GregTechModernFoodOption;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
@@ -151,5 +152,20 @@ public class GTMFOMultiMachines {
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".steam_baking_oven","蒸汽烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".greenhouse","温室");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".kitchen","厨房");
+
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.target", Pair.of("Target: %s", "目标：%s"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.none", Pair.of("None", "无"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.order", Pair.of("Order size: %s", "订单数量：%s"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.machines", Pair.of("Machines: %s", "机器数：%s"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.dirtiness", Pair.of("Dirtiness: %s", "脏污度：%s"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.order_button", Pair.of("Change order size", "调整订单数量"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.probably_fine", Pair.of("Status: Working", "状态：运行中"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.order_complete", Pair.of("Status: Order complete", "状态：订单完成"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.no_ingredients", Pair.of("Status: Missing ingredients", "状态：缺少原料"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.machines_not_working", Pair.of("Status: Not enough energy", "状态：能量不足"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.no_recipe", Pair.of("Status: No recipe for target", "状态：目标无配方"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.hatches_full", Pair.of("Status: Fluid hatches full", "状态：流体仓已满"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.buses_full", Pair.of("Status: Item buses full", "状态：物品总线已满"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.bad_machines", Pair.of("Status: Missing machines", "状态：缺少机器"));
     }
 }

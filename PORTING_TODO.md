@@ -11,6 +11,17 @@
 > 已知 API 差异（7.5.2 vs 8.0.0）：`IMachineBlockEntity` vs `BlockEntityCreationInfo`、
 > `IExplosionMachine.doExplosion()` vs `GTUtil.doExplosion()`、`getPos()` vs `getBlockPos()`、
 > `TagPrefix.rod/rodLong` vs `stick/stickLong`
+> 
+> ## ⚠️ 移植原则（必读）
+> 1. **一切以实现为准**：每个功能先读 `GregTechFoodOption-1.12.2-ORIGIN/` 原版实现（数值、概率、状态机、
+>    配方、结构、GUI 行为），再按 1.20.1 + GTCEu 7.5.2 API 等价重写。**不得凭印象编造**。
+> 2. **忠实优先**：能 1:1 还原的就 1:1（如微波炉爆炸数值、药水时长、掺加 NBT、雪人生成概率 1/(100/(amp+1))）。
+> 3. **API 适配**：1.12 的 `MetaTileEntity`/`RecipeMap`/`ModularUI` → 1.20 的
+>    `MachineDefinition`/`GTRecipeType`/LDLib `WidgetGroup`；数据驱动部分（世界生成）用 1.20 的
+>    `ConfiguredFeature`/`PlacedFeature`/`BiomeModifier`。
+> 4. **简化必须记录**：无法 1:1 实现时（如原版动态尺寸结构、自绘 GUI），在下方对应条目标注
+>    `[简化]` 并说明差异与原因，绝不写成"已完成"。
+> 5. **验证**：每个里程碑跑 `.\gradlew compileJava --console=plain`（用户约束：不跑 datagen）。
 
 ---
 
@@ -492,50 +503,54 @@
 
 ---
 
-## 8. 实体（全部缺失）
+## 8. 实体（已完成 ✅）
 
-- [ ] `EntityItalianBuffalo` 意大利水牛
-  - [ ] 模型 + 纹理（`textures/entity/italian_buffalo/`）
-  - [ ] 可挤奶（水牛奶）
-  - [ ] 水生群系生成
-  - [ ] 刷怪蛋（0x3d352f / 0xf0ded1）
-  - [ ] 渲染器 `RenderItalianBuffalo`
-- [ ] `EntityStrongSnowman` 强力雪人
-  - [ ] 强化雪球攻击
-  - [ ] 渲染器（复用原版 `RenderSnowMan`）
-- [ ] `EntityStrongSnowball` 强力雪球弹射物
-  - [ ] 自定义渲染 `RenderStrongSnowball`
-- [ ] `GTFOEntities` 实体注册系统（改用 `DeferredRegister<EntityType<?>>`）
+- [x] `ItalianBuffaloEntity` 意大利水牛（对照原版 `EntityItalianBuffalo`）
+  - [x] 纹理 `assets/gtmfo/textures/entity/italian_buffalo/italian_buffalo.png`（原资源已复制）
+  - [x] 可挤奶 → `ItalianBuffaloMilk` 桶（原版 `UniversalBucket` 的 1.20 等价）
+  - [x] 水生群系生成（3x3 区块内需有海洋/河流/海滩；生成群系修饰器 `add_italian_buffalo.json`）
+  - [x] 刷怪蛋（0x3d352f / 0xf0ded1，与原版一致）
+  - [x] 渲染器 `ItalianBuffaloRenderer`（`CowModel` + 自定义纹理，对应原版 `RenderItalianBuffalo`）
+- [x] `StrongSnowmanEntity` 强力雪人（对照原版 `EntityStrongSnowman`）
+  - [x] 强化雪球攻击（`performRangedAttack` 发射 `StrongSnowballEntity`，初速/散布 1.6F/4.0F 同原版）
+  - [x] 10 血 / 0.3 移速（原版 `applyEntityAttributes`）
+  - [x] 10000 tick 后自毁（原版 `onLivingUpdate` timer）
+  - [x] 渲染器（复用原版 `SnowGolemRenderer`，对应原版 `RenderSnowMan`）
+- [x] `StrongSnowballEntity` 强力雪球弹射物（对照原版 `EntityStrongSnowball`）
+  - [x] 伤害 2-3，对烈焰人 +3；雪傀儡/玩家穿透不消失
+  - [x] 渲染器（`ThrownItemRenderer`，原版 `RenderStrongSnowball` 的 1.20 等价）
+- [x] 实体注册系统 `GTMFOEntities`（`DeferredRegister<EntityType<?>>` + 属性注册事件）
 
 ---
 
-## 9. 药水效果（骨架已有，逻辑全缺）
+## 9. 药水效果（已完成 ✅）
 
-### 9.1 已有骨架
-- [x] `GTMFOEffects` 注册器（DeferredRegister）
-- [x] 4 个占位效果已注册但无逻辑：`FLY` / `SNOW` / `VENTING` / `CHORUS`
-- [x] 图标纹理 4 个（`mob_effect/venting.png` / `snow.png` / `fly.png` / `chorus.png`）
-- [x] `CreativeFlyEffect` 类（已编写但**未注册使用**）
+### 9.1 骨架
+- [x] `GTMFOEffects` 注册器（DeferredRegister）+ EN/CN lang
+- [x] 10 个效果全部注册且有实际逻辑
 
-### 9.2 待办
-- [ ] `GTFOPotion` 基类（原版自定义图标渲染，纹理 `textures/gui/potions.png`）
-- [ ] `CreativityPotion` 创造模式飞行（接线 `CreativeFlyEffect`）
-- [ ] `StepAssistPotion` 台阶辅助
-- [ ] `SnowGolemSpawnerPotion` 雪人生成
-- [ ] `CyanidePoisoningPotion` 氰化物中毒
-- [ ] `VentingPotion` 排气（着火时排出）
-- [ ] `PotionAmplifierPotion` 药水增幅
-- [ ] `PotionLengthenerPotion` 药水延长
-- [ ] `AntiSchizoPotion` 抗精神分裂
-- [ ] `LungCancerPotion` 肺癌
-- [ ] `EnhancedChorusPotion` 强化紫颂果
-- [ ] `LacingEntry` 掺加系统（药水效果注入食物）
-  - [ ] `LACING_REGISTRY` 受控注册表（容量 255）
-  - [ ] 3 种内置掺加：氰化钠 → 氰化物中毒 / 碳酸锂 → 抗精神分裂 / 石棉粉 → 肺癌
-  - [ ] NBT 键标记系统（`nbtKey` 图案字符串）
-  - [ ] 食物掺加后食用触发效果
-- [ ] 补全其余 6 个药水图标纹理
-- [ ] 配方集成：药水 → 掺加食物
+### 9.2 各效果实现（对照原版 `potion/` 包）
+- [x] `CreativeFlyEffect` 创造飞行（原版 `CreativityPotion` + `GTFOEventHandler` 的持久 NBT 管理）
+- [x] `StepAssistEffect` 台阶辅助（潜行时 0.9 格；原版 `stepHeight` 修改）
+- [x] `SnowGolemSpawnerEffect` 雪人生成（射线追踪生成强力雪人 + 力量 IV 1000t，同原版）
+- [x] `CyanidePoisoningEffect` 氰化物中毒（分阶段：反胃/虚弱 → 失明 → 递增魔法伤害）
+- [x] `VentingEffect` 排气（随机传送 + `amogus.vent` 音效，原版 `VentingPotion`）
+- [x] `PotionAmplifierEffect` 药水增幅（标记效果，原版 `PotionAmplifierPotion`）
+- [x] `PotionLengthenerEffect` 药水延长（标记效果）
+- [x] `AntiSchizoEffect` 抗精神分裂（标记效果）
+- [x] `LungCancerEffect` 肺癌（每 600 tick 最大生命 -1，不可治愈）
+- [x] `EnhancedChorusEffect` 强化紫颂果（潜行朝视线方向传送 8 格）
+
+### 9.3 掺加系统（Lacing）— 已完成 ✅（对照原版 `potion/LacingEntry` + `GTFOFoodStats.onFoodEaten`）
+- [x] `GTMFOLacing`：3 条内置掺加（氰化钠→氰化物中毒 1300t / 碳酸锂→抗精神分裂 1000t /
+      石棉粉→肺癌 99999999t），物品取自 `ChemicalHelper.get(TagPrefix.dust, ...)`
+- [x] NBT 标记：食物物品 NBT 键 `gtmfo_lacing` 存效果索引（原版为图案字符串 `nbtKey`，
+      这里用索引——`[简化]`，等价效果）
+- [x] 食用触发：`GTMFOFoodStats.finishUsingItem` 读取标记并施加对应效果
+      （原版 `onFoodEaten` 遍历 `LACING_REGISTRY` 检查布尔标记的等价实现）
+- [x] 罐装配方 18 条（3 掺加物 × 6 种食物：面包片/吐司/小圆面包/披萨片/汉堡肉/意式烤猪肉片）
+      ——原版通过 `RecipeMapFluidCannerMixin` 动态生成，这里改为显式配方（`[简化]`，效果一致）
+- [ ] 与 JEI 的掺加信息页集成（P3）
 
 ---
 
@@ -791,8 +806,44 @@
     - ✅ **掺加系统**：`GTMFOLacing`（NBT 标记 + 食用时触发效果）+ 18 条罐装配方（氰化物/碳酸锂/石棉 × 6 种食物）
     - ✅ **修复**：18 个意大利菜品从普通物品转为食物物品（此前缺食物属性）
     - ✅ 食物效果接线：BRUSCHETTA/CAPONATA/PASTA_AL_POMODORO/PIZZA_VEGGIE/SANDWICH_BACON
-14. **实体 3 种**（意大利水牛等）
-15. **厨房多方块**（订单系统）
+14. **实体 3 种** — ✅ 已完成（对照原版 `entity/` 包）
+    - ✅ `ItalianBuffaloEntity`（extends Cow）：挤奶 → `GTMFOFluids.ItalianBuffaloMilk` 桶；生成需 3x3 区块内有
+      海洋/河流/海滩群系（`checkSpawnRules` + `BiomeTags.IS_OCEAN/IS_RIVER/IS_BEACH`），对应原版
+      `NEARBY_BIOME_SPAWNS`；刷怪蛋颜色 0x3d352f / 0xf0ded1（与原版一致）
+    - ✅ `StrongSnowmanEntity`（extends SnowGolem）：10 血 / 0.3 速度（原版 `applyEntityAttributes`）、
+      投掷强力雪球、`tickCount > 10000` 自毁；AI 沿用原版（远程攻击+游荡+看玩家+打怪）
+    - ✅ `StrongSnowballEntity`（extends Snowball）：伤害 2-3（对烈焰人 +3），穿过雪傀儡/玩家不消失
+      （原版 `onImpact` 提前 return 的等价实现）
+    - ✅ 渲染器（牛用自定义纹理 `textures/entity/italian_buffalo/italian_buffalo.png`；雪人复用原版；
+      雪球 `ThrownItemRenderer`）、实体属性注册、EN/CN lang、生成生物群系修饰器
+    - ✅ `SnowGolemSpawnerEffect` 修正为原版行为：射线追踪命中方块上方生成**强力雪人** + 力量 IV 1000t
+      （原版 `GTFOEventHandler` 的 `Potion.getPotionById(5)`=Strength 4 级）
+    - 与原版差异：原版 `spawn.addPotionEffect` 用的 id 5 已确认为力量（1.12 id 表），非抗火
+15. **厨房多方块**（订单系统）— ✅ 主体已完成（对照原版 `multiblock/kitchen/` 4 个类）
+    - ✅ `KitchenMachine`（控制器）+ `KitchenCraftNode`（合成步骤）+ `KitchenState`（8 状态枚举，
+      与原版 `KitchenLogicState` 同名同义）
+    - ✅ 结构内机器扫描：`onStructureFormed` 遍历内部 12 格（3 宽 × 4 深 × 1 高），识别
+      `WorkableTieredMachine`（排除 `SimpleGeneratorMachine`，对应原版排除 `SimpleGeneratorMetaTileEntity`）
+    - ✅ 输入/输出总线+流体仓识别（原版 `initializeAbilities` 的等价实现）
+    - ✅ 合成树：从目标物品沿机器配方类型反查（原版是查控制器 NBT 里的"配方书"），BFS + 深度排序 +
+      环保护；基础材料不在机器配方中的视为需玩家提供
+    - ✅ 执行：投料（从输入总线搬入机器 `importItems/importFluids`）→ `RecipeLogic.setupRecipe` →
+      收菜（中间产物回输入总线，最终产物进输出总线，对应原版 `slurpInventory/slurpFluids` 的
+      `getNodes(stack)==null || resultItem.isItemEqual(stack)` 判定）
+    - ✅ 能量：自身 `VA[tier]/2` 维持消耗（原版 `drainEnergy`），并给受控机器补足整道配方所需 EU
+      （原版机器各自供电，这里改为厨房统一供电——`[简化]`）
+    - ✅ 脏污系统：每次启动节点 `dirtiness += 1`，概率卡顿 `random * dirtiness < 10`
+      （原版 `dirtinessChance`）；清洁液 `DistilledWater=2` / `SodiumStearate=16`
+      （原版 `GTFOMaterialHandler` 数值一致），通过 `CleanerProperty`（新建，对应原版 `materials/CleanerProperty`）
+    - ✅ 状态显示（`addDisplayText`）：目标/订单数/状态/机器数/脏污
+    - `[简化]` 结构尺寸：原版动态半径（`sDist`/`bDist` 扫描）+ 自动更新，这里固定 5×2×6
+      （钢管道外壳 + 瓷/暗瓷地板 + 控制器前墙中央），12 个机器位
+    - `[简化]` GUI：原版有"配方卡"物品 + 自绘 `KitchenRecipeWidget`（记录配方书、32 电路定订单数）；
+      这里改为控制器上的**幻影槽**设目标物品 + 按钮循环订单数 1/2/4/8/16/32/64，无配方卡物品
+    - `[简化]` 配方来源：原版需先用配方卡录制配方；这里直接查全局 `RecipeManager`（更省事，但玩家
+      无法限制用哪条配方）
+    - [ ] 配方卡物品 + 录制 GUI（如需完全还原）
+    - [ ] 动态尺寸结构（如需完全还原）
 16. **创造标签页拆分**
 17. **配置系统补全**
 

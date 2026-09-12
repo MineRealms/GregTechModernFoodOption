@@ -46,6 +46,16 @@ public class GTMFOEffects {
         return EFFECTS.register(name,factory);
     }
 
+    static {
+        EffectLangMap.put("gtmfo.cyanide.1", Pair.of("\u00a7cYou feel really nauseous...",
+                "\u00a7c\u4f60\u611f\u5230\u975e\u5e38\u6076\u5fc3\u2026\u2026"));
+        EffectLangMap.put("gtmfo.cyanide.2", Pair.of("\u00a7cYou can't breathe anymore...",
+                "\u00a7c\u4f60\u611f\u5230\u65e0\u6cd5\u547c\u5438\u2026\u2026"));
+        EffectLangMap.put("gtmfo.cyanide.3", Pair.of(
+                "\u00a7cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "\u00a7c\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a"));
+    }
+
     public static void init(IEventBus bus){
         EFFECTS.register(bus);
         GTMFODataGen.initEffectLang();

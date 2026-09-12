@@ -287,30 +287,30 @@ public class GTMFOItems {
     public static final ItemEntry<Item> ARTICHOKE      = item("artichoke"     ,"Artichoke Heart"  ,"洋蓟心"  ,"crop/artichoke"     );
     public static final ItemEntry<Item> BASIL          = item("basil"         ,"Basil Leaf"       ,"罗勒叶"  ,"crop/basil"         );
     public static final ItemEntry<Item> BLACK_PEPPER   = item("black_pepper"  ,"Black Peppercorns","黑胡椒籽","crop/black_pepper"  );
-    public static final ItemEntry<Item> CARROT_SLICE   = item("carrot_slice"  ,"Carrot Slice"     ,"胡萝卜片","crop/carrot_slice"  );
+    public static final ItemEntry<ExComponentItem> CARROT_SLICE   =  foodItem("carrot_slice", "Carrot Slice", "胡萝卜片", "crop/carrot_slice", Foods.CARROT_SLICE);
     public static final ItemEntry<Item> COTTON         = item("cotton"        ,"Cotton"           ,"棉花"    ,"crop/cotton"        );
-    public static final ItemEntry<Item> CUCUMBER       = item("cucumber"      ,"Cucumber"         ,"黄瓜"    ,"crop/cucumber"      );
-    public static final ItemEntry<Item> CUCUMBER_SLICE = item("cucumber_slice","Cucumber Slice"   ,"黄瓜片"  ,"crop/cucumber_slice");
+    public static final ItemEntry<ExComponentItem> CUCUMBER       =  foodItem("cucumber", "Cucumber", "黄瓜", "crop/cucumber", Foods.CUCUMBER);
+    public static final ItemEntry<ExComponentItem> CUCUMBER_SLICE =  foodItem("cucumber_slice", "Cucumber Slice", "黄瓜片", "crop/cucumber_slice", Foods.CUCUMBER_SLICE);
     public static final ItemEntry<Item> EGGPLANT       = item("eggplant"      ,"Eggplant"         ,"茄子"    ,"crop/eggplant"      );
-    public static final ItemEntry<Item> EGGPLANT_SLICE = item("eggplant_slice","Eggplant Slice"   ,"茄子片"  ,"crop/eggplant_slice");
+    public static final ItemEntry<ExComponentItem> EGGPLANT_SLICE =  foodItem("eggplant_slice", "Eggplant Slice", "茄子片", "crop/eggplant_slice", Foods.EGGPLANT_SLICE);
     public static final ItemEntry<Item> GARLIC_PURPLE  = item("garlic_purple" ,"Purple Garlic"    ,"紫大蒜"  ,"crop/garlic_purple" );
     public static final ItemEntry<Item> GARLIC_WHITE   = item("garlic_white"  ,"White Garlic"     ,"白大蒜"  ,"crop/garlic_white"  );
     public static final ItemEntry<Item> HOP            = item("hop"           ,"Hop"              ,"啤酒花"  ,"crop/hop"           );
     public static final ItemEntry<Item> HORSERADISH    = item("horseradish"   ,"Horseradish"      ,"辣根"    ,"crop/horseradish"   );
     public static final ItemEntry<Item> LETTUCE        = item("lettuce"       ,"Lettuce"          ,"生菜"    ,"crop/lettuce"       );
     public static final ItemEntry<Item> LETTUCE_LEAF   = item("lettuce_leaf"  ,"Lettuce Leaf"     ,"生菜叶"  ,"crop/lettuce_leaf"  );
-    public static final ItemEntry<Item> MUSHROOM_SLICE = item("mushroom_slice","Mushroom Slice"   ,"蘑菇片"  ,"crop/mushroom_slice");
-    public static final ItemEntry<Item> OLIVE          = item("olive"         ,"Olive"            ,"橄榄"    ,"crop/olive"         );
-    public static final ItemEntry<Item> OLIVE_SLICE    = item("olive_slice"   ,"Olive Slice"      ,"橄榄片"  ,"crop/olive_slice"   );
-    public static final ItemEntry<Item> ONION          = item("onion"         ,"Onion"            ,"洋葱"    ,"crop/onion"         );
-    public static final ItemEntry<Item> ONION_SLICE    = item("onion_slice"   ,"Onion Slice"      ,"洋葱片"  ,"crop/onion_slice"   );
+    public static final ItemEntry<ExComponentItem> MUSHROOM_SLICE =  foodItem("mushroom_slice", "Mushroom Slice", "蘑菇片", "crop/mushroom_slice", Foods.MUSHROOM_SLICE);
+    public static final ItemEntry<ExComponentItem> OLIVE          =  foodItem("olive", "Olive", "橄榄", "crop/olive", Foods.OLIVE);
+    public static final ItemEntry<ExComponentItem> OLIVE_SLICE    =  foodItem("olive_slice", "Olive Slice", "橄榄片", "crop/olive_slice", Foods.OLIVE_SLICE);
+    public static final ItemEntry<ExComponentItem> ONION          =  foodItem("onion", "Onion", "洋葱", "crop/onion", Foods.ONION);
+    public static final ItemEntry<ExComponentItem> ONION_SLICE    =  foodItem("onion_slice", "Onion Slice", "洋葱片", "crop/onion_slice", Foods.ONION_SLICE);
     public static final ItemEntry<Item> OREGANO        = item("oregano"       ,"Oregano Leaf"     ,"牛至叶"  ,"crop/oregano"       );
     public static final ItemEntry<Item> PEA_POD        = item("pea_pod"       ,"Pea Pod"          ,"豌豆荚"  ,"crop/pea_pod"       );
     public static final ItemEntry<Item> RICE           = item("rice"          ,"Rice"             ,"大米"    ,"crop/rice"          );
     public static final ItemEntry<Item> SOYBEAN        = item("soybean"       ,"Soybean"          ,"大豆"    ,"crop/soybean"       );
     public static final ItemEntry<Item> SOYBEAN_POD    = item("soybean_pod"   ,"Soybean Pod"      ,"大豆荚"  ,"crop/soybean_pod"   );
-    public static final ItemEntry<Item> TOMATO         = item("tomato"        ,"Tomato"           ,"番茄"    ,"crop/tomato"        );
-    public static final ItemEntry<Item> TOMATO_SLICE   = item("tomato_slice"  ,"Tomato Slice"     ,"番茄片"  ,"crop/tomato_slice"  );
+    public static final ItemEntry<ExComponentItem> TOMATO         =  foodItem("tomato", "Tomato", "番茄", "crop/tomato", Foods.TOMATO);
+    public static final ItemEntry<ExComponentItem> TOMATO_SLICE   =  foodItem("tomato_slice", "Tomato Slice", "番茄片", "crop/tomato_slice", Foods.TOMATO_SLICE);
 
     //dewar_flask
 //    public static final ItemEntry<Item> DEWAR_FLASK                = item("dewar_flask"               ,"Dewar Flask"               ,"保温杯",          "dewar_flask/new");
@@ -371,57 +371,57 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> VITELLO_TONNATO        = foodItem("vitello_tonnato"        ,"Vitello Tonnato"        ,"意式鱼香小牛肉"    ,"food_italian/vitello_tonnato"        ,Foods.VITELLO_TONNATO);
 
     //food_russian
-    public static final ItemEntry<Item> PELMENI                   = item("pelmeni"                  ,"Pelmeni"                  ,"俄式饺子"      ,"food_russian/pelmeni"                  );
-    public static final ItemEntry<Item> PELMENI_SEASONED          = item("pelmeni_seasoned"         ,"Seasoned Pelmeni"         ,"调味俄式饺子"  ,"food_russian/pelmeni_seasoned"         );
+    public static final ItemEntry<ExComponentItem> PELMENI                   =  foodItem("pelmeni", "Pelmeni", "俄式饺子", "food_russian/pelmeni", Foods.PELMENI);
+    public static final ItemEntry<ExComponentItem> PELMENI_SEASONED          =  foodItem("pelmeni_seasoned", "Seasoned Pelmeni", "调味俄式饺子", "food_russian/pelmeni_seasoned", Foods.PELMENI_SEASONED);
     public static final ItemEntry<Item> PELMENI_UNCOOKED          = item("pelmeni_uncooked"         ,"Uncooked Pelmeni"         ,"生俄式饺子"    ,"food_russian/pelmeni_uncooked"         );
     public static final ItemEntry<Item> PELMENI_SEASONED_UNCOOKED = item("pelmeni_seasoned_uncooked","Seasoned Uncooked Pelmeni","调味生俄式饺子","food_russian/pelmeni_seasoned_uncooked");
 
     //fruit
-    public static final ItemEntry<Item> APRICOT       = item("apricot"      ,"Apricot"      ,"杏子"    ,"fruit/apricot"      );
-    public static final ItemEntry<Item> BANANA        = item("banana"       ,"Banana"       ,"香蕉"    ,"fruit/banana"       );
-    public static final ItemEntry<Item> BANANA_PEELED = item("banana_peeled","Peeled Banana","去皮香蕉","fruit/banana_peeled");
+    public static final ItemEntry<ExComponentItem> APRICOT       =  foodItem("apricot", "Apricot", "杏子", "fruit/apricot", Foods.APRICOT);
+    public static final ItemEntry<ExComponentItem> BANANA        =  foodItem("banana", "Banana", "香蕉", "fruit/banana", Foods.BANANA);
+    public static final ItemEntry<ExComponentItem> BANANA_PEELED =  foodItem("banana_peeled", "Peeled Banana", "去皮香蕉", "fruit/banana_peeled", Foods.BANANA_PEELED);
     public static final ItemEntry<Item> COCONUT       = item("coconut"      ,"Coconut"      ,"椰子"    ,"fruit/coconut"      );
-    public static final ItemEntry<Item> GRAPES        = item("grapes"       ,"Grapes"       ,"葡萄"    ,"fruit/grapes"       );
-    public static final ItemEntry<Item> LEMON         = item("lemon"        ,"Lemon"        ,"柠檬"    ,"fruit/lemon"        );
-    public static final ItemEntry<Item> LIME          = item("lime"         ,"Lime"         ,"酸橙"    ,"fruit/lime"         );
-    public static final ItemEntry<Item> MANGO         = item("mango"        ,"Mango"        ,"芒果"    ,"fruit/mango"        );
+    public static final ItemEntry<ExComponentItem> GRAPES        =  foodItem("grapes", "Grapes", "葡萄", "fruit/grapes", Foods.GRAPES);
+    public static final ItemEntry<ExComponentItem> LEMON         =  foodItem("lemon", "Lemon", "柠檬", "fruit/lemon", Foods.LEMON);
+    public static final ItemEntry<ExComponentItem> LIME          =  foodItem("lime", "Lime", "酸橙", "fruit/lime", Foods.LIME);
+    public static final ItemEntry<ExComponentItem> MANGO         =  foodItem("mango", "Mango", "芒果", "fruit/mango", Foods.MANGO);
     public static final ItemEntry<Item> NUTMEG        = item("nutmeg"       ,"Nutmeg Seeds" ,"肉桂果"  ,"fruit/nutmeg"       );
-    public static final ItemEntry<Item> ORANGE        = item("orange"       ,"Orange"       ,"橙子"    ,"fruit/orange"       );
-    public static final ItemEntry<Item> WHITE_GRAPES  = item("white_grapes" ,"White Grapes" ,"白葡萄"  ,"fruit/white_grapes" );
+    public static final ItemEntry<ExComponentItem> ORANGE        =  foodItem("orange", "Orange", "橙子", "fruit/orange", Foods.ORANGE);
+    public static final ItemEntry<ExComponentItem> WHITE_GRAPES  =  foodItem("white_grapes", "White Grapes", "白葡萄", "fruit/white_grapes", Foods.WHITE_GRAPES);
 
     //ice_cream
     public static final ItemEntry<Item> ICE_CREAM           = item("ice_cream"          ,"Plain Ice Cream"      ,"原味冰淇淋"  ,"ice_cream/plain"    );
-    public static final ItemEntry<Item> ICE_CREAM_BACON     = item("ice_cream_bacon"    ,"Bacon Ice Cream"      ,"培根冰淇淋"  ,"ice_cream/bacon"    );
-    public static final ItemEntry<Item> ICE_CREAM_BANANA    = item("ice_cream_banana"   ,"Banana Ice Cream"     ,"香蕉冰淇淋"  ,"ice_cream/banana"   );
-    public static final ItemEntry<Item> ICE_CREAM_BEAR      = item("ice_cream_bear"     ,"Bear Ice Cream"       ,"熊先生冰淇淋","ice_cream/bear"     );
-    public static final ItemEntry<Item> ICE_CREAM_CHIP      = item("ice_cream_chip"     ,"Potato Chip Ice Cream","薯片冰淇淋"  ,"ice_cream/chip"     );
-    public static final ItemEntry<Item> ICE_CREAM_CHOCOLATE = item("ice_cream_chocolate","Chocolate Ice Cream"  ,"巧克力冰淇淋","ice_cream/chocolate");
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_BACON     =  foodItem("ice_cream_bacon", "Bacon Ice Cream", "培根冰淇淋", "ice_cream/bacon", Foods.ICE_CREAM_BACON);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_BANANA    =  foodItem("ice_cream_banana", "Banana Ice Cream", "香蕉冰淇淋", "ice_cream/banana", Foods.ICE_CREAM_BANANA);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_BEAR      =  foodItem("ice_cream_bear", "Bear Ice Cream", "熊先生冰淇淋", "ice_cream/bear", Foods.ICE_CREAM_BEAR);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_CHIP      =  foodItem("ice_cream_chip", "Potato Chip Ice Cream", "薯片冰淇淋", "ice_cream/chip", Foods.ICE_CREAM_CHIP);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_CHOCOLATE =  foodItem("ice_cream_chocolate", "Chocolate Ice Cream", "巧克力冰淇淋", "ice_cream/chocolate", Foods.ICE_CREAM_CHOCOLATE);
     public static final ItemEntry<Item> ICE_CREAM_CHORUS    = item("ice_cream_chorus"   ,"Chorus Ice Cream"     ,"紫颂果冰淇淋","ice_cream/chorus"   );
-    public static final ItemEntry<Item> ICE_CREAM_CHUM      = item("ice_cream_chum"     ,"Chum Ice Cream"       ,"海霸冰淇淋"  ,"ice_cream/chum"     );
-    public static final ItemEntry<Item> ICE_CREAM_LEMON     = item("ice_cream_lemon"    ,"Lemon Ice Cream"      ,"柠檬冰淇淋"  ,"ice_cream/lemon"    );
-    public static final ItemEntry<Item> ICE_CREAM_MELON     = item("ice_cream_melon"    ,"Melon Ice Cream"      ,"西瓜冰淇淋"  ,"ice_cream/melon"    );
-    public static final ItemEntry<Item> ICE_CREAM_RAINBOW   = item("ice_cream_rainbow"  ,"Rainbow Ice Cream"    ,"彩虹冰淇淋"  ,"ice_cream/rainbow"  );
-    public static final ItemEntry<Item> ICE_CREAM_VANILLA   = item("ice_cream_vanilla"  ,"Vanilla Ice Cream"    ,"香草冰淇淋"  ,"ice_cream/vanilla"  );
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_CHUM      =  foodItem("ice_cream_chum", "Chum Ice Cream", "海霸冰淇淋", "ice_cream/chum", Foods.ICE_CREAM_CHUM);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_LEMON     =  foodItem("ice_cream_lemon", "Lemon Ice Cream", "柠檬冰淇淋", "ice_cream/lemon", Foods.ICE_CREAM_LEMON);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_MELON     =  foodItem("ice_cream_melon", "Melon Ice Cream", "西瓜冰淇淋", "ice_cream/melon", Foods.ICE_CREAM_MELON);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_RAINBOW   =  foodItem("ice_cream_rainbow", "Rainbow Ice Cream", "彩虹冰淇淋", "ice_cream/rainbow", Foods.ICE_CREAM_RAINBOW);
+    public static final ItemEntry<ExComponentItem> ICE_CREAM_VANILLA   =  foodItem("ice_cream_vanilla", "Vanilla Ice Cream", "香草冰淇淋", "ice_cream/vanilla", Foods.ICE_CREAM_VANILLA);
 
     //kebab
 
-    public static final ItemEntry<Item> KEBAB_BARG        = item("kebab_barg"       ,"Barg Kebab"       ,"伊朗叶子肉烤串"  ,"kebab/barg"       );
+    public static final ItemEntry<ExComponentItem> KEBAB_BARG        =  foodItem("kebab_barg", "Barg Kebab", "伊朗叶子肉烤串", "kebab/barg", Foods.KEBAB_BARG);
     public static final ItemEntry<Item> KEBAB_BARG_RAW    = item("kebab_barg_raw"   ,"Raw Barg Kebab"   ,"生伊朗叶子肉烤串","kebab/barg_raw"   );
-    public static final ItemEntry<Item> KEBAB_CARROT      = item("kebab_carrot"     ,"Carrot Kebab"     ,"烤胡萝卜串"      ,"kebab/carrot"     );
+    public static final ItemEntry<ExComponentItem> KEBAB_CARROT      =  foodItem("kebab_carrot", "Carrot Kebab", "烤胡萝卜串", "kebab/carrot", Foods.KEBAB_CARROT);
     public static final ItemEntry<Item> KEBAB_CARROT_RAW  = item("kebab_carrot_raw" ,"Raw Carrot Kebab" ,"生胡萝卜串"      ,"kebab/carrot_raw" );
-    public static final ItemEntry<Item> KEBAB_CHUM        = item("kebab_chum"       ,"Chum Kebab"       ,"烤海霸串"        ,"kebab/chum"       );
+    public static final ItemEntry<ExComponentItem> KEBAB_CHUM        =  foodItem("kebab_chum", "Chum Kebab", "烤海霸串", "kebab/chum", Foods.KEBAB_CHUM);
     public static final ItemEntry<Item> KEBAB_CHUM_RAW    = item("kebab_chum_raw"   ,"Raw Chum Kebab"   ,"生海霸串"        ,"kebab/chum_raw"   );
-    public static final ItemEntry<Item> KEBAB_FAT         = item("kebab_fat"        ,"TailFat Kebab"    ,"烤肥尾串"        ,"kebab/fat"        );
+    public static final ItemEntry<ExComponentItem> KEBAB_FAT         =  foodItem("kebab_fat", "TailFat Kebab", "烤肥尾串", "kebab/fat", Foods.KEBAB_FAT);
     public static final ItemEntry<Item> KEBAB_FAT_RAW     = item("kebab_fat_raw"    ,"Raw TailFat Kebab","生肥尾串"        ,"kebab/fat_raw"    );
-    public static final ItemEntry<Item> KEBAB_KUBIDEH     = item("kebab_kubideh"    ,"Kubideh Kebab"    ,"伊朗碎肉烤串"    ,"kebab/kubideh"    );
+    public static final ItemEntry<ExComponentItem> KEBAB_KUBIDEH     =  foodItem("kebab_kubideh", "Kubideh Kebab", "伊朗碎肉烤串", "kebab/kubideh", Foods.KEBAB_KUBIDEH);
     public static final ItemEntry<Item> KEBAB_KUBIDEH_RAW = item("kebab_kubideh_raw","Raw Kubideh Kebab","生伊朗碎肉烤串"  ,"kebab/kubideh_raw");
-    public static final ItemEntry<Item> KEBAB_MEAT        = item("kebab_meat"       ,"Meat Kebab"       ,"烤肉串"          ,"kebab/meat"       );
+    public static final ItemEntry<ExComponentItem> KEBAB_MEAT        =  foodItem("kebab_meat", "Meat Kebab", "烤肉串", "kebab/meat", Foods.KEBAB_MEAT);
     public static final ItemEntry<Item> KEBAB_MEAT_RAW    = item("kebab_meat_raw"   ,"Raw Meat Kebab"   ,"生肉串"          ,"kebab/meat_raw"   );
-    public static final ItemEntry<Item> KEBAB_ONION       = item("kebab_onion"      ,"Onion Kebab"      ,"烤洋葱串"        ,"kebab/onion"      );
+    public static final ItemEntry<ExComponentItem> KEBAB_ONION       =  foodItem("kebab_onion", "Onion Kebab", "烤洋葱串", "kebab/onion", Foods.KEBAB_ONION);
     public static final ItemEntry<Item> KEBAB_ONION_RAW   = item("kebab_onion_raw"  ,"Raw Onion Kebab"  ,"生洋葱串"        ,"kebab/onion_raw"  );
-    public static final ItemEntry<Item> KEBAB_TOMATO      = item("kebab_tomato"     ,"Tomato Kebab"     ,"烤番茄串"        ,"kebab/tomato"     );
+    public static final ItemEntry<ExComponentItem> KEBAB_TOMATO      =  foodItem("kebab_tomato", "Tomato Kebab", "烤番茄串", "kebab/tomato", Foods.KEBAB_TOMATO);
     public static final ItemEntry<Item> KEBAB_TOMATO_RAW  = item("kebab_tomato_raw" ,"Raw Tomato Kebab" ,"生番茄串"        ,"kebab/tomato_raw" );
-    public static final ItemEntry<Item> KEBAB_SOLTANI     = item("kebab_soltani"    ,"Kebab e Soltani!" ,"苏丹烤肉"        ,"kebab/soltani"    );
+    public static final ItemEntry<ExComponentItem> KEBAB_SOLTANI     =  foodItem("kebab_soltani", "Kebab e Soltani!", "苏丹烤肉", "kebab/soltani", Foods.KEBAB_SOLTANI);
 
 
     //pasta
@@ -440,13 +440,13 @@ public class GTMFOItems {
     public static final ItemEntry<Item> TORTELLINI        = item("tortellini"       ,"Tortellini"       ,"意式馄饨"      ,"pasta/tortellini"       );
     public static final ItemEntry<Item> LASAGNA_RAW               = item("lasagna_raw"              ,"Raw Lasagna"                              ,"生意式千层面"                      ,"pasta/lasagna_raw"              );
     public static final ItemEntry<Item> LASAGNA_DRIED             = item("lasagna_dried"            ,"Dried Lasagna"                            ,"干意式千层面"                      ,"pasta/lasagna_dried"            );
-    public static final ItemEntry<Item> LASAGNA_CHUM              = item("lasagna_chum"             ,"Chum Lasagna"                             ,"海霸意式千层面"                    ,"pasta/lasagna_chum"             );
+    public static final ItemEntry<ExComponentItem> LASAGNA_CHUM              =  foodItem("lasagna_chum", "Chum Lasagna", "海霸意式千层面", "pasta/lasagna_chum", Foods.LASAGNA_CHUM);
     public static final ItemEntry<Item> LASAGNA_CHUM_RAW          = item("lasagna_chum_raw"         ,"Unbaked Chum Lasagna in Baking Tray"      ,"装有未烘烤海霸意式千层面的烤盘"    ,"pasta/lasagna_chum_raw"         );
     public static final ItemEntry<Item> LASAGNA_CHUM_COOKED       = item("lasagna_chum_cooked"      ,"Baked Chum Lasagna in Baking Tray"        ,"装有海霸意式千层面的烤盘"          ,"pasta/lasagna_chum_cooked"      );
-    public static final ItemEntry<Item> LASAGNA_NAPOLETANA        = item("lasagna_napoletana"       ,"Lasagna Napoletana"                       ,"那不勒斯风味千层面"                ,"pasta/lasagna_napoletana"       );
+    public static final ItemEntry<ExComponentItem> LASAGNA_NAPOLETANA        =  foodItem("lasagna_napoletana", "Lasagna Napoletana", "那不勒斯风味千层面", "pasta/lasagna_napoletana", Foods.LASAGNA_NAPOLETANA);
     public static final ItemEntry<Item> LASAGNA_NAPOLETANA_RAW    = item("lasagna_napoletana_raw"   ,"Unbaked Napoletana Lasagna in Baking Tray","装有未烘烤那不勒斯风味千层面的烤盘","pasta/lasagna_napoletana_raw"   );
     public static final ItemEntry<Item> LASAGNA_NAPOLETANA_COOKED = item("lasagna_napoletana_cooked","Baked Napoletana Lasagna in Baking Tray"  ,"装有那不勒斯风味千层面的烤盘"      ,"pasta/lasagna_napoletana_cooked");
-    public static final ItemEntry<Item> LASAGNA_PESTO             = item("lasagna_pesto"            ,"Lasagna al pesto"                         ,"青酱千层面"                        ,"pasta/lasagna_pesto"            );
+    public static final ItemEntry<ExComponentItem> LASAGNA_PESTO             =  foodItem("lasagna_pesto", "Lasagna al pesto", "青酱千层面", "pasta/lasagna_pesto", Foods.LASAGNA_PESTO);
     public static final ItemEntry<Item> LASAGNA_PESTO_RAW         = item("lasagna_pesto_raw"        ,"Unbaked Pesto Lasagna in Baking Tray"     ,"装有未烘烤青酱千层面的烤盘"        ,"pasta/lasagna_pesto_raw"        );
     public static final ItemEntry<Item> LASAGNA_PESTO_COOKED      = item("lasagna_pesto_cooked"     ,"Baked Pesto Lasagna in Baking Tray"       ,"装有青酱千层面的烤盘"              ,"pasta/lasagna_pesto_cooked"     );
 
@@ -482,16 +482,16 @@ public class GTMFOItems {
     //public static final ItemEntry<Item> CHIPS_VINEGAR              = item("chips_vinegar"             ,"Vinegar Chips"                ,"醋味薯片"      ,"potato/chips_vinegar"             );
 
     //sandwich
-    public static final ItemEntry<Item> SANDWICH_BACON        = item("sandwich_bacon"       ,"Bacon Sandwich"       ,"培根三明治"      ,"sandwich/bacon"       );
-    public static final ItemEntry<Item> SANDWICH_BACON_LARGE  = item("sandwich_bacon_large" ,"Large Bacon Sandwich" ,"大号培根三明治"  ,"sandwich/bacon_large" );
-    public static final ItemEntry<Item> SANDWICH_CHEESE       = item("sandwich_cheese"      ,"Cheese Sandwich"      ,"芝士三明治"      ,"sandwich/cheese"      );
-    public static final ItemEntry<Item> SANDWICH_CHEESE_LARGE = item("sandwich_cheese_large","Large Cheese Sandwich","大号芝士三明治"  ,"sandwich/cheese_large");
-    public static final ItemEntry<Item> SANDWICH_STEAK        = item("sandwich_steak"       ,"Steak Sandwich"       ,"牛肉三明治"      ,"sandwich/steak"       );
-    public static final ItemEntry<Item> SANDWICH_STEAK_LARGE  = item("sandwich_steak_large" ,"Large Steak Sandwich" ,"大号牛肉三明治"  ,"sandwich/steak_large" );
-    public static final ItemEntry<Item> SANDWICH_VEGGIE       = item("sandwich_veggie"      ,"Veggie Sandwich"      ,"蔬菜三明治"      ,"sandwich/veggie"      );
-    public static final ItemEntry<Item> SANDWICH_VEGGIE_LARGE = item("sandwich_veggie_large","Large Veggie Sandwich","大号蔬菜三明治"  ,"sandwich/veggie_large");
-    public static final ItemEntry<Item> SANDWICH_TOAST        = item("sandwich_toast"       ,"Toast Sandwich"       ,"吐司三明治"      ,"sandwich/toast"       );
-    public static final ItemEntry<Item> SANDWICH_VIBRANT      = item("sandwich_vibrant"     ,"Vibrant Sandwich"     ,"Vibrant Sandwich","sandwich/vibrant"     );
+    public static final ItemEntry<ExComponentItem> SANDWICH_BACON        =  foodItem("sandwich_bacon", "Bacon Sandwich", "培根三明治", "sandwich/bacon", Foods.SANDWICH_BACON);
+    public static final ItemEntry<ExComponentItem> SANDWICH_BACON_LARGE  =  foodItem("sandwich_bacon_large", "Large Bacon Sandwich", "大号培根三明治", "sandwich/bacon_large", Foods.SANDWICH_BACON_LARGE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_CHEESE       =  foodItem("sandwich_cheese", "Cheese Sandwich", "芝士三明治", "sandwich/cheese", Foods.SANDWICH_CHEESE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_CHEESE_LARGE =  foodItem("sandwich_cheese_large", "Large Cheese Sandwich", "大号芝士三明治", "sandwich/cheese_large", Foods.SANDWICH_CHEESE_LARGE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK        =  foodItem("sandwich_steak", "Steak Sandwich", "牛肉三明治", "sandwich/steak", Foods.SANDWICH_STEAK);
+    public static final ItemEntry<ExComponentItem> SANDWICH_STEAK_LARGE  =  foodItem("sandwich_steak_large", "Large Steak Sandwich", "大号牛肉三明治", "sandwich/steak_large", Foods.SANDWICH_STEAK_LARGE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE       =  foodItem("sandwich_veggie", "Veggie Sandwich", "蔬菜三明治", "sandwich/veggie", Foods.SANDWICH_VEGGIE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE_LARGE =  foodItem("sandwich_veggie_large", "Large Veggie Sandwich", "大号蔬菜三明治", "sandwich/veggie_large", Foods.SANDWICH_VEGGIE_LARGE);
+    public static final ItemEntry<ExComponentItem> SANDWICH_TOAST        =  foodItem("sandwich_toast", "Toast Sandwich", "吐司三明治", "sandwich/toast", Foods.SANDWICH_TOAST);
+    public static final ItemEntry<ExComponentItem> SANDWICH_VIBRANT      =  foodItem("sandwich_vibrant", "Vibrant Sandwich", "Vibrant Sandwich", "sandwich/vibrant", Foods.SANDWICH_VIBRANT);
 
     //seed
     public static final ItemEntry<Item> SEED_UNKNOWN       = item("seed_unknown"      ,"Undetermined GTMFO Seeds","不明GTMFO种子","seed/unknown"      );
@@ -542,11 +542,11 @@ public class GTMFOItems {
 
 
 
-    public static final ItemEntry<Item> MILK_CHOCOLATE     = item("milk_chocolate"    ,"Milk Chocolate"    ,"牛奶巧克力"  ,"smore/milk_chocolate"    );
+    public static final ItemEntry<ExComponentItem> MILK_CHOCOLATE     =  foodItem("milk_chocolate", "Milk Chocolate", "牛奶巧克力", "smore/milk_chocolate", Foods.MILK_CHOCOLATE);
     public static final ItemEntry<Item> MILK_CHOCOLATE_HOT = item("milk_chocolate_hot","Hot Milk Chocolate","热牛奶巧克力","smore/milk_chocolate_hot");
     public static final ItemEntry<Item> MARSHMALLOW_MATTER = item("marshmallow_matter","Marshmallow Matter","棉花软糖糖胶","smore/marshmallow_matter");
 
-    public static final ItemEntry<Item> GRAHAM_CRACKER                 = item("graham_cracker"                ,"Graham Cracker"                ,"全麦饼干"      ,"smore/graham_cracker/graham_cracker" );
+    public static final ItemEntry<ExComponentItem> GRAHAM_CRACKER                 =  foodItem("graham_cracker", "Graham Cracker", "全麦饼干", "smore/graham_cracker/graham_cracker", Foods.GRAHAM_CRACKER);
     public static final ItemEntry<Item> GRAHAM_CRACKER_HOT             = item("graham_cracker_hot"            ,"Hot Graham Cracker"            ,"热全麦饼干"    ,"smore/graham_cracker/hot"            );
     public static final ItemEntry<Item> GRAHAM_CRACKER_UNGRADED        = item("graham_cracker_ungraded"       ,"Ungraded Graham Cracker"       ,"未筛选全麦饼干","smore/graham_cracker/ungraded"       );
     public static final ItemEntry<Item> GRAHAM_CRACKER_BROKEN          = item("graham_cracker_broken"         ,"Broken Graham Cracker"         ,"断裂全麦饼干"  ,"smore/graham_cracker/broken"         );
@@ -576,19 +576,19 @@ public class GTMFOItems {
     public static final ItemEntry<Item> ANIMAL_FAT          = item("animal_fat" ,"Animal Fat" ,"动物脂肪");
     public static final ItemEntry<Item> KUBIDE_MEAT = item("kubide_meat","Kubideh Meat","碎肉（库比德）","kubide_meat");
     public static final ItemEntry<Item> BARG_MEAT   = item("barg_meat"  ,"Barg Meat"   ,"叶子肉（巴尔格）","barg_meat"  );
-    public static final ItemEntry<Item> BACON     = item("bacon"    ,"Bacon"         ,"培根"  );
+    public static final ItemEntry<ExComponentItem> BACON     =  foodItem("bacon", "Bacon", "培根", Foods.BACON);
     public static final ItemEntry<Item> BACON_RAW = item("bacon_raw","Uncooked Bacon","生培根");
-    public static final ItemEntry<Item> BAKED_BEANS = item("baked_beans","Baked Beans","焗豆");
+    public static final ItemEntry<ExComponentItem> BAKED_BEANS =  foodItem("baked_beans", "Baked Beans", "焗豆", Foods.BAKED_BEANS);
     public static final ItemEntry<Item> BANANA_PEEL = item("banana_peel","Banana Peel","香蕉皮");
-    public static final ItemEntry<Item> BEANS_ON_TOAST = item("beans_on_toast","Beans on Toast","焗豆吐司");
+    public static final ItemEntry<ExComponentItem> BEANS_ON_TOAST =  foodItem("beans_on_toast", "Beans on Toast", "焗豆吐司", Foods.BEANS_ON_TOAST);
     public static final ItemEntry<Item> BEANS_WITH_SAUCE = item("beans_with_sauce","Beans with Sauce","番茄酱豆");
     public static final ItemEntry<Item> BEEF_SLICE         = item("beef_slice"        ,"Beef Slice"        ,"生牛肉片");
     public static final ItemEntry<Item> BEEF_SLICE_ROASTED = item("beef_slice_roasted","Roasted Beef Slice","熟牛肉片");
 
     public static final ItemEntry<Item> BRICK_ADOBE = item("brick_adobe","Adobe Brick","土坯砖");
     public static final ItemEntry<Item> BRICK_MUD   = item("brick_mud"  ,"Mud Brick"  ,"泥砖"  );
-    public static final ItemEntry<Item> CAKE_BOTTOM       = item("cake_bottom"      ,"Cake Bottom"      ,"蛋糕底"  );
-    public static final ItemEntry<Item> CAKE_BOTTOM_BAKED = item("cake_bottom_baked","Baked Cake Bottom","烤蛋糕底");
+    public static final ItemEntry<ExComponentItem> CAKE_BOTTOM       =  foodItem("cake_bottom", "Cake Bottom", "蛋糕底", Foods.CAKE_BOTTOM);
+    public static final ItemEntry<ExComponentItem> CAKE_BOTTOM_BAKED =  foodItem("cake_bottom_baked", "Baked Cake Bottom", "烤蛋糕底", Foods.CAKE_BOTTOM_BAKED);
     public static final ItemEntry<Item> CERAMIC_CLAY = item("ceramic_clay","Ceramic Clay","瓷土");
 
     public static final ItemEntry<ExComponentItem> CHUM        = foodItem("chum"       ,"Chum"                 ,"海霸糊"    ,Foods.CHUM);
@@ -596,12 +596,12 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> CHUM_STICK  = foodItem("chum_stick" ,"Chum on a Stick"      ,"海霸糊棒"  ,Foods.CHUM_STICK,STACK_16);
 
     public static final ItemEntry<Item> COFFEE_FILTER = item("coffee_filter","Coffee Filter","咖啡滤纸");
-    public static final ItemEntry<Item> EMERGENCY_RATIONS = item("emergency_rations","Emergency Rations","应急配给");
-    public static final ItemEntry<Item> FERMENTED_CHORUS     = item("fermented_chorus"    ,"Fermented Chorus"    ,"发酵紫颂果"  );
-    public static final ItemEntry<Item> FERMENTED_CHORUS_PIE = item("fermented_chorus_pie","Fermented Chorus Pie","发酵紫颂果派");
-    public static final ItemEntry<Item> FISH_AND_CHIPS = item("fish_and_chips","Fish'n'Chips","炸鱼薯条");
-    public static final ItemEntry<Item> FRIED_FISH     = item("fried_fish"    ,"Fried Fish"  ,"炸鱼"    );
-    public static final ItemEntry<Item> FULL_BREAKFAST = item("full_breakfast","Full Breakfast","全英早餐");
+    public static final ItemEntry<ExComponentItem> EMERGENCY_RATIONS =  foodItem("emergency_rations", "Emergency Rations", "应急配给", Foods.EMERGENCY_RATIONS);
+    public static final ItemEntry<ExComponentItem> FERMENTED_CHORUS     =  foodItem("fermented_chorus", "Fermented Chorus", "发酵紫颂果", Foods.FERMENTED_CHORUS);
+    public static final ItemEntry<ExComponentItem> FERMENTED_CHORUS_PIE =  foodItem("fermented_chorus_pie", "Fermented Chorus Pie", "发酵紫颂果派", Foods.FERMENTED_CHORUS_PIE);
+    public static final ItemEntry<ExComponentItem> FISH_AND_CHIPS =  foodItem("fish_and_chips", "Fish'n'Chips", "炸鱼薯条", Foods.FISH_AND_CHIPS);
+    public static final ItemEntry<ExComponentItem> FRIED_FISH     =  foodItem("fried_fish", "Fried Fish", "炸鱼", Foods.FRIED_FISH);
+    public static final ItemEntry<ExComponentItem> FULL_BREAKFAST =  foodItem("full_breakfast", "Full Breakfast", "全英早餐", Foods.FULL_BREAKFAST);
     public static final ItemEntry<Item> GELATIN = item("gelatin","Gelatin","明胶");
 
 //    public static final ItemEntry<Item> GUMMY_BEAR = item("gummy_bear","Gummy Bear","小熊软糖");
@@ -609,21 +609,21 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> HOT_MUSHROOM_STEW = foodItem("hot_mushroom_stew","Hot Mushroom Stew","热蘑菇煲",Foods.HOT_MUSHROOM_STEW,STACK_1);
     public static final ItemEntry<ExComponentItem> HOT_RABBIT_STEW   = foodItem("hot_rabbit_stew"  ,"Hot Rabbit Stew"  ,"热兔肉煲",Foods.HOT_RABBIT_STEW  ,STACK_1);
 //    public static final ItemEntry<Item> IV_BAG = item("iv_bag","IV Bag","静脉注射(IV)袋");
-    public static final ItemEntry<Item> MARSHMALLOW               = item("marshmallow"              ,"Marshmallow"           ,"棉花软糖"  );
+    public static final ItemEntry<ExComponentItem> MARSHMALLOW               =  foodItem("marshmallow", "Marshmallow", "棉花软糖", Foods.MARSHMALLOW);
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK         = item("marshmallow_stick"        ,"Marshmallow on a Stick","棉花软糖串");
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK_ROASTED = item("marshmallow_stick_roasted","Roasted Marshmallow"   ,"烤棉花软糖");
     public static final ItemEntry<Item> MINCE_MEAT        = item("mince_meat"       ,"Mince Meat"       ,"肉末"  );
     public static final ItemEntry<Item> MINCE_MEAT_COOKED = item("mince_meat_cooked","Cooked Mince Meat","熟肉末");
     public static final ItemEntry<Item> MEAT_INGOT        = item("meat_ingot"       ,"Meat Ingot"       ,"肉锭"  );
     public static final ItemEntry<Item> MEAT_INGOT_COOKED = item("meat_ingot_cooked","Cooked Meat Ingot","熟肉锭");
-    public static final ItemEntry<Item> MUSHY_PEAS = item("mushy_peas","Mushy Peas","豌豆糊");
+    public static final ItemEntry<ExComponentItem> MUSHY_PEAS =  foodItem("mushy_peas", "Mushy Peas", "豌豆糊", Foods.MUSHY_PEAS);
     public static final ItemEntry<Item> PIE_CRUST = item("pie_crust","Pie Crust","馅饼皮");
 //    public static final ItemEntry<Item> RICE_COOKED = item("rice_cooked","Cooked Rice","熟米饭");
 //    public static final ItemEntry<Item> ROTTEN_FISH = item("rotten_fish","Rotten Fish","臭鱼");
 //    public static final ItemEntry<Item> ROTTEN_MEAT = item("rotten_meat","Rotten Meat","臭肉");
-    public static final ItemEntry<Item> SAUSAGE          = item("sausage"         ,"Sausage"              ,"香肠"    );
+    public static final ItemEntry<ExComponentItem> SAUSAGE          =  foodItem("sausage", "Sausage", "香肠", Foods.SAUSAGE);
     public static final ItemEntry<Item> SAUSAGE_RAW      = item("sausage_raw"     ,"Raw Sausage"          ,"生香肠"  );
-    public static final ItemEntry<Item> SAUSAGE_ROLL     = item("sausage_roll"    ,"Sausage Roll"         ,"香肠卷"  );
+    public static final ItemEntry<ExComponentItem> SAUSAGE_ROLL     =  foodItem("sausage_roll", "Sausage Roll", "香肠卷", Foods.SAUSAGE_ROLL);
     public static final ItemEntry<Item> SAUSAGE_ROLL_RAW = item("sausage_roll_raw","Uncooked Sausage Roll","生香肠卷");
 //    public static final ItemEntry<Item> SCRAP_MEAT = item("scrap_meat","Scrap Meat","废肉");
     public static final ItemEntry<Item> SEASONED_PORK = item("seasoned_pork","Seasoned Pork","调味猪肉");
@@ -635,7 +635,7 @@ public class GTMFOItems {
                     .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/template_spawn_egg")))
                     .register();
 
-    public static final ItemEntry<Item> SHEPHERDS_PIE = item("shepherds_pie","Shepherd's Pie","牧羊人派");
+    public static final ItemEntry<ExComponentItem> SHEPHERDS_PIE =  foodItem("shepherds_pie", "Shepherd's Pie", "牧羊人派", Foods.SHEPHERDS_PIE);
 //    public static final ItemEntry<Item> SPRINKLER = item("sprinkler","Sprinkler","洒水器");
 
     public static void init() {
