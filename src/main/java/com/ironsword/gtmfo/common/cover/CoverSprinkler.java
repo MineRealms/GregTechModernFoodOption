@@ -33,9 +33,9 @@ public class CoverSprinkler extends CoverBehavior {
     private static final int LENGTH = 9;
     private static final int FIRE_SUPPRESSION_HEIGHT = 9;
 
-    /** fluid -> growth boost percentage */
+    /** fluid -> growth boost percentage (original FertilizerProperty values) */
     public static final Map<net.minecraft.world.level.material.Fluid, Integer> FERTILIZER_BOOST = Map.of(
-            net.minecraft.world.level.material.Fluids.WATER, 0,
+            net.minecraft.world.level.material.Fluids.WATER, 5,
             com.ironsword.gtmfo.common.data.material.GTMFOFluids.FertilizerSolution.getFluid(), 15,
             com.ironsword.gtmfo.common.data.material.GTMFOFluids.Blood.getFluid(), 30);
 
