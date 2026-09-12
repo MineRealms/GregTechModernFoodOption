@@ -22,8 +22,22 @@ public class PurpleDrinkRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider){
         etirps(provider);
+        purpleDrink(provider);
         carbonatedWater(provider);
         pharma(provider);
+    }
+
+    private static void purpleDrink(Consumer<FinishedRecipe> provider){
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("purple_drink"))
+                .inputFluids(GTMFOFluids.Etirps.getFluid(1000), GTMFOFluids.CoughSyrup.getFluid(500))
+                .inputItems(GTMFOItems.APPLE_CANDY_CRUSHED.asStack())
+                .outputFluids(GTMFOFluids.PurpleDrink.getFluid(1000))
+                .EUt(480).duration(40).save(provider);
+        GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("bottle_purple_drink"))
+                .inputFluids(GTMFOFluids.PurpleDrink.getFluid(500))
+                .inputItems(Items.GLASS_BOTTLE)
+                .outputItems(GTItems.BOTTLE_PURPLE_DRINK.asStack())
+                .EUt(30).duration(20).save(provider);
     }
 
     private static void etirps(Consumer<FinishedRecipe> provider){
