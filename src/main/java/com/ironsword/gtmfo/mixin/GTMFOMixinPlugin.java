@@ -15,12 +15,12 @@ public class GTMFOMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public String getRefMapperConfig() {
-        return "";
+        return null;
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return false;
+        return true;
     }
 
     @Override

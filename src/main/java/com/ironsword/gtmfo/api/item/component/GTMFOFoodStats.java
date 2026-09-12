@@ -158,7 +158,11 @@ public class GTMFOFoodStats extends FoodStats {
                 effects.forEach((pair)-> propertyBuilder.effect(pair.getFirst(), pair.getSecond()));
             }
 
-            return new GTMFOFoodStats(propertyBuilder.build(),eatingDuration,isDrink,containerItem).nutrients(dairy,fruit,grain,protein,vegetable);
+            FoodProperties properties = propertyBuilder.build();
+            if (properties instanceof com.ironsword.gtmfo.api.mixin.IEatingDuration duration) {
+                duration.setEatingDuration(eatingDuration);
+            }
+            return new GTMFOFoodStats(properties,eatingDuration,isDrink,containerItem).nutrients(dairy,fruit,grain,protein,vegetable);
         }
     }
 }

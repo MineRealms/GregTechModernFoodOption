@@ -5,9 +5,11 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "com.ironsword.gtmfo.mixin.GTMFOMixinPlugin",
   "mixins": [
+    "FoodPropertiesMixin",
+    "ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "gtportal.refmap.json"
+  "refmap": "gtmfo.refmap.json"
 }
