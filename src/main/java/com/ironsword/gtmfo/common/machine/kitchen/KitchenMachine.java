@@ -172,6 +172,19 @@ public class KitchenMachine extends WorkableElectricMultiblockMachine {
             slurpFluids(machine.exportFluids);
         }
 
+        // keep running machines topped up from the kitchen's energy buffer
+        if (getEnergyContainer() != null) {
+            for (WorkableTieredMachine machine : machines) {
+                if (!machine.getRecipeLogic().isWorking()) continue;
+                long needed = machine.energyContainer.getEnergyCapacity()
+                        - machine.energyContainer.getEnergyStored();
+                if (needed > 0) {
+                    long moved = getEnergyContainer().removeEnergy(needed);
+                    machine.energyContainer.addEnergy(moved);
+                }
+            }
+        }
+
         if (getOffsetTimer() % operationInterval() != 0) return;
 
         if (getEnergyContainer() == null || getEnergyContainer().getEnergyStored() <= 0) {
