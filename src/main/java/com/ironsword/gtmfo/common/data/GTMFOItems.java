@@ -327,22 +327,22 @@ public class GTMFOItems {
     public static final ItemEntry<Item> PASTA_DOUGH_PREMIXED = item("pasta_dough_premixed","Premixed Pasta Dough","预拌意面面团","dough/pasta_premixed");
 
     //drink
-    public static final ItemEntry<ExComponentItem> ANTAF            = foodItem("antaf"           ,"Antaf™"         ,"Antaf™"     ,"drink/antaf"           ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> BEER             = foodItem("beer"            ,"Beer"            ,"啤酒"        ,"drink/beer"            ,Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> ANTAF            = foodItem("antaf"           ,"Antaf™"         ,"Antaf™"     ,"drink/antaf"           ,Foods.ANTAF);
+    public static final ItemEntry<ExComponentItem> BEER             = foodItem("beer"            ,"Beer"            ,"啤酒"        ,"drink/beer"            ,Foods.BEER);
     public static final ItemEntry<ExComponentItem> COAC             = foodItem("coac"            ,"Coac"            ,"乐可"        ,"drink/coac"            ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> ETIRPS           = foodItem("etirps"          ,"Etirps™"        ,"碧雪™"      ,"drink/etirps"          ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> ETIRPS_CRANBERRY = foodItem("etirps_cranberry","Etirps Cranberry","蔓越莓味碧雪","drink/etirps_cranberry",Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> ETIRPS           = foodItem("etirps"          ,"Etirps™"        ,"碧雪™"      ,"drink/etirps"          ,Foods.ETIRPS);
+    public static final ItemEntry<ExComponentItem> ETIRPS_CRANBERRY = foodItem("etirps_cranberry","Etirps Cranberry","蔓越莓味碧雪","drink/etirps_cranberry",Foods.ETIRPS_CRANBERRY);
     public static final ItemEntry<ExComponentItem> GREEN_ISLAND     = foodItem("green_island"    ,"Green Island™"  ,"绿岛啤酒™"  ,"drink/green_island"    ,Foods.EMPTY);
     public static final ItemEntry<ExComponentItem> JUICE_APPLE      = foodItem("juice_apple"     ,"Apple Juice"     ,"苹果汁"      ,"drink/juice_apple"     ,Foods.JUICE);
     public static final ItemEntry<ExComponentItem> JUICE_ORANGE     = foodItem("juice_orange"    ,"Orange Juice"    ,"橙汁"        ,"drink/juice_orange"    ,Foods.JUICE);
-    public static final ItemEntry<ExComponentItem> LENINADE         = foodItem("leninade"        ,"Leninade"        ,"列宁檬汁"    ,"drink/leninade"        ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> MINERAL_WATER    = foodItem("mineral_water"   ,"Mineral Water"   ,"矿泉水"      ,"drink/mineral_water"   ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> NILK             = foodItem("nilk"            ,"Nilk"            ,"硅岩风味乳"  ,"drink/nilk"            ,Foods.EMPTY);
-    public static final ItemEntry<ExComponentItem> RED_WINE         = foodItem("red_wine"        ,"Red Wine"        ,"红葡萄酒"    ,"drink/red_wine"        ,Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> LENINADE         = foodItem("leninade"        ,"Leninade"        ,"列宁檬汁"    ,"drink/leninade"        ,Foods.LENINADE);
+    public static final ItemEntry<ExComponentItem> MINERAL_WATER    = foodItem("mineral_water"   ,"Mineral Water"   ,"矿泉水"      ,"drink/mineral_water"   ,Foods.MINERAL_WATER);
+    public static final ItemEntry<ExComponentItem> NILK             = foodItem("nilk"            ,"Nilk"            ,"硅岩风味乳"  ,"drink/nilk"            ,Foods.NILK);
+    public static final ItemEntry<ExComponentItem> RED_WINE         = foodItem("red_wine"        ,"Red Wine"        ,"红葡萄酒"    ,"drink/red_wine"        ,Foods.RED_WINE);
     public static final ItemEntry<ExComponentItem> SEPIP            = foodItem("sepip"           ,"Sepip"           ,"事百"        ,"drink/sepip"           ,Foods.ETIRPS);
     public static final ItemEntry<ExComponentItem> SPARKLING_WATER  = foodItem("sparkling_water" ,"Sparkling Water" ,"气泡水"      ,"drink/sparkling_water" ,Foods.SPARKLING_WATER);
     public static final ItemEntry<ExComponentItem> VODKA            = foodItem("vodka"           ,"Vodka"           ,"伏特加"      ,"drink/vodka"           ,Foods.VODKA);
-    public static final ItemEntry<ExComponentItem> WHITE_WINE       = foodItem("white_wine"      ,"White Wine"      ,"白葡萄酒"    ,"drink/white_wine"      ,Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> WHITE_WINE       = foodItem("white_wine"      ,"White Wine"      ,"白葡萄酒"    ,"drink/white_wine"      ,Foods.WHITE_WINE);
 
     //food_chinese
     public static final ItemEntry<Item> JIAOZI     = item("jiaozi"    ,"Jiaozi"    ,"饺子"  ,"food_chinese/jiaozi"    );

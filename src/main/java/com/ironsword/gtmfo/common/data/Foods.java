@@ -98,7 +98,7 @@ public class Foods {
 
     public static final GTMFOFoodStats PORCHETTA             =    food( 7    , 0.7f  , 50    , 0     , 0     , 0     , 0.5f  , 0.1f  );
 
-    //public static final GTMFOFoodStats MINERAL_WATER         =    food( 0    , 0     , 32    , 0     , 0     , 0     , 0     , 0     );
+    public static final GTMFOFoodStats MINERAL_WATER         = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.mineralWaterHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.mineralWaterSaturation, 0     , 0     , 0     , 0     , 0     ).drink().alwaysEat().eatDuration(32).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),5000,0),1f).item(Items.GLASS_BOTTLE::getDefaultInstance).build();
     public static final GTMFOFoodStats SPARKLING_WATER       = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.sparklingWaterHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.sparklingWaterSaturation, 0     , 0     , 0     , 0     , 0     ).drink().effect(MobEffects.MOVEMENT_SPEED,600,1,1f).item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
     public static final GTMFOFoodStats LEMON                 =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
     public static final GTMFOFoodStats LIME                  =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
