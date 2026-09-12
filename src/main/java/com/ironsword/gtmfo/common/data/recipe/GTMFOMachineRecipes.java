@@ -17,6 +17,21 @@ import java.util.function.Consumer;
 import static com.ironsword.gtmfo.GregTechModernFoodOption.id;
 
 public class GTMFOMachineRecipes {
+
+    /** Dense plate component (GTCEu 1.12's DENSE_PLATE, absent from 7.5.2's GTCraftingComponents). */
+    public static final com.gregtechceu.gtceu.data.recipe.CraftingComponent DENSE_PLATE =
+            com.gregtechceu.gtceu.data.recipe.CraftingComponent.of("dense_plate", TagPrefix.plateDense, GTMaterials.Iron)
+                    .add(com.gregtechceu.gtceu.api.GTValues.ULV, TagPrefix.plateDense, GTMaterials.WroughtIron)
+                    .add(com.gregtechceu.gtceu.api.GTValues.LV, TagPrefix.plateDense, GTMaterials.Steel)
+                    .add(com.gregtechceu.gtceu.api.GTValues.MV, TagPrefix.plateDense, GTMaterials.Aluminium)
+                    .add(com.gregtechceu.gtceu.api.GTValues.HV, TagPrefix.plateDense, GTMaterials.StainlessSteel)
+                    .add(com.gregtechceu.gtceu.api.GTValues.EV, TagPrefix.plateDense, GTMaterials.Titanium)
+                    .add(com.gregtechceu.gtceu.api.GTValues.IV, TagPrefix.plateDense, GTMaterials.TungstenSteel)
+                    .add(com.gregtechceu.gtceu.api.GTValues.LuV, TagPrefix.plateDense,
+                            GTMaterials.RhodiumPlatedPalladium)
+                    .add(com.gregtechceu.gtceu.api.GTValues.ZPM, TagPrefix.plateDense, GTMaterials.NaquadahAlloy)
+                    .add(com.gregtechceu.gtceu.api.GTValues.UV, TagPrefix.plateDense, GTMaterials.Darmstadtium)
+                    .add(com.gregtechceu.gtceu.api.GTValues.UHV, TagPrefix.plateDense, GTMaterials.Neutronium);
     public static void init(Consumer<FinishedRecipe> provider){
         MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.SLICER,
                 "PCA",
@@ -27,7 +42,7 @@ public class GTMFOMachineRecipes {
                 'A', GTCraftingComponents.CABLE,
                 'S', GTCraftingComponents.SAWBLADE,
                 'H', GTCraftingComponents.HULL,
-                'L', GTCraftingComponents.PLATE,//TODO: densePlate in gtfo
+                'L', DENSE_PLATE,
                 'O', GTCraftingComponents.CONVEYOR);
 
         MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.CUISINE_ASSEMBLER,
