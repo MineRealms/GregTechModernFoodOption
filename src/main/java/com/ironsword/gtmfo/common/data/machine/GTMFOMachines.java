@@ -188,6 +188,10 @@ public class GTMFOMachines {
                 "每次击杀耗能：%s EU"));
         JEILangPairMap.put("gtmfo.machine.farmer.tooltip", Pair.of("Harvests and replants a 9x9 area in front",
                 "收获并补种前方 9x9 区域"));
+        JEILangPairMap.put("gtmfo.jei.food_info", Pair.of("GTFO Food Info", "GTFO 食物信息"));
+        JEILangPairMap.put("gtmfo.jei.food_info.hunger", Pair.of("Hunger: %s", "饥饿值：%s"));
+        JEILangPairMap.put("gtmfo.jei.food_info.saturation", Pair.of("Saturation: %s", "饱和度：%s"));
+        JEILangPairMap.put("gtmfo.jei.food_info.effects", Pair.of("Effects:", "效果："));
         JEILangPairMap.put("gtmfo.machine.farmer.tooltip.speed", Pair.of("Action every %s ticks",
                 "每 %s tick 执行一次动作"));
     }
