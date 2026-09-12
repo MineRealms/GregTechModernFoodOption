@@ -227,8 +227,8 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> CAPLET_GEL           = foodItem("caplet_gel"          ,"Gel Caplet"             ,"明胶胶囊"        ,"caplet/gel"          ,Foods.CAPLET_GEL);
     public static final ItemEntry<ExComponentItem> CAPLET_PARACETAMOL   = foodItem("caplet_paracetamol"  ,"Paracetamol Caplet"     ,"对乙酰氨基酚胶囊","caplet/paracetamol"  ,Foods.CAPLET_PARACETAMOL);
     public static final ItemEntry<ExComponentItem> CAPLET_PLUTONIUM_241 = foodItem("caplet_plutonium_241","Plutonium-241 Caplet"   ,"钚-241胶囊"      ,"caplet/plutonium_241",Foods.CAPLET_PLUTONIUM_241);
-    public static final ItemEntry<ExComponentItem> CAPLET_CHORUS        = foodItem("caplet_chorus"       ,"Fermented Chorus Caplet","发酵紫颂果胶囊"  ,"caplet/chorus"       ,Foods.CAPLET_GEL);
-    public static final ItemEntry<ExComponentItem> CAPLET_VIBRANT       = foodItem("caplet_vibrant"      ,"Vibrant Caplet"         ,"Vibrant Caplet"  ,"caplet/vibrant"      ,Foods.CAPLET_GEL);
+    public static final ItemEntry<ExComponentItem> CAPLET_CHORUS        = foodItem("caplet_chorus"       ,"Fermented Chorus Caplet","发酵紫颂果胶囊"  ,"caplet/chorus"       ,Foods.CAPLET_CHORUS);
+    public static final ItemEntry<ExComponentItem> CAPLET_VIBRANT       = foodItem("caplet_vibrant"      ,"Vibrant Caplet"         ,"Vibrant Caplet"  ,"caplet/vibrant"      ,Foods.CAPLET_VIBRANT);
 
     //cheese
     public static final ItemEntry<Item>            CHEDDAR_BLOCK     =     item("cheddar_block"    ,"Cheddar Block"    ,"块状切达奶酪"          ,"cheese/cheddar_block"    );

@@ -57,8 +57,8 @@ public class Foods {
     public static final GTMFOFoodStats CAPLET_GEL            = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).build();
     public static final GTMFOFoodStats CAPLET_PARACETAMOL    = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(MobEffects.REGENERATION,400,0,1f).build();
     public static final GTMFOFoodStats CAPLET_PLUTONIUM_241  = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(MobEffects.POISON,7000,0,1f).build();
-    //public static final GTMFOFoodStats CAPLET_CHORUS         =    food( 0    , 1f    , 1     , 0     , 0     , 0     , 0     , 0     );
-    //public static final GTMFOFoodStats CAPLET_VIBRANT        =    food( 0    , 1f    , 1     , 0     , 0     , 0     , 0     , 0     );
+    public static final GTMFOFoodStats CAPLET_CHORUS         = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(GTMFOEffects.CHORUS.get(),300,0,1f).build();
+    public static final GTMFOFoodStats CAPLET_VIBRANT        = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),600,0),0.6f).effect(MobEffects.POISON,600,2,0.9f).build();
 
     //cheese
     public static final GTMFOFoodStats CHEDDAR_SLICE         =    food( 2    , 0.2f  , 20    , 2f    , 0     , 0     , 0     , 0     );
