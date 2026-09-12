@@ -68,7 +68,9 @@ public class GTMFOFoodStats extends FoodStats {
             var entries = com.ironsword.gtmfo.common.data.GTMFOLacing.ENTRIES;
             if (index >= 0 && index < entries.size()) {
                 var entry = entries.get(index);
-                livingEntity.addEffect(new MobEffectInstance(entry.effect(), entry.duration(), entry.amplifier()));
+                // original PotionColorCalculationEvent hid the cyanide particles
+                livingEntity.addEffect(new MobEffectInstance(entry.effect(), entry.duration(), entry.amplifier(),
+                        false, entry.visible()));
             }
         }
         return super.finishUsingItem(food, level, livingEntity);

@@ -17,20 +17,20 @@ public class GTMFOLacing {
 
     public static final String NBT_KEY = "gtmfo_lacing";
 
-    public record LacingEntry(ItemStack lacingItem, MobEffect effect, int duration, int amplifier) {}
+    public record LacingEntry(ItemStack lacingItem, MobEffect effect, int duration, int amplifier, boolean visible) {}
 
     public static final List<LacingEntry> ENTRIES = new ArrayList<>();
 
     public static void init() {
         ENTRIES.add(new LacingEntry(
                 ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.SodiumCyanide),
-                GTMFOEffects.CYANIDE.get(), 1300, 0));
+                GTMFOEffects.CYANIDE.get(), 1300, 0, false));
         ENTRIES.add(new LacingEntry(
                 ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.LithiumCarbonate),
-                GTMFOEffects.ANTISCHIZO.get(), 1000, 0));
+                GTMFOEffects.ANTISCHIZO.get(), 1000, 0, true));
         ENTRIES.add(new LacingEntry(
                 ChemicalHelper.get(TagPrefix.dust, GTMaterials.Asbestos),
-                GTMFOEffects.LUNG_CANCER.get(), 99999999, 0));
+                GTMFOEffects.LUNG_CANCER.get(), 99999999, 0, true));
     }
 
     public static LacingEntry byItem(ItemStack stack) {
