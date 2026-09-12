@@ -359,7 +359,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> PASTA_E_FAGIOLI        = foodItem("pasta_e_fagioli"        ,"Pasta e fagioli"        ,"意面豆汤"          ,"food_italian/pasta_e_fagioli"        ,Foods.PASTA_E_FAGIOLI);
     public static final ItemEntry<ExComponentItem> PASTA_ALLA_NORMA       = foodItem("pasta_alla_norma"       ,"Pasta alla Norma"       ,"诺玛红酱茄子通心粉","food_italian/pasta_alla_norma"       ,Foods.PASTA_ALLA_NORMA);
     public static final ItemEntry<ExComponentItem> PASTA_AL_POMODORO      = foodItem("pasta_al_pomodoro"      ,"Pasta al pomodoro"      ,"番茄意面"          ,"food_italian/pasta_al_pomodoro"      ,Foods.PASTA_AL_POMODORO);
-    public static final ItemEntry<Item> PASTA_ALL_AMOGUS       = item("pasta_all_amogus"       ,"Pasta all'Amogus"       ,"内鬼意面"          ,"food_italian/pasta_all_amogus"       );
+    public static final ItemEntry<ExComponentItem> PASTA_ALL_AMOGUS       = foodItem("pasta_all_amogus"       ,"Pasta all'Amogus"       ,"内鬼意面"          ,"food_italian/pasta_all_amogus"       ,Foods.PASTA_ALLAMOGUS);
     public static final ItemEntry<ExComponentItem> POLENTA                = foodItem("polenta"                ,"Polenta"                ,"意式玉米糊"        ,"food_italian/polenta"                ,Foods.POLENTA);
     public static final ItemEntry<ExComponentItem> PORCHETTA              = foodItem("porchetta"              ,"Porchetta"              ,"意式脆皮烤五花肉"  ,"food_italian/porchetta"              ,Foods.PORCHETTA);
     public static final ItemEntry<ExComponentItem> PORCHETTA_SLICE        = foodItem("porchetta_slice"        ,"Porchetta Slice"        ,"意式脆皮烤五花肉片","food_italian/porchetta_slice"        ,Foods.PORCHETTA_SLICE);
@@ -390,7 +390,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> WHITE_GRAPES  =  foodItem("white_grapes", "White Grapes", "白葡萄", "fruit/white_grapes", Foods.WHITE_GRAPES);
 
     //ice_cream
-    public static final ItemEntry<Item> ICE_CREAM           = item("ice_cream"          ,"Plain Ice Cream"      ,"原味冰淇淋"  ,"ice_cream/plain"    );
+    public static final ItemEntry<ExComponentItem> ICE_CREAM = foodItem("ice_cream","Plain Ice Cream","原味冰淇淋","ice_cream/plain",Foods.ICE_CREAM_PLAIN);
     public static final ItemEntry<ExComponentItem> ICE_CREAM_BACON     =  foodItem("ice_cream_bacon", "Bacon Ice Cream", "培根冰淇淋", "ice_cream/bacon", Foods.ICE_CREAM_BACON);
     public static final ItemEntry<ExComponentItem> ICE_CREAM_BANANA    =  foodItem("ice_cream_banana", "Banana Ice Cream", "香蕉冰淇淋", "ice_cream/banana", Foods.ICE_CREAM_BANANA);
     public static final ItemEntry<ExComponentItem> ICE_CREAM_BEAR      =  foodItem("ice_cream_bear", "Bear Ice Cream", "熊先生冰淇淋", "ice_cream/bear", Foods.ICE_CREAM_BEAR);
@@ -452,11 +452,11 @@ public class GTMFOItems {
 
     //pizza
     public static final ItemEntry<Item> PIZZA_CHEESE_RAW     = item("pizza_cheese_raw"    ,"Raw Cheese Pizza"              ,"生芝士披萨"    ,"pizza/cheese_raw"  );
-    public static final ItemEntry<Item> PIZZA_CHEESE_SLICE   = item("pizza_cheese_slice"  ,"Cheese Pizza Slice"            ,"芝士披萨片"    ,"pizza/cheese_slice");
+    public static final ItemEntry<ExComponentItem> PIZZA_CHEESE_SLICE   = foodItem("pizza_cheese_slice"  ,"Cheese Pizza Slice"            ,"芝士披萨片"    ,"pizza/cheese_slice"  ,Foods.PIZZA_CHEESE);
     public static final ItemEntry<Item> PIZZA_VEGGIE_RAW     = item("pizza_veggie_raw"    ,"Raw Olive and Mushroom Pizza"  ,"生橄榄蘑菇披萨","pizza/veggie_raw"  );
-    public static final ItemEntry<Item> PIZZA_VEGGIE_SLICE   = item("pizza_veggie_slice"  ,"Olive and Mushroom Pizza Slice","橄榄蘑菇披萨片","pizza/veggie_slice");
+    public static final ItemEntry<ExComponentItem> PIZZA_VEGGIE_SLICE   = foodItem("pizza_veggie_slice"  ,"Olive and Mushroom Pizza Slice","橄榄蘑菇披萨片","pizza/veggie_slice",Foods.PIZZA_VEGGIE);
     public static final ItemEntry<Item> PIZZA_MEAT_RAW       = item("pizza_meat_raw"      ,"Raw Mince Meat Pizza"          ,"生肉末披萨"    ,"pizza/meat_raw"    );
-    public static final ItemEntry<Item> PIZZA_MEAT_SLICE     = item("pizza_meat_slice"    ,"Mince Meat Pizza Slice"        ,"肉末披萨片"    ,"pizza/meat_slice"  );
+    public static final ItemEntry<ExComponentItem> PIZZA_MEAT_SLICE     = foodItem("pizza_meat_slice"    ,"Mince Meat Pizza Slice"        ,"肉末披萨片"    ,"pizza/meat_slice"    ,Foods.PIZZA_MEAT);
 
     //potato
     public static final ItemEntry<Item> POTATO_PEELED            = item("potato_peeled"           ,"Peeled Potato"            ,"去皮马铃薯"        ,"potato/peeled"           );
@@ -557,10 +557,10 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SORBET         = foodItem("sorbet"        ,"Plain Sorbet"  ,"原味雪葩"      ,"sorbet/plain"  ,Foods.SORBET_PLAIN);
     public static final ItemEntry<ExComponentItem> SORBET_APPLE   = foodItem("sorbet_apple"  ,"Apple Sorbet"  ,"苹果雪葩"      ,"sorbet/apple"  ,Foods.SORBET_FRUIT);
     public static final ItemEntry<ExComponentItem> SORBET_APRICOT = foodItem("sorbet_apricot","Apricot Sorbet","杏子雪葩"      ,"sorbet/apricot",Foods.SORBET_FRUIT);
-    public static final ItemEntry<ExComponentItem> SORBET_CHORUS  = foodItem("sorbet_chorus" ,"Chorus Sorbet" ,"紫颂果雪葩"    ,"sorbet/chorus" ,Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> SORBET_CHORUS  = foodItem("sorbet_chorus" ,"Chorus Sorbet" ,"紫颂果雪葩"    ,"sorbet/chorus" ,Foods.SORBET_CHORUS);
     public static final ItemEntry<ExComponentItem> SORBET_GRAPE   = foodItem("sorbet_grape"  ,"Grape Sorbet"  ,"葡萄雪葩"      ,"sorbet/grape"  ,Foods.SORBET_FRUIT);
     public static final ItemEntry<ExComponentItem> SORBET_LIME    = foodItem("sorbet_lime"   ,"Lime Sorbet"   ,"酸柠雪葩"      ,"sorbet/lime"   ,Foods.SORBET_FRUIT);
-    public static final ItemEntry<ExComponentItem> SORBET_VIBRANT = foodItem("sorbet_vibrant","Vibrant Sorbet","Vibrant Sorbet","sorbet/vibrant",Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> SORBET_VIBRANT = foodItem("sorbet_vibrant","Vibrant Sorbet","Vibrant Sorbet","sorbet/vibrant",Foods.SORBET_VIBRANT);
 
     //structural_mesh
 //    public static final ItemEntry<Item> APPLE_STRUCTURAL_MESH  = item("apple_structural_mesh" ,"Apple Structural Mesh" ,"苹果纤维骨架"  ,"structural_mesh/apple" );
@@ -585,14 +585,14 @@ public class GTMFOItems {
     public static final ItemEntry<Item> BEEF_SLICE         = item("beef_slice"        ,"Beef Slice"        ,"生牛肉片");
     public static final ItemEntry<Item> BEEF_SLICE_ROASTED = item("beef_slice_roasted","Roasted Beef Slice","熟牛肉片");
 
-    public static final ItemEntry<Item> BRICK_ADOBE = item("brick_adobe","Adobe Brick","土坯砖");
-    public static final ItemEntry<Item> BRICK_MUD   = item("brick_mud"  ,"Mud Brick"  ,"泥砖"  );
+    public static final ItemEntry<ExComponentItem> BRICK_ADOBE = foodItem("brick_adobe","Adobe Brick","土坯砖",Foods.BRICK_ADOBE);
+    public static final ItemEntry<ExComponentItem> BRICK_MUD = foodItem("brick_mud","Mud Brick","泥砖",Foods.BRICK_MUD);
     public static final ItemEntry<ExComponentItem> CAKE_BOTTOM       =  foodItem("cake_bottom", "Cake Bottom", "蛋糕底", Foods.CAKE_BOTTOM);
     public static final ItemEntry<ExComponentItem> CAKE_BOTTOM_BAKED =  foodItem("cake_bottom_baked", "Baked Cake Bottom", "烤蛋糕底", Foods.CAKE_BOTTOM_BAKED);
     public static final ItemEntry<Item> CERAMIC_CLAY = item("ceramic_clay","Ceramic Clay","瓷土");
 
     public static final ItemEntry<ExComponentItem> CHUM        = foodItem("chum"       ,"Chum"                 ,"海霸糊"    ,Foods.CHUM);
-    public static final ItemEntry<ExComponentItem> CHUM_BUCKET = foodItem("chum_bucket","Chum Bucket Kebab Mix","烤海霸拌桶",Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> CHUM_BUCKET = foodItem("chum_bucket","Chum Bucket Kebab Mix","烤海霸拌桶",Foods.KEBAB_CHUM_BUCKET);
     public static final ItemEntry<ExComponentItem> CHUM_STICK  = foodItem("chum_stick" ,"Chum on a Stick"      ,"海霸糊棒"  ,Foods.CHUM_STICK,STACK_16);
 
     public static final ItemEntry<Item> COFFEE_FILTER = item("coffee_filter","Coffee Filter","咖啡滤纸");

@@ -207,7 +207,10 @@ public class Foods {
     public static final GTMFOFoodStats LASAGNA_CHUM          = builder( 9    , 0.7f  , 0.5f  , 0.5f  , 1f    , 0.5f  , 0     ).eatDuration(64).effect(MobEffects.LUCK,6000,0,0.8f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats LASAGNA_NAPOLETANA    = builder( 11   , 0.7f  , 0.5f  , 0.75f , 1f    , 1f    , 0.25f ).eatDuration(64).effect(MobEffects.NIGHT_VISION,6000,0,0.9f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats LASAGNA_PESTO         = builder( 15   , 0.7f  , 1f    , 0     , 1f    , 1f    , 0.25f ).eatDuration(64).effect(MobEffects.FIRE_RESISTANCE,6000,0,1f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
-    //public static final GTMFOFoodStats PASTA_ALLAMOGUS       =    food( 5    , 0.1f  , 32    , 0     , 0.75f , 1f    , 0     , 0.5f  );
+    public static final GTMFOFoodStats PASTA_ALLAMOGUS       = builder( 5    , 0.1f  , 0     , 0.75f , 1f    , 0     , 0.5f  ).eatDuration(32).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).effect(()->new MobEffectInstance(GTMFOEffects.VENTING.get(),400,0),0.5f).build();
+    public static final GTMFOFoodStats ROTTEN_FISH           = builder( 1    , 0     , 0     , 1f    , 0     , 0     , 0     ).alwaysEat().eatDuration(100).effect(MobEffects.POISON,500,1,1f).build();
+    public static final GTMFOFoodStats BRICK_MUD             = builder( 0    , 0     , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(100).effect(MobEffects.POISON,400,0,0.5f).build();
+    public static final GTMFOFoodStats BRICK_ADOBE           = builder( 0    , 0     , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(400).build();
     public static final GTMFOFoodStats PORCHETTA_SLICE       = builder( 2    , 0.7f  , 0     , 0     , 0     , 1f    , 0.25f ).eatDuration(5).build();
     public static final GTMFOFoodStats WHITE_WINE            = builder( 6    , 0.7f  , 0     , 0     , 0     , 0     , 0     ).drink().alwaysEat().eatDuration(96).effect(MobEffects.CONFUSION,600,0,0.4f).effect(MobEffects.ABSORPTION,1200,1,0.6f).item(Items.GLASS_BOTTLE::getDefaultInstance).build();
     public static final GTMFOFoodStats RED_WINE              = builder( 4    , 0.7f  , 0     , 0     , 0     , 0     , 0     ).drink().alwaysEat().eatDuration(96).effect(MobEffects.CONFUSION,600,0,0.4f).effect(MobEffects.ABSORPTION,1200,1,0.6f).item(Items.GLASS_BOTTLE::getDefaultInstance).build();
@@ -219,8 +222,8 @@ public class Foods {
     public static final GTMFOFoodStats ANTAF                 = builder( 5    , 0.5f  , 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
     public static final GTMFOFoodStats SORBET_PLAIN          = builder( 0    , 0     , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(12).build();
     public static final GTMFOFoodStats SORBET_FRUIT          = builder( 4    , 0.5f  , 0     , 1f    , 0     , 0     , 0     ).alwaysEat().eatDuration(12).build();
-    //public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).alwaysEat().eatDuration(12).build();
-    //public static final GTMFOFoodStats SORBET_VIBRANT        =    food( 0    , 0     , 12    , 0     , 2f    , 0     , 0     , 2f    );
+    public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).alwaysEat().eatDuration(12).build();
+    public static final GTMFOFoodStats SORBET_VIBRANT        = builder( 0    , 0     , 0     , 2f    , 0     , 0     , 2f    ).alwaysEat().eatDuration(12).build();
     public static final GTMFOFoodStats FERMENTED_CHORUS      =    builder( 2    , 0.5f  , 0     , 0     , 0     , 0     , 2f    ).alwaysEat().build();
     public static final GTMFOFoodStats FERMENTED_CHORUS_PIE  =    builder( 6    , 1f    , 0     , 0     , 2f    , 0     , 2f    ).alwaysEat().build();
 

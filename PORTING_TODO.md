@@ -345,14 +345,27 @@
 - [ ] `Dewar Flask` 保温杯系列（原版已注释，可选）
 
 ### 3.2 缺失食物物品（对比 `GTMFOItems` vs 原版 `GTFOMetaItem`）
-- [ ] 逐项核对 `GTMFOItems` 与原版 `GTFOMetaItem` 的 ID 差异表
-- [ ] 补全 `POPCORN_BAG` 爆米花袋（原版 `Foods.POPCORN_BAG`）
-- [ ] 补全 `MINERAL_WATER` 矿泉水（0.x 内容）
-- [ ] 补全 Sorbet 系列（`SORBET_PLAIN` / `SORBET_FRUIT` / `SORBET_CHORUS` / `SORBET_VIBRANT`）
-- [ ] 补全 Fermented Chorus 系列
+- [x] **食物属性接线审计（2026-09-12）**：用脚本逐项对比原版 `GTFOMetaItem` 的 163 个
+      `GTFOFoodStats` 物品与 `GTMFOItems`，发现 **110 个原版食物在现代版是普通物品**
+  - [x] 已修复 72 个（有现成 `Foods` 常量）：水果/蔬菜、切片、冰淇淋 10、三明治 9、千层面 3、
+        烤肉 9、饺子 2、培根/焗豆/豆吐司/蛋糕底/全麦饼干/棉花糖/豌豆泥/炸鱼薯条/煎鱼/全套早餐/
+        香肠×2/牧羊人派/牛奶巧克力/应急口粮/发酵紫颂果×2 等
+  - [x] 补充接线：披萨片×3（`PIZZA_CHEESE/VEGGIE/MEAT`）、`PASTA_ALL_AMOGUS`（+VENTING 50%）、
+        `ICE_CREAM` 原味（`ICE_CREAM_PLAIN`）、`CHUM_BUCKET`（`KEBAB_CHUM_BUCKET`）、
+        `BRICK_MUD`（+中毒 50%）、`BRICK_ADOBE`（可食用）、`SORBET_CHORUS`/`SORBET_VIBRANT`
+  - [x] 取消注释并接线 5 个 `Foods` 条目（SANDWICH_BACON_LARGE 台阶辅助 /
+        ICE_CREAM_VANILLA 雪人生成 50% / FERMENTED_CHORUS / PIE / SANDWICH_VIBRANT）
+  - [ ] **剩余真实缺失物品**：`ROTTEN_MEAT` 臭肉 / `ROTTEN_FISH` 臭鱼（现代版被注释掉，
+        原版为 (1,0) alwaysEat + 中毒 500t 100%）；对应 `Foods.ROTTEN_MEAT`/`ROTTEN_FISH` 已存在
+  - 说明：`ICE_CREAM_CHORUS` 为现代版新增（原版无），保持普通物品未加属性
+- [ ] 逐项核对 `GTMFOItems` 与原版 `GTFOMetaItem` 的 ID 差异表（已完成食物部分）
+- [ ] 补全 `POPCORN_BAG` 爆米花袋（原版即注释 WIP）
+- [ ] 补全 `MINERAL_WATER` 矿泉水（原版 0.x 内容；现代版物品已存在，需核对是否食物）
+- [x] 补全 Sorbet 系列（`SORBET`/`SORBET_APPLE`/`APRICOT`/`GRAPE`/`LIME`/`CHORUS`/`VIBRANT`）
+- [x] 补全 Fermented Chorus 系列（`FERMENTED_CHORUS`/`FERMENTED_CHORUS_PIE`）
 - [ ] 补全 IV Bag 输液袋（`IVBagChain`）
-- [ ] 补全 `DEWAR_FLASK` 保温杯系列
-- [ ] 补全 British 英式料理系列（`BritishChain`）
+- [ ] 补全 `DEWAR_FLASK` 保温杯系列（原版已注释）
+- [x] 补全 British 英式料理系列（`BritishRecipes`）
 
 ### 3.3 种子类
 - [ ] 所有作物种子物品（番茄/黄瓜/葡萄/洋葱/大豆/咖啡/豆/豌豆/牛至/辣根/大蒜/罗勒/茄子/玉米/洋蓟/黑胡椒/大米/白葡萄/棉花）
