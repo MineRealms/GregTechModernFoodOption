@@ -321,6 +321,13 @@ public class ItalianRecipes {
                 .outputItems(GTMFOItems.LASAGNA_CHUM.asStack(4), GTMFOItems.BAKING_TRAY.asStack())
                 .EUt(8).duration(80).save(provider);
 
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("tortellini"))
+                .inputItems(GTMFOItems.LASAGNA_RAW.asStack(),
+                        ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.ShreddedParmesan),
+                        GTMFOItems.NUTMEG.asStack())
+                .inputItems(Items.PORKCHOP)
+                .outputItems(GTMFOItems.TORTELLINI.asStack(8))
+                .EUt(24).duration(100).save(provider);
         GTMFORecipeTypes.MULTICOOKER_RECIPES.recipeBuilder(id("tortellini_in_brodo"))
                 .inputItems(GTMFOItems.TORTELLINI.asStack(6), GTMFOItems.CERAMIC_BOWL.asStack())
                 .inputFluids(GTMFOFluids.ChickenBroth.getFluid(1000))

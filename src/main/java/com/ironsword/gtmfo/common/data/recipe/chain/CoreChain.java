@@ -192,6 +192,12 @@ public class CoreChain {
                 'P', ChemicalHelper.get(TagPrefix.plate,GTMaterials.Iron),
                 'S', ChemicalHelper.get(TagPrefix.screw,GTMaterials.Iron),
                 'M', GTItems.SHAPE_EXTRUDER_BLOCK);
+        VanillaRecipeHelper.addShapedRecipe(provider, id("slicer_pitter"),
+                GTMFOItems.SLICER_BLADE_PITTER.asStack(),
+                "PkP", "fMS", "PsP",
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'S', ChemicalHelper.get(TagPrefix.screw, GTMaterials.Iron),
+                'M', GTItems.SHAPE_EXTRUDER_BLOCK);
         VanillaRecipeHelper.addShapedRecipe(provider,id("slicer_octagonal"),
                 GTMFOItems.SLICER_BLADE_OCTAGONAL.asStack(),
                 "PhP", "fMS", "PsP",
@@ -380,6 +386,40 @@ public class CoreChain {
                 .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
                 .outputItems(GTMFOItems.TOMATO_SLICE,8)
                 .EUt(18).duration(30).save(provider);
+
+        // cucumber / onion / eggplant / carrot slices (original slicingRecipes)
+        Object[][] slices = {
+                { "cucumber", GTMFOItems.CUCUMBER, GTMFOItems.CUCUMBER_SLICE },
+                { "onion", GTMFOItems.ONION, GTMFOItems.ONION_SLICE },
+                { "eggplant", GTMFOItems.EGGPLANT, GTMFOItems.EGGPLANT_SLICE },
+        };
+        for (Object[] s : slices) {
+            String name = (String) s[0];
+            var whole = (com.tterrag.registrate.util.entry.ItemEntry<? extends net.minecraft.world.item.Item>) s[1];
+            var sliced = (com.tterrag.registrate.util.entry.ItemEntry<? extends net.minecraft.world.item.Item>) s[2];
+            VanillaRecipeHelper.addShapelessRecipe(provider, id("slice_" + name),
+                    sliced.asStack(4), whole.asStack(), CustomTags.CRAFTING_KNIVES);
+            GTMFORecipeTypes.SLICER_RECIPES.recipeBuilder(id("slice_" + name))
+                    .inputItems(whole.asStack())
+                    .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
+                    .outputItems(sliced.asStack(8))
+                    .EUt(18).duration(30).save(provider);
+        }
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("slice_carrot"),
+                GTMFOItems.CARROT_SLICE.asStack(4), Items.CARROT, CustomTags.CRAFTING_KNIVES);
+        GTMFORecipeTypes.SLICER_RECIPES.recipeBuilder(id("slice_carrot"))
+                .inputItems(Items.CARROT)
+                .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
+                .outputItems(GTMFOItems.CARROT_SLICE.asStack(8))
+                .EUt(18).duration(30).save(provider);
+
+        // corn (original CoreChain.corn)
+        GTRecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(id("corn_kernel"))
+                .inputItems(GTMFOItems.CORN_EAR.asStack())
+                .outputItems(GTMFOItems.CORN_KERNEL.asStack(20), GTMFOItems.CORN_COB.asStack())
+                .EUt(16).duration(200).save(provider);
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("corn_kernel_by_hand"),
+                GTMFOItems.CORN_KERNEL.asStack(10), GTMFOItems.CORN_EAR.asStack());
 
         // bacon (original CoreChain.bakingOvenRecipes)
         VanillaRecipeHelper.addShapelessRecipe(provider, id("bacon_by_hand"),

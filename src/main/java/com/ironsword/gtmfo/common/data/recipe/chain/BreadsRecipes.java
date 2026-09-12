@@ -28,6 +28,7 @@ public class BreadsRecipes {
         cake(provider);
         cookie(provider);
         burger(provider);
+        toast(provider);
         sandwich(provider);
         pumpkinPie(provider);
 
@@ -255,6 +256,13 @@ public class BreadsRecipes {
                 .outputItems(GTMFOItems.BURGER_CHUM)
                 .EUt(24).duration(50).save(provider);
 
+    }
+
+    private static void toast(Consumer<FinishedRecipe> provider){
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("toast"))
+                .inputItems(GTMFOItems.BREAD_SLICE.asStack())
+                .outputItems(GTMFOItems.TOAST.asStack())
+                .EUt(60).duration(50).save(provider);
     }
 
     private static void sandwich(Consumer<FinishedRecipe> provider){
