@@ -916,11 +916,20 @@
 - 说明：`SmogusChain` 由 `SmoreRecipes`（smogus 组装）+ `ChocolateRecipes`（可可）覆盖，恒星熔炉部分用成型压床替代
 
 ### P3 — 兼容与打磨
-18. **JEI 集成**（进食/掺加信息页）
-19. **AppleSkin / TOP 兼容**
-20. **地牢战利品**
-21. **音效/粒子效果**
-22. **其他模组兼容**（TFC/AgriCraft/EnderIO/Nutrition 等）
+18. **JEI 集成**（进食/掺加信息页）— 🔄 部分
+    - ✅ GT 配方 JEI 分类由 GTCEu 自动生成（切片机/微波炉/多功锅/菜肴组装机等）
+    - [ ] 原版 `EatingRecipeCategory`（食物数值信息页）/ `LacingCategory`（掺加信息页）未移植
+19. **AppleSkin / TOP 兼容** — [ ] 未移植（对应模组未安装；原版 AppleSkin 4 个类）
+20. **地牢战利品** — ✅ 已完成（对照原版 `GTFODungeonLootLoader`）
+    - ✅ 41 种食物注入 7 个战利品表（废弃矿井/丛林神庙/沙漠神殿/地牢/要塞走廊·交叉/林地府邸）
+    - ✅ 掺加变体（氰化物标记 `gtmfo_lacing=0`），权重按原版（部分除以 2/3）
+    - ✅ 稀有：矿泉水 / Smogus 之心（丛林神庙+林地府邸，掺加变体额外进地牢 ×4）
+    - ✅ 用 GTCEu `ChestGenHooks`（GTCEu 战利品开关关闭时自行注册监听）
+    - ✅ 配置开关 `addDungeonFoods` / `addLacedDungeonFoods` 生效
+21. **音效/粒子效果** — 🔄 部分
+    - ✅ 音效注册（微波炉完成/农场激光/排气）+ 代码调用
+    - [ ] 粒子效果：洒水器水花（`GTFOSprinkleMaker`）/农场机激光束未移植
+22. **其他模组兼容**（TFC/AgriCraft/EnderIO/Nutrition 等）— [ ] 未移植（对应模组未安装，优先级低）
 
 ---
 
