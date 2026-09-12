@@ -50,7 +50,6 @@ public class GTMFORecipes {
         ivBag(provider);
         MobExtractionRecipes.init(provider);
         GreenhouseRecipes.init(provider);
-        LacingRecipes.init(provider);
         SmoreRecipes.init(provider);
         if (com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoVanillaOverridesConfig.vanillaOverrideChain) {
             VanillaOverrideRecipes.init(provider);

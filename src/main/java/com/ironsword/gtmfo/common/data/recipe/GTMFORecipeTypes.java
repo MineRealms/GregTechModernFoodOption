@@ -90,5 +90,7 @@ public class GTMFORecipeTypes {
     }
 
     public static void init(){
+        // dynamic lacing recipes in the fluid canner (original RecipeMapFluidCannerMixin)
+        GTRecipeTypes.CANNER_RECIPES.addCustomRecipeLogic(LacingCannerLogic.INSTANCE);
     }
 }
