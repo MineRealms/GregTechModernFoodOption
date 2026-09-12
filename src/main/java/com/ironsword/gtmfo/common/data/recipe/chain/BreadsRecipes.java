@@ -109,6 +109,20 @@ public class BreadsRecipes {
                 GTMFOItems.BAGUETTE.asStack(),
                 0.35f);
 
+        // baking oven (original addBakingOvenRecipes)
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bun_baked"))
+                .inputItems(GTMFOItems.BUN_UNBAKED.asStack())
+                .outputItems(GTMFOItems.BUN.asStack())
+                .EUt(60).duration(150).save(provider);
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("baguette_baked"))
+                .inputItems(GTMFOItems.BAGUETTE_UNCOOKED.asStack())
+                .outputItems(GTMFOItems.BAGUETTE.asStack())
+                .EUt(60).duration(150).save(provider);
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bread_baked"))
+                .inputItems(GTMFOItems.BREAD_UNBAKED.asStack())
+                .outputItems(Items.BREAD.getDefaultInstance())
+                .EUt(60).duration(150).save(provider);
+
         //slice
         VanillaRecipeHelper.addShapedRecipe(provider,id("bun_sliced_by_hand"),
                 GTMFOItems.BUN_SLICED.asStack(),
@@ -184,6 +198,10 @@ public class BreadsRecipes {
                 'E',Items.EGG.getDefaultInstance(),
                 'B',GTMFOItems.CAKE_BOTTOM_BAKED.asStack(),
                 'M',new FluidContainerIngredient(GTMaterials.Milk.getFluidTag(), 1000));
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("cake_bottom_baked"))
+                .inputItems(GTMFOItems.CAKE_BOTTOM.asStack())
+                .outputItems(GTMFOItems.CAKE_BOTTOM_BAKED.asStack())
+                .EUt(60).duration(500).save(provider);
         GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("cake"))
                 .inputItems(Items.SUGAR)
                 .inputItems(Items.EGG)
