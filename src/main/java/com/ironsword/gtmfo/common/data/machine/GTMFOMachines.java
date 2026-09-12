@@ -53,10 +53,10 @@ public class GTMFOMachines {
         REGISTRATE.creativeModeTab(()-> GTMFOCreativeModeTabs.MAIN_TAB);
     }
 
-    public static MachineDefinition[] SLICER = GTMachineUtils.registerSimpleMachines(REGISTRATE,"slicer", GTMFORecipeTypes.SLICER_RECIPES);
-    public static MachineDefinition[] CUISINE_ASSEMBLER = GTMachineUtils.registerSimpleMachines(REGISTRATE,"cuisine_assembler",GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES);
+    public static MachineDefinition[] SLICER = GTMFOMachineUtils.registerSimpleMachines(REGISTRATE,"slicer", GTMFORecipeTypes.SLICER_RECIPES);
+    public static MachineDefinition[] CUISINE_ASSEMBLER = GTMFOMachineUtils.registerSimpleMachines(REGISTRATE,"cuisine_assembler",GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES);
     public static MachineDefinition[] MICROWAVE = registerMicrowaves();
-    public static MachineDefinition[] MULTICOOKER = GTMachineUtils.registerSimpleMachines(REGISTRATE,"multicooker",GTMFORecipeTypes.MULTICOOKER_RECIPES);
+    public static MachineDefinition[] MULTICOOKER = GTMFOMachineUtils.registerSimpleMachines(REGISTRATE,"multicooker",GTMFORecipeTypes.MULTICOOKER_RECIPES);
 
     /** sucking range per tier (LV, MV, HV, EV) */
     private static final int[] MOB_AGE_SORTER_RANGES = {1, 3, 5, 9};
@@ -107,7 +107,7 @@ public class GTMFOMachines {
                     .langValue("%s Mob Extractor %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeType(GTMFORecipeTypes.MOB_EXTRACTOR_RECIPES)
-                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("mob_extractor"),
+                    .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id("mob_extractor"),
                             GTMFORecipeTypes.MOB_EXTRACTOR_RECIPES))
                     .workableTieredHullModel(GTCEu.id("block/machines/mob_extractor"))
                     .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
@@ -144,7 +144,7 @@ public class GTMFOMachines {
                 (tier, builder) -> builder
                         .langValue("%s %s %s".formatted(GTValues.VLVH[tier], toEnglishName("microwave"),
                                 GTValues.VLVT[tier]))
-                        .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("microwave"),
+                        .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id("microwave"),
                                 GTMFORecipeTypes.MICROWAVE_RECIPES))
                         .rotationState(RotationState.NON_Y_AXIS)
                         .recipeType(GTMFORecipeTypes.MICROWAVE_RECIPES)
