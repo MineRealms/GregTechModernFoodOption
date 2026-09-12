@@ -113,6 +113,8 @@ public class GTMFOMaterials {
 
     public static void init(){
         GTMaterials.BismuthBronze.addFlags(MaterialFlags.GENERATE_FRAME);
+        GTMaterials.DistilledWater.setProperty(CleanerProperty.CLEANER, new CleanerProperty(2));
+        GTMFOFluids.SodiumStearate.setProperty(CleanerProperty.CLEANER, new CleanerProperty(16));
     }
 
     public static void initENLang(RegistrateLangProvider provider){

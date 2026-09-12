@@ -16,6 +16,7 @@ import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
 import com.ironsword.gtmfo.common.machine.GreenhouseMachine;
 import com.ironsword.gtmfo.common.machine.PrimitiveBakingOvenMachine;
+import com.ironsword.gtmfo.common.machine.kitchen.KitchenMachine;
 
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.ironsword.gtmfo.common.registry.GTMFORegistries.REGISTRATE;
@@ -117,11 +118,38 @@ public class GTMFOMultiMachines {
                     GTCEu.id("block/machines/greenhouse"))
             .register();
 
+    public static final MultiblockMachineDefinition KITCHEN = REGISTRATE
+            .multiblock("kitchen", KitchenMachine::new)
+            .langValue("Kitchen")
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(GTBlocks.CASING_STEEL_PIPE)
+            .pattern(definition -> FactoryBlockPattern.start(BACK, UP, RIGHT)
+                    .aisle("BBBBB", "     ")
+                    .aisle("BFFFB", " III ")
+                    .aisle("BFFFB", " III ")
+                    .aisle("BFFFB", " III ")
+                    .aisle("BFFFB", " III ")
+                    .aisle("BBSBB", "     ")
+                    .where('S', Predicates.controller(Predicates.blocks(definition.getBlock())))
+                    .where('B', Predicates.blocks(GTBlocks.CASING_STEEL_PIPE.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS, PartAbility.EXPORT_ITEMS,
+                                    PartAbility.IMPORT_FLUIDS, PartAbility.EXPORT_FLUIDS,
+                                    PartAbility.INPUT_ENERGY)))
+                    .where('F', Predicates.blocks(GTMFOBlocks.PORCELAIN_TILE.get(),
+                            GTMFOBlocks.DARK_PORCELAIN_TILE.get()))
+                    .where('I', Predicates.any())
+                    .build())
+            .workableCasingModel(
+                    GTCEu.id("block/casings/pipe/machine_casing_pipe_steel"),
+                    GTCEu.id("block/multiblock/electric_blast_furnace"))
+            .register();
+
     public static void init(){
         GTMFOMachines.addJEILang("baking_oven","Baking Oven","烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".primitive_baking_oven","原始烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".electric_baking_oven","电力烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".steam_baking_oven","蒸汽烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".greenhouse","温室");
+        GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".kitchen","厨房");
     }
 }
