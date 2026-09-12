@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.common.data;
 
 import com.ironsword.gtmfo.common.block.GTFOBlockLeaves;
+import com.ironsword.gtmfo.data.GTMFOProviderTypes;
 import com.ironsword.gtmfo.common.block.GTFOBlockLog;
 import com.ironsword.gtmfo.common.block.GTFOBlockPlanks;
 import com.ironsword.gtmfo.common.block.GTFOBlockSapling;
@@ -40,6 +41,42 @@ public class GTMFOTrees {
             0x00ff00, 0x00ff40, 0x00ff80, 0x00ffc0, 0x00ffff, 0x00c0ff, 0x0080ff, 0x0040ff,
             0x0000ff, 0x4000ff, 0x8000ff, 0xc000ff, 0xff00ff, 0xff00c0, 0xff0080, 0xff0040 };
 
+    /** per-tree EN/CN names for log/planks/sapling/leaves (legacy translations) */
+    public static final java.util.Map<String, String[]> TREE_LANG = new java.util.LinkedHashMap<>();
+
+    static {
+        TREE_LANG.put("banana", new String[] { "Banana Pseudostem", "\u9999\u8549\u5047\u830e",
+                "Banana Planks", "\u9999\u8549\u6728\u677f", "Banana Sapling", "\u9999\u8549\u6811\u82d7",
+                "Banana Leaves", "\u9999\u8549\u6811\u53f6" });
+        TREE_LANG.put("orange", new String[] { "Orange Wood", "\u6a59\u6728",
+                "Orange Planks", "\u6a59\u6728\u6728\u677f", "Orange Sapling", "\u6a59\u6811\u6811\u82d7",
+                "Orange Leaves", "\u6a59\u6811\u6811\u53f6" });
+        TREE_LANG.put("mango", new String[] { "Mango Wood", "\u8292\u679c\u6728",
+                "Mango Planks", "\u8292\u679c\u6728\u677f", "Mango Sapling", "\u8292\u679c\u6811\u82d7",
+                "Mango Leaves", "\u8292\u679c\u6811\u53f6" });
+        TREE_LANG.put("apricot", new String[] { "Apricot Wood", "\u674f\u6728",
+                "Apricot Planks", "\u674f\u6728\u6728\u677f", "Apricot Sapling", "\u674f\u6811\u6811\u82d7",
+                "Apricot Leaves", "\u674f\u6811\u6811\u53f6" });
+        TREE_LANG.put("lemon", new String[] { "Lemon Wood", "\u67e0\u6aac\u6728",
+                "Lemon Planks", "\u67e0\u6aac\u6728\u677f", "Lemon Sapling", "\u67e0\u6aac\u6811\u82d7",
+                "Lemon Leaves", "\u67e0\u6aac\u6811\u53f6" });
+        TREE_LANG.put("lime", new String[] { "Lime Wood", "\u9178\u6a59\u6728",
+                "Lime Planks", "\u9178\u6a59\u6728\u677f", "Lime Sapling", "\u9178\u6a59\u6811\u82d7",
+                "Lime Leaves", "\u9178\u6a59\u6811\u53f6" });
+        TREE_LANG.put("olive", new String[] { "Olive Wood", "\u6a44\u6984\u6728",
+                "Olive Planks", "\u6a44\u6984\u6728\u677f", "Olive Sapling", "\u6a44\u6984\u6811\u82d7",
+                "Olive Leaves", "\u6a44\u6984\u6811\u53f6" });
+        TREE_LANG.put("rainbowwood", new String[] { "Rainbowwood Wood", "\u5f69\u8679\u6728",
+                "Rainbowwood Planks", "\u5f69\u8679\u6728\u6728\u677f", "Rainbowwood Sapling", "\u5f69\u8679\u6811\u82d7",
+                "Rainbowwood Leaves", "\u5f69\u8679\u6811\u6811\u53f6" });
+        TREE_LANG.put("nutmeg", new String[] { "Nutmeg Wood", "\u8089\u6842\u6728",
+                "Nutmeg Planks", "\u8089\u6842\u6728\u677f", "Nutmeg Sapling", "\u8089\u6842\u6811\u82d7",
+                "Nutmeg Leaves", "\u8089\u6842\u6811\u53f6" });
+        TREE_LANG.put("coconut", new String[] { "Coconut Wood", "\u6930\u6728",
+                "Coconut Planks", "\u6930\u6728\u6728\u677f", "Coconut Sapling", "\u6930\u6811\u6811\u82d7",
+                "Coconut Leaves", "\u6930\u6811\u6811\u53f6" });
+    }
+
     public static final List<TreeData> TREES = List.of(
             new TreeData("banana", 0, () -> GTMFOItems.BANANA.get(), 0x396A2E, 8, 3, 6),
             new TreeData("orange", 1, () -> GTMFOItems.ORANGE.get(), 0x76c92c, 10, 1, 2),
@@ -72,7 +109,8 @@ public class GTMFOTrees {
             BlockEntry<GTFOBlockLog> log = REGISTRATE
                     .block(name + "_log", GTFOBlockLog::new)
                     .initialProperties(() -> Blocks.OAK_LOG)
-                    .lang(capitalize(name) + " Log")
+                    .lang(TREE_LANG.get(name)[0])
+                    .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[1]))
                     .tag(BlockTags.LOGS_THAT_BURN, BlockTags.MINEABLE_WITH_AXE)
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/log_" + name))).tag(ItemTags.LOGS_THAT_BURN).build()
@@ -82,7 +120,8 @@ public class GTMFOTrees {
             BlockEntry<GTFOBlockPlanks> planks = REGISTRATE
                     .block(name + "_planks", GTFOBlockPlanks::new)
                     .initialProperties(() -> Blocks.OAK_PLANKS)
-                    .lang(capitalize(name) + " Planks")
+                    .lang(TREE_LANG.get(name)[2])
+                    .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[3]))
                     .tag(BlockTags.PLANKS, BlockTags.MINEABLE_WITH_AXE)
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/planks_" + name))).tag(ItemTags.PLANKS).build()
@@ -92,7 +131,8 @@ public class GTMFOTrees {
             BlockEntry<GTFOBlockSapling> sapling = REGISTRATE
                     .block(name + "_sapling", p -> new GTFOBlockSapling(p, index))
                     .initialProperties(() -> Blocks.OAK_SAPLING)
-                    .lang(capitalize(name) + " Sapling")
+                    .lang(TREE_LANG.get(name)[4])
+                    .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[5]))
                     .tag(BlockTags.SAPLINGS)
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/sapling_" + name))).tag(ItemTags.SAPLINGS).build()
@@ -104,7 +144,8 @@ public class GTMFOTrees {
             BlockEntry<GTFOBlockLeaves> leaves = REGISTRATE
                     .block(name + "_leaves", p -> new GTFOBlockLeaves(p, saplingItem, fruit, tree.fruitDivisor(), tree.fruitMin(), tree.fruitMax()))
                     .initialProperties(() -> Blocks.OAK_LEAVES)
-                    .lang(capitalize(name) + " Leaves")
+                    .lang(TREE_LANG.get(name)[6])
+                    .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[7]))
                     .tag(BlockTags.LEAVES, BlockTags.MINEABLE_WITH_HOE)
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/leaves_" + name))).tag(ItemTags.LEAVES).build()
