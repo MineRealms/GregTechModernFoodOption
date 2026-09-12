@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false,variant=greenhouse_glass": {
+      "model": "gtmfo:block/greenhouse_glass"
+    },
+    "active=true,variant=greenhouse_glass": {
+      "model": "gtmfo:block/greenhouse_glass"
+    }
+  }
+}

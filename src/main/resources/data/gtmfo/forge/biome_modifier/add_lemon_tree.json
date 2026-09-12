@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_lemon_tree",
+  "features": "gtmfo:lemon_tree",
+  "step": "vegetal_decoration"
+}

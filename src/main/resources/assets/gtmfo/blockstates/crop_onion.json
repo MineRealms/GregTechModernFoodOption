@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "gtmfo:block/crop_onion_stage0"
+    },
+    "age=1": {
+      "model": "gtmfo:block/crop_onion_stage1"
+    },
+    "age=2": {
+      "model": "gtmfo:block/crop_onion_stage2"
+    },
+    "age=3": {
+      "model": "gtmfo:block/crop_onion_stage3"
+    },
+    "age=4": {
+      "model": "gtmfo:block/crop_onion_stage4"
+    },
+    "age=5": {
+      "model": "gtmfo:block/crop_onion_stage5"
+    },
+    "age=6": {
+      "model": "gtmfo:block/crop_onion_stage6"
+    },
+    "age=7": {
+      "model": "gtmfo:block/crop_onion_stage7"
+    }
+  }
+}

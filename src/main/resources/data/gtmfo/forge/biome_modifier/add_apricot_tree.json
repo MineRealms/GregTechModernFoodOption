@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_apricot_tree",
+  "features": "gtmfo:apricot_tree",
+  "step": "vegetal_decoration"
+}

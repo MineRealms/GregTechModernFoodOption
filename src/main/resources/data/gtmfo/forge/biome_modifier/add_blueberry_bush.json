@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_blueberry_bush",
+  "features": "gtmfo:patch_blueberry_common",
+  "step": "vegetal_decoration"
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/block/leaves",
+  "textures": {
+    "all": "gtmfo:block/leaves/rainbowwood"
+  }
+}

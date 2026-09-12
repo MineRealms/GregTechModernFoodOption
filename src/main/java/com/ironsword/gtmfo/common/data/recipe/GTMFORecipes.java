@@ -25,10 +25,31 @@ public class GTMFORecipes {
         PizzaRecipes.init(provider);
         KebabRecipes.init(provider);
         ItalianRecipes.init(provider);
+        CheeseRecipes.init(provider);
+        IceCreamRecipes.init(provider);
+        PurpleDrinkRecipes.init(provider);
+        SorbetRecipes.init(provider);
+        ChorusRecipes.init(provider);
+        MicrowaveRecipes.init(provider);
+        PlateRecipes.init(provider);
+        RussianRecipes.init(provider);
+        VanillinRecipes.init(provider);
+        DyeRecipes.init(provider);
+        LithiumRecipes.init(provider);
+        ChocolateRecipes.init(provider);
+        AlcoholRecipes.init(provider);
+        SeedsRecipes.init(provider);
+        BananaRecipes.init(provider);
+        BritishRecipes.init(provider);
+        AdobeBrickRecipes.init(provider);
+        TreeRecipes.init(provider);
+        ToolRecipes.init(provider);
+        MobExtractionRecipes.init(provider);
+        GreenhouseRecipes.init(provider);
+        LacingRecipes.init(provider);
         SmoreRecipes.init(provider);
 
 
-        cheeseRecipes(provider);
         doughRecipes(provider);
 
         GTMFOMachineRecipes.init(provider);
@@ -37,25 +58,8 @@ public class GTMFORecipes {
 
     public static void remove(Consumer<ResourceLocation> consumer){
         BreadsRecipes.remove(consumer);
-    }
-
-    private static void cheeseRecipes(Consumer<FinishedRecipe> provider){
-        GTRecipeTypes.FLUID_HEATER_RECIPES.recipeBuilder(id("milk_hot"))
-                .inputFluids(GTMaterials.Milk.getFluid(100))
-                .outputFluids(GTMFOFluids.HotMilk.getFluid(100))
-                .EUt(16).duration(20).save(provider);
-
-        GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES.recipeBuilder(id("mozzarella_ball"))
-                .notConsumable(GTItems.SHAPE_MOLD_BALL.asStack())
-                .inputFluids(GTMFOFluids.HotMilk.getFluid(1000))
-                .outputItems(GTMFOItems.MOZZARELLA_BALL)
-                .EUt(20).duration(200).save(provider);
-
-        GTRecipeTypes.EXTRUDER_RECIPES.recipeBuilder(id("mozzarella_slice"))
-                .inputItems(GTMFOItems.MOZZARELLA_BALL.asStack())
-                .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE.asStack())
-                .outputItems(GTMFOItems.MOZZARELLA_SLICE,9)
-                .EUt(16).duration(400).save(provider);
+        // replaced by GTMFO's guaiacol-yielding version (VanillinRecipes)
+        consumer.accept(com.gregtechceu.gtceu.GTCEu.id("distill_creosote"));
     }
 
     private static void doughRecipes(Consumer<FinishedRecipe> provider){

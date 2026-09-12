@@ -1,0 +1,7 @@
+{
+  "parent": "gtmfo:block/large_berry_bush",
+  "textures": {
+    "all": "gtmfo:block/berry/black_currant_ripe",
+    "particle": "#all"
+  }
+}

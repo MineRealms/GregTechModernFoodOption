@@ -1,0 +1,5 @@
+{
+  "amogus.vent": {"category": "player", "sounds": [{"name": "gtmfo:amogus.vent", "stream": false}]},
+  "microwave.finish": {"category": "block", "sounds": [{"name": "gtmfo:microwave.finish", "stream": false}]},
+  "farmer.laser": {"category": "block", "sounds": [{"name": "gtmfo:farmer.laser", "stream": false}]}
+}

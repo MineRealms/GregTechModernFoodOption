@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_nutmeg_tree",
+  "features": "gtmfo:nutmeg_tree",
+  "step": "vegetal_decoration"
+}

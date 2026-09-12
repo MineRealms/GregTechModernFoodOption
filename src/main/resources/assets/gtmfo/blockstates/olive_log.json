@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "gtmfo:block/log_olive",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "gtmfo:block/log_olive"
+    },
+    "axis=z": {
+      "model": "gtmfo:block/log_olive",
+      "x": 90
+    }
+  }
+}

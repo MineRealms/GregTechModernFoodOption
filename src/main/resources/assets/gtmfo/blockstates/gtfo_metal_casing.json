@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "variant=casing_bismuth_bronze": {
+      "model": "gtmfo:block/casing_casing_bismuth_bronze"
+    },
+    "variant=bismuth_bronze": {
+      "model": "gtmfo:block/casing_bismuth_bronze"
+    }
+  }
+}

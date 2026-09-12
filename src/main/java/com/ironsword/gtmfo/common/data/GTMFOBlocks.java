@@ -91,12 +91,23 @@ public class GTMFOBlocks {
     }
 
 
-//    public static final BlockEntry<Block> ADOBE_BRICKS            = createBrickCasingBlock("adobe_bricks"           ,"Adobe Bricks"           ,"土坯砖块"    );
-//    public static final BlockEntry<Block> REINFORCED_ADOBE_BRICKS = createBrickCasingBlock("reinforced_adobe_bricks","Reinforced Adobe Bricks","加固土坯砖块");
-//    public static final BlockEntry<Block> PORCELAIN_TILE          = createBrickCasingBlock("porcelain_tile"         ,"Porcelain Tile"         ,"瓷砖"        );
-//    public static final BlockEntry<Block> DARK_PORCELAIN_TILE     = createBrickCasingBlock("dark_porcelain_tile"    ,"Dark Porcelain Tile"    ,"暗色瓷砖"    );
+    public static final BlockEntry<Block> ADOBE_BRICKS            = createBrickCasingBlock("adobe_bricks"           ,"Adobe Bricks"           ,"土坯砖块"    );
+    public static final BlockEntry<Block> REINFORCED_ADOBE_BRICKS = createBrickCasingBlock("reinforced_adobe_bricks","Reinforced Adobe Bricks","加固土坯砖块");
+    public static final BlockEntry<Block> PORCELAIN_TILE          = createBrickCasingBlock("porcelain_tile"         ,"Porcelain Tile"         ,"瓷砖"        );
+    public static final BlockEntry<Block> DARK_PORCELAIN_TILE     = createBrickCasingBlock("dark_porcelain_tile"    ,"Dark Porcelain Tile"    ,"暗色瓷砖"    );
 
     public static final BlockEntry<Block> BISMUTH_BRONZE_CASING = createCasingBlock("bismuth_bronze_casing","Food-Safe Bismuth Bronze Casing","食品级铋青铜机器方块");
+
+    public static final BlockEntry<Block> GREENHOUSE_GLASS = REGISTRATE.block("greenhouse_glass", Block::new)
+            .lang("Greenhouse Glass")
+            .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) ->
+                    prov.add(ctx.get().getDescriptionId(), "温室玻璃"))
+            .initialProperties(() -> Blocks.GLASS)
+            .properties(p -> p.noOcclusion().isValidSpawn((state, level, pos, ent) -> false))
+            .addLayer(() -> () -> net.minecraft.client.renderer.RenderType.cutout())
+            .defaultBlockstate()
+            .simpleItem()
+            .register();
 
     public static final BlockEntry<PizzaBlock> PIZZA_CHEESE = pizza("pizza_cheese","block/pizza/top_2","block/pizza/cheese","item/pizza/cheese","Cheese Pizza"            ,"芝士披萨"    );
     public static final BlockEntry<PizzaBlock> PIZZA_MEAT   = pizza("pizza_meat"  ,"block/pizza/top_1","block/pizza/meat"  ,"item/pizza/meat"  ,"Mince Meat Pizza"        ,"肉末披萨"    );

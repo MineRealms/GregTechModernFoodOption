@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_olive_tree",
+  "features": "gtmfo:olive_tree",
+  "step": "vegetal_decoration"
+}

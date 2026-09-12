@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_banana_tree",
+  "features": "gtmfo:banana_tree",
+  "step": "vegetal_decoration"
+}

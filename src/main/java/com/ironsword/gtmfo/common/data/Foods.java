@@ -1,6 +1,8 @@
 package com.ironsword.gtmfo.common.data;
 
 import com.ironsword.gtmfo.api.item.component.GTMFOFoodStats;
+import com.ironsword.gtmfo.common.data.GTMFOEffects;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -105,11 +107,11 @@ public class Foods {
     public static final GTMFOFoodStats CAKE_BOTTOM           = builder( 2    , 0.5f  , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(60).effect(MobEffects.POISON,200,1,0.2f).build();
     public static final GTMFOFoodStats CAKE_BOTTOM_BAKED     =    food( 3    , 0.5f  , 60    , 0     , 0     , 1f    , 0     , 0     );
     public static final GTMFOFoodStats PIZZA_CHEESE          = builder( 10   , 0.8f  , 1f    , 0     , 1f    , 0     , 1f    ).eatDuration(50).effect(MobEffects.DIG_SPEED,2000,2,1f).build();
-    //public static final GTMFOFoodStats PIZZA_VEGGIE          = builder( 10   , 0.7f  , 0     , 0     , 1f    , 0     , 2f    ).eatDuration(50).build();
+    public static final GTMFOFoodStats PIZZA_VEGGIE          = builder( 10   , 0.7f  , 0     , 0     , 1f    , 0     , 2f    ).eatDuration(50).effect(()->new MobEffectInstance(GTMFOEffects.STEP_ASSIST.get(),2000,1),1f).build();
     public static final GTMFOFoodStats PIZZA_MEAT            = builder( 11   , 0.8f  , 0     , 0     , 1f    , 1f    , 1f    ).eatDuration(50).effect(MobEffects.DAMAGE_BOOST,2000,2,1f).build();
     public static final GTMFOFoodStats SANDWICH_VEGGIE       =    food( 6    , 0.6f  , 40    , 0     , 0     , 1f    , 0     , 1f    );
     public static final GTMFOFoodStats SANDWICH_CHEESE       =    food( 6    , 0.6f  , 40    , 1f    , 0     , 1f    , 0     , 0     );
-    public static final GTMFOFoodStats SANDWICH_BACON        =    food( 6    , 0.7f  , 40    , 0     , 0     , 1f    , 1f    , 0     );
+    public static final GTMFOFoodStats SANDWICH_BACON        = builder( 6    , 0.7f  , 0     , 0     , 1f    , 1f    , 0     ).effect(()->new MobEffectInstance(GTMFOEffects.STEP_ASSIST.get(),1200,0),1f).build();
     public static final GTMFOFoodStats SANDWICH_STEAK        =    food( 7    , 0.7f  , 40    , 0     , 0     , 1f    , 1f    , 0     );
     public static final GTMFOFoodStats SANDWICH_TOAST        =    food( 6    , 0.5f  , 32    , 0     , 0     , 1.5f  , 0     , 0     );
     public static final GTMFOFoodStats SANDWICH_VEGGIE_LARGE =    food( 9    , 0.6f  , 60    , 0     , 0     , 1f    , 0     , 2f    );
@@ -186,22 +188,22 @@ public class Foods {
     public static final GTMFOFoodStats SAUSAGE               =    food( 4    , 0.7f  , 32    , 0     , 0     , 0.25f , 1f    , 0     );
     public static final GTMFOFoodStats NILK                  = builder( 6    , 4f    , 3f    , 0     , 0     , 1f    , 0     ).drink().alwaysEat().effect(MobEffects.CONFUSION,1000,0,0.8f).effect(MobEffects.REGENERATION,200,2,0.6f).item(Items.GLASS_BOTTLE::getDefaultInstance).build();
 
-    //public static final GTMFOFoodStats BRUSCHETTA            =    food( 6    , 0.5f  , 32    , 0     , 1f    , 1f    , 0.5f  , 1f    );
-    //public static final GTMFOFoodStats CAPONATA              =    food( 6    , 0.9f  , 32    , 0     , 0     , 0     , 0     , 2f    );
+    public static final GTMFOFoodStats BRUSCHETTA            = builder( 6    , 0.5f  , 0     , 1f    , 1f    , 0.5f  , 1f    ).effect(()->new MobEffectInstance(GTMFOEffects.AMPLIFIER.get(),400,0),0.25f).build();
+    public static final GTMFOFoodStats CAPONATA              = builder( 6    , 0.9f  , 0     , 0     , 0     , 0     , 2f    ).effect(()->new MobEffectInstance(GTMFOEffects.LENGTHENER.get(),400,0),0.25f).build();
     public static final GTMFOFoodStats CARBONARA             = builder( 9    , 0.8f  , 0.5f  , 0     , 1f    , 1f    , 0     ).effect(MobEffects.HEALTH_BOOST,2000,0,0.75f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats CARCIOFI_ALLA_ROMANA  = builder( 8    , 1.3f  , 0     , 0     , 0     , 0.5f  , 1.5f  ).effect(MobEffects.DAMAGE_BOOST,2000,1,0.95f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats FETTUCCINE_ALFREDO    = builder( 8    , 0.4f  , 0.75f , 0     , 1f    , 0.5f  , 0     ).eatDuration(20).effect(MobEffects.DAMAGE_RESISTANCE,2000,1,0.8f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats PARMIGIANA            = builder( 8    , 1.1f  , 1f    , 0.5f  , 0     , 0.25f , 1f    ).effect(MobEffects.REGENERATION,500,0,0.75f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats PASTA_E_FAGIOLI       = builder( 4    , 2.5f  , 0     , 0     , 1f    , 1.5f  , 1.5f  ).effect(MobEffects.DIG_SPEED,6000,2,0.75f).item(GTMFOItems.CERAMIC_BOWL_DIRTY::asStack).build();
     public static final GTMFOFoodStats PASTA_ALLA_NORMA      = builder( 12   , 0.7f  , 0     , 1f    , 1f    , 0     , 1.25f ).eatDuration(128).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
-    //public static final GTMFOFoodStats PASTA_AL_POMODORO     =    food( 5    , 0.5f  , 32    , 0     , 1.25f , 1f    , 0     , 0.75f );
+    public static final GTMFOFoodStats PASTA_AL_POMODORO     = builder( 5    , 0.5f  , 0     , 1.25f , 1f    , 0     , 0.75f ).effect(()->new MobEffectInstance(GTMFOEffects.AMPLIFIER.get(),320,1),0.5f).build();
     public static final GTMFOFoodStats POLENTA               = builder( 6    , 0.4f  , 0     , 0.75f , 0.75f , 0.75f , 0     ).effect(MobEffects.SATURATION,20,0,0.5f).item(GTMFOItems.CERAMIC_BOWL_DIRTY::asStack).build();
     public static final GTMFOFoodStats RAFANATA              = builder( 7    , 1f    , 0     , 0     , 1f    , 0.5f  , 0.75f ).effect(MobEffects.JUMP,1000,0,0.8f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats RISOTTO               = builder( 10   , 0.8f  , 1f    , 0.25f , 1f    , 0.75f , 0.75f ).effect(MobEffects.MOVEMENT_SPEED,10000,1,1f).item(GTMFOItems.CERAMIC_BOWL_DIRTY::asStack).build();
     public static final GTMFOFoodStats SPAGHETTI_ALLASSASSINA= builder( 6    , 0.8f  , 0     , 0.75f , 1f    , 0     , 0     ).effect(MobEffects.DAMAGE_BOOST,60,10,0.6f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats TAGLIATELLE_AL_RAGU   = builder( 14   , 0.7f  , 0.75f , 0.5f  , 0     , 1.25f , 1f    ).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats TORTELLINI_IN_BRODO   = builder( 10   , 0.5f  , 0     , 0     , 0     , 1.75f , 1.75f ).item(GTMFOItems.CERAMIC_BOWL_DIRTY::asStack).build();
-    //public static final GTMFOFoodStats VITELLO_TONNATO       =    food( 10   , 1f    , 32    , 0     , 0     , 0     , 2.5f  , 1.5f  );
+    public static final GTMFOFoodStats VITELLO_TONNATO       =    food( 10   , 1f    , 32    , 0     , 0     , 0     , 2.5f  , 1.5f  );
     public static final GTMFOFoodStats LASAGNA_CHUM          = builder( 9    , 0.7f  , 0.5f  , 0.5f  , 1f    , 0.5f  , 0     ).eatDuration(64).effect(MobEffects.LUCK,6000,0,0.8f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats LASAGNA_NAPOLETANA    = builder( 11   , 0.7f  , 0.5f  , 0.75f , 1f    , 1f    , 0.25f ).eatDuration(64).effect(MobEffects.NIGHT_VISION,6000,0,0.9f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();
     public static final GTMFOFoodStats LASAGNA_PESTO         = builder( 15   , 0.7f  , 1f    , 0     , 1f    , 1f    , 0.25f ).eatDuration(64).effect(MobEffects.FIRE_RESISTANCE,6000,0,1f).item(GTMFOItems.CERAMIC_PLATE_DIRTY::asStack).build();

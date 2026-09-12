@@ -51,6 +51,19 @@ public class GTMFORecipeTypes {
             .setSlotOverlay(false,true,GuiTextures.HEATING_OVERLAY_1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT);
 
+    public static final GTRecipeType MOB_EXTRACTOR_RECIPES = GTRecipeTypes.register("mob_extractor",GTRecipeTypes.ELECTRIC)
+            .setMaxIOSize(1,1,0,1)
+            .setEUIO(IO.IN)
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .setSlotOverlay(false,false,GuiTextures.INT_CIRCUIT_OVERLAY)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GREENHOUSE_RECIPES = GTRecipeTypes.register("greenhouse",GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4,4,1,1)
+            .setEUIO(IO.IN)
+            .setSound(GTSoundEntries.COOLING)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+
 
     //multi_block
     public static final GTRecipeType BAKING_OVEN_RECIPES = GTRecipeTypes.register("baking_oven",GTRecipeTypes.MULTIBLOCK)

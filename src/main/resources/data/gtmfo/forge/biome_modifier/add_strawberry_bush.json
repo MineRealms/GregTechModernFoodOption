@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_strawberry_bush",
+  "features": "gtmfo:patch_strawberry_common",
+  "step": "vegetal_decoration"
+}

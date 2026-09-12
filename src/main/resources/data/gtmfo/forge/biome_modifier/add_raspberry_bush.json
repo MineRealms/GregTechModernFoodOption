@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_raspberry_bush",
+  "features": "gtmfo:patch_raspberry_common",
+  "step": "vegetal_decoration"
+}

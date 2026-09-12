@@ -62,6 +62,15 @@ public class GTMFOFoodStats extends FoodStats {
                 }
             }
         }
+        // lacing: food items carrying the tag apply an extra effect
+        if (food.hasTag() && food.getTag().contains(com.ironsword.gtmfo.common.data.GTMFOLacing.NBT_KEY)) {
+            int index = food.getTag().getInt(com.ironsword.gtmfo.common.data.GTMFOLacing.NBT_KEY);
+            var entries = com.ironsword.gtmfo.common.data.GTMFOLacing.ENTRIES;
+            if (index >= 0 && index < entries.size()) {
+                var entry = entries.get(index);
+                livingEntity.addEffect(new MobEffectInstance(entry.effect(), entry.duration(), entry.amplifier()));
+            }
+        }
         return super.finishUsingItem(food, level, livingEntity);
     }
 

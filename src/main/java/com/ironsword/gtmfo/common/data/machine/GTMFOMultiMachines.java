@@ -14,11 +14,34 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.ironsword.gtmfo.GregTechModernFoodOption;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
+import com.ironsword.gtmfo.common.machine.GreenhouseMachine;
+import com.ironsword.gtmfo.common.machine.PrimitiveBakingOvenMachine;
 
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.ironsword.gtmfo.common.registry.GTMFORegistries.REGISTRATE;
 
 public class GTMFOMultiMachines {
+
+    public static final MultiblockMachineDefinition PRIMITIVE_BAKING_OVEN = REGISTRATE
+            .multiblock("primitive_baking_oven", PrimitiveBakingOvenMachine::new)
+            .langValue("Primitive Baking Oven")
+            .rotationState(RotationState.ALL)
+            .recipeType(GTMFORecipeTypes.BAKING_OVEN_RECIPES)
+            .appearanceBlock(GTMFOBlocks.ADOBE_BRICKS)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("XXX", "XXX")
+                    .aisle("XFX", "X#X")
+                    .aisle("XYX", "XXX")
+                    .where('X', Predicates.blocks(GTMFOBlocks.ADOBE_BRICKS.get()))
+                    .where('F', Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Iron))
+                            .or(Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Bronze))))
+                    .where('#', Predicates.air())
+                    .where('Y', Predicates.controller(Predicates.blocks(definition.getBlock())))
+                    .build())
+            .workableCasingModel(
+                    GregTechModernFoodOption.id("block/adobe_bricks"),
+                    GTCEu.id("block/machines/baking_oven"))
+            .register();
 
     public static final MultiblockMachineDefinition ELECTRIC_BAKING_OVEN = REGISTRATE
             .multiblock("electric_baking_oven", WorkableElectricMultiblockMachine::new)
@@ -66,9 +89,39 @@ public class GTMFOMultiMachines {
                     GTCEu.id("block/machines/baking_oven"))
             .register();
 
+    public static final MultiblockMachineDefinition GREENHOUSE = REGISTRATE
+            .multiblock("greenhouse", GreenhouseMachine::new)
+            .langValue("Greenhouse")
+            .rotationState(RotationState.ALL)
+            .recipeType(GTMFORecipeTypes.GREENHOUSE_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCCCCCC", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG")
+                    .aisle("CDDDDDC", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "GGGGGGG")
+                    .aisle("CDDDDDC", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "GGGGGGG")
+                    .aisle("CDDDDDC", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "GGGGGGG")
+                    .aisle("CDDDDDC", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "GGGGGGG")
+                    .aisle("CDDDDDC", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "G#####G", "GGGGGGG")
+                    .aisle("CCCYCCC", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG", "GGGGGGG")
+                    .where('C', Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .setMinGlobalLimited(20)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                    .where('G', Predicates.blocks(GTMFOBlocks.GREENHOUSE_GLASS.get()))
+                    .where('D', Predicates.blocks(net.minecraft.world.level.block.Blocks.DIRT,
+                            net.minecraft.world.level.block.Blocks.GRASS_BLOCK))
+                    .where('#', Predicates.air())
+                    .where('Y', Predicates.controller(Predicates.blocks(definition.getBlock())))
+                    .build())
+            .workableCasingModel(
+                    GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/machines/greenhouse"))
+            .register();
+
     public static void init(){
         GTMFOMachines.addJEILang("baking_oven","Baking Oven","烤炉");
+        GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".primitive_baking_oven","原始烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".electric_baking_oven","电力烤炉");
         GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".steam_baking_oven","蒸汽烤炉");
+        GTMFOMachines.CNLangMap.put("block."+GregTechModernFoodOption.MODID+".greenhouse","温室");
     }
 }

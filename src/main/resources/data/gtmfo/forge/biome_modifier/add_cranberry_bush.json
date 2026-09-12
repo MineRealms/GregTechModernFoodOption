@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_cranberry_bush",
+  "features": "gtmfo:patch_cranberry_common",
+  "step": "vegetal_decoration"
+}

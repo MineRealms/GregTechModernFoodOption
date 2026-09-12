@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_lingonberry_bush",
+  "features": "gtmfo:patch_lingonberry_common",
+  "step": "vegetal_decoration"
+}

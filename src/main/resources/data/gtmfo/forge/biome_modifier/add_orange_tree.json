@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_orange_tree",
+  "features": "gtmfo:orange_tree",
+  "step": "vegetal_decoration"
+}

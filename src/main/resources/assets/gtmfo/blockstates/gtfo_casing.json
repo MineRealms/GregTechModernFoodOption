@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "variant=adobe_bricks": {
+      "model": "gtmfo:block/casing_adobe_bricks"
+    },
+    "variant=reinforced_adobe_bricks": {
+      "model": "gtmfo:block/casing_reinforced_adobe_bricks"
+    },
+    "variant=porcelain_tile": {
+      "model": "gtmfo:block/casing_porcelain_tile"
+    },
+    "variant=dark_porcelain_tile": {
+      "model": "gtmfo:block/casing_dark_porcelain_tile"
+    }
+  }
+}

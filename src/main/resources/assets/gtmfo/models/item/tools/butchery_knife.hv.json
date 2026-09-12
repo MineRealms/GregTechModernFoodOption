@@ -1,0 +1,7 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "gtmfo:item/tools/power_unit_hv_advanced",
+    "layer1": "gtmfo:item/tools/butchery_knife_electric"
+  }
+}

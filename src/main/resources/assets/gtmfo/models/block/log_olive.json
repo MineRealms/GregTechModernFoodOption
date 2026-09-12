@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "gtmfo:block/logs/olive_top",
+    "side": "gtmfo:block/logs/olive_side"
+  }
+}

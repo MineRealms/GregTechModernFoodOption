@@ -1,0 +1,6 @@
+{
+  "parent": "gtmfo:block/crop_cross",
+  "textures": {
+    "cross": "gtmfo:crop/crop_artichoke/stage3"
+  }
+}

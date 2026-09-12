@@ -1,0 +1,7 @@
+{
+  "parent": "gtmfo:block/small_berry_bush",
+  "textures": {
+    "all": "gtmfo:block/berry/ungrown",
+    "particle": "#all"
+  }
+}

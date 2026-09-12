@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "gtmfo:item/tools/rolling_pin"
+  }
+}

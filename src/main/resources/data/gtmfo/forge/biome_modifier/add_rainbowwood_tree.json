@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtmfo:has_rainbowwood_tree",
+  "features": "gtmfo:rainbowwood_tree",
+  "step": "vegetal_decoration"
+}

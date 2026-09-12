@@ -1,0 +1,18 @@
+{
+  "feature": "gtmfo:patch_blackberry_bush",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "gtmfo:crop_blackberry",
+          "Properties": {
+            "age": "0",
+            "efficiency": "0"
+          }
+        }
+      }
+    }
+  ]
+}

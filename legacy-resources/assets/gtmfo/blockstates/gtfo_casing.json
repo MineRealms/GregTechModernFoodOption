@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all"
+  },
+  "variants": {
+    "variant": {
+      "adobe_bricks": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/adobe_bricks"
+        }
+      },
+      "reinforced_adobe_bricks": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/reinforced_adobe_bricks"
+        }
+      },
+      "porcelain_tile": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/porcelain_tile"
+        }
+      },
+      "dark_porcelain_tile": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/dark_porcelain_tile"
+        }
+      }
+    }
+  }
+}

@@ -5,21 +5,33 @@ import com.ironsword.gtmfo.api.capability.NutrientsTracker;
 import com.ironsword.gtmfo.api.capability.forge.GTMFOCapability;
 import com.ironsword.gtmfo.common.command.NutrientCommands;
 import com.ironsword.gtmfo.common.data.GTMFOEffects;
+import com.ironsword.gtmfo.common.data.GTMFOCrops;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = GregTechModernFoodOption.MODID, bus =  Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonEventListener {
@@ -87,5 +99,35 @@ public class ForgeCommonEventListener {
 //            }
 //        }
 //    }
+
+    /**
+     * Plants GTFO crops when a registered seed is right-clicked on farmland (or water for rice).
+     */
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        ItemStack stack = event.getItemStack();
+        if (stack.isEmpty()) return;
+        Block crop = GTMFOCrops.getCropFor(stack.getItem());
+        if (crop == null) return;
+
+        Level level = event.getLevel();
+        BlockPos pos = event.getPos();
+        BlockState clicked = level.getBlockState(pos);
+        BlockPos above = pos.above();
+
+        boolean onFarmland = clicked.is(Blocks.FARMLAND) && level.getBlockState(above).isAir();
+        boolean onWater = clicked.getFluidState().is(FluidTags.WATER) && level.getBlockState(above).isAir();
+        if (!onFarmland && !onWater) return;
+
+        if (!level.isClientSide) {
+            level.setBlock(above, crop.defaultBlockState(), 3);
+            Player player = event.getEntity();
+            if (player == null || !player.isCreative()) {
+                stack.shrink(1);
+            }
+        }
+        event.setCanceled(true);
+        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+    }
 
 }

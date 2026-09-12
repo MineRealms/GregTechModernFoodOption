@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "gtmfo:block/logs/apricot_top",
+    "side": "gtmfo:block/logs/apricot_side"
+  }
+}
