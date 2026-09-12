@@ -109,8 +109,7 @@ public class GTMFOMultiMachines {
                             .setMinGlobalLimited(20)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('G', Predicates.blocks(GTMFOBlocks.GREENHOUSE_GLASS.get()))
-                    .where('D', Predicates.blocks(net.minecraft.world.level.block.Blocks.DIRT,
-                            net.minecraft.world.level.block.Blocks.GRASS_BLOCK))
+                    .where('D', GreenhouseMachine.soilPredicate())
                     .where('#', Predicates.air())
                     .where('Y', Predicates.controller(Predicates.blocks(definition.getBlock())))
                     .build())
