@@ -89,6 +89,12 @@ public class AlcoholRecipes {
                 .inputFluids(GTMFOFluids.PressedWhiteWort.getFluid(1000))
                 .outputFluids(GTMFOFluids.ClarifiedWhiteWort.getFluid(800), GTMaterials.Biomass.getFluid(200))
                 .EUt(16).duration(200).save(provider);
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.FERMENTING_RECIPES.recipeBuilder(id("white_wine_easy"))
+                    .inputFluids(GTMFOFluids.MaceratedWhiteGrapes.getFluid(8000))
+                    .outputFluids(GTMFOFluids.WhiteWine.getFluid(2000))
+                    .EUt(4).duration(8000).save(provider);
+        }
         GTRecipeTypes.FERMENTING_RECIPES.recipeBuilder(id("white_wine"))
                 .inputFluids(GTMFOFluids.ClarifiedWhiteWort.getFluid(8000))
                 .outputFluids(GTMFOFluids.WhiteWine.getFluid(8000))

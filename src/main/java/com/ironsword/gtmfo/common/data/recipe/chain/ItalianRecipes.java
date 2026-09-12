@@ -44,6 +44,14 @@ public class ItalianRecipes {
                 .outputItems(GTMFOItems.PASTA_DOUGH.asStack())
                 .EUt(30).duration(600).save(provider);
 
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("pasta_dough_egg_easy"))
+                    .inputItems(TagPrefix.dust, GTMaterials.Wheat, 2)
+                    .inputFluids(GTMFOFluids.Egg.getFluid(400), GTMaterials.Air.getFluid(600))
+                    .circuitMeta(2)
+                    .outputItems(GTMFOItems.PASTA_DOUGH_EGG.asStack())
+                    .EUt(30).duration(1200).save(provider);
+        }
         GTRecipeTypes.BENDER_RECIPES.recipeBuilder(id("shape_pasta_blank"))
                 .inputItems(TagPrefix.plate, GTMaterials.Bronze, 4)
                 .circuitMeta(4)
@@ -148,6 +156,29 @@ public class ItalianRecipes {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(GTMFOItems.DITALINI.asStack())
                 .EUt(16).duration(600).save(provider);
+
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(id("tagliatelle_easy"))
+                    .inputItems(GTMFOItems.TAGLIATELLE_RAW.asStack())
+                    .inputFluids(GTMFOFluids.HeatedWater.getFluid(1000))
+                    .outputItems(GTMFOItems.TAGLIATELLE.asStack())
+                    .EUt(24).duration(1500).save(provider);
+            GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(id("spaghetti_easy"))
+                    .inputItems(GTMFOItems.SPAGHETTI_RAW.asStack())
+                    .inputFluids(GTMFOFluids.HeatedWater.getFluid(1000))
+                    .outputItems(GTMFOItems.SPAGHETTI.asStack())
+                    .EUt(24).duration(1500).save(provider);
+            GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(id("rigatoni_easy"))
+                    .inputItems(GTMFOItems.RIGATONI_RAW.asStack())
+                    .inputFluids(GTMFOFluids.HeatedWater.getFluid(1000))
+                    .outputItems(GTMFOItems.RIGATONI.asStack())
+                    .EUt(24).duration(1500).save(provider);
+            GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(id("ditalini_easy"))
+                    .inputItems(GTMFOItems.DITALINI_RAW.asStack())
+                    .inputFluids(GTMFOFluids.HeatedWater.getFluid(1000))
+                    .outputItems(GTMFOItems.DITALINI.asStack())
+                    .EUt(24).duration(1500).save(provider);
+        }
     }
 
     private static void italianRecipes(Consumer<FinishedRecipe> provider){

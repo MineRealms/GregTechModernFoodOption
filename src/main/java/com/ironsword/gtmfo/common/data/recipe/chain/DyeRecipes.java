@@ -42,5 +42,11 @@ public class DyeRecipes {
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .outputFluids(GTMFOFluids.BlueVitriol.getFluid(1000), GTMaterials.Hydrogen.getFluid(2000))
                 .EUt(16).duration(160).save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("greenhouse_glass"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.CupricHydrogenArsenite))
+                .inputItems(com.gregtechceu.gtceu.common.data.GTBlocks.CASING_TEMPERED_GLASS.asStack())
+                .outputItems(com.ironsword.gtmfo.common.data.GTMFOBlocks.GREENHOUSE_GLASS.asStack())
+                .EUt(24).duration(60).save(provider);
     }
 }

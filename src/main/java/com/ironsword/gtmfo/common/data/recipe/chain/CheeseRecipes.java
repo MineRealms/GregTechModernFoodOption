@@ -62,6 +62,13 @@ public class CheeseRecipes {
                         GTItems.SHAPE_MOLD_BLOCK.asStack())
                 .outputItems(GTMFOItems.CHEDDAR_CURD_MOLD.asStack())
                 .EUt(4).duration(200).save(provider);
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("cheddar_curd_mold_easy"))
+                    .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.CutCurd, 64),
+                            GTItems.SHAPE_MOLD_BLOCK.asStack())
+                    .outputItems(GTMFOItems.CHEDDAR_CURD_MOLD.asStack())
+                    .EUt(4).duration(200).save(provider);
+        }
         GTRecipeTypes.COMPRESSOR_RECIPES.recipeBuilder(id("aged_cheddar_mold"))
                 .inputItems(GTMFOItems.CHEDDAR_CURD_MOLD.asStack())
                 .outputItems(GTMFOItems.CHEDDAR_AGED_MOLD.asStack())
@@ -88,6 +95,13 @@ public class CheeseRecipes {
                 .circuitMeta(1)
                 .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.LargeMozzarellaCurd))
                 .EUt(8).duration(120).save(provider);
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("large_mozzarella_curd_easy"))
+                    .inputFluids(GTMaterials.Milk.getFluid(6000), GTMFOFluids.CrudeRennetSolution.getFluid(1))
+                    .circuitMeta(2)
+                    .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.LargeMozzarellaCurd))
+                    .EUt(8).duration(1200).save(provider);
+        }
         GTMFORecipeTypes.SLICER_RECIPES.recipeBuilder(id("small_mozzarella_curd"))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMFOMaterials.LargeMozzarellaCurd))
                 .notConsumable(GTMFOItems.SLICER_BLADE_STRIPES.asStack())
@@ -180,6 +194,13 @@ public class CheeseRecipes {
                 .notConsumable(TagPrefix.rod, GTMaterials.StainlessSteel)
                 .outputItems(GTMFOItems.GORGONZOLA_WHEEL_PUNCTURED.asStack())
                 .EUt(32).duration(90).save(provider);
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("gorgonzola_wheel_punctured_easy"))
+                    .inputItems(GTMFOItems.GORGONZOLA_WHEEL.asStack())
+                    .notConsumable(TagPrefix.rod, GTMaterials.StainlessSteel)
+                    .outputItems(GTMFOItems.GORGONZOLA_WHEEL_PUNCTURED.asStack())
+                    .EUt(32).duration(1000).save(provider);
+        }
         GTRecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(id("gorgonzola_wheel_fully_cured"))
                 .inputItems(GTMFOItems.GORGONZOLA_WHEEL_PUNCTURED.asStack())
                 .inputFluids(GTMFOFluids.ColdMoistAir.getFluid(500))
@@ -202,6 +223,13 @@ public class CheeseRecipes {
                 .circuitMeta(1)
                 .outputFluids(GTMFOFluids.UnpasteurizedSkimmedMilk.getFluid(800))
                 .EUt(24).duration(100).save(provider);
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoChainsConfig.makeChainsHarder) {
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("parmigiano_reggiano_starter_easy"))
+                    .inputItems(TagPrefix.dustTiny, GTMaterials.Copper)
+                    .inputFluids(GTMFOFluids.UnpasteurizedSkimmedMilk.getFluid(1000))
+                    .outputFluids(GTMFOFluids.ParmigianoReggianoStarter.getFluid(1000))
+                    .EUt(16).duration(500).save(provider);
+        }
         GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("parmigiano_reggiano_starter"))
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Copper)
                 .inputFluids(GTMFOFluids.UnpasteurizedSkimmedMilk.getFluid(500), GTMFOFluids.Whey.getFluid(500))
