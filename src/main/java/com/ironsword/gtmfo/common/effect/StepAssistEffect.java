@@ -24,6 +24,7 @@ public class StepAssistEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoPotionConfig.stepAssist) return;
         if (entity instanceof Player player) {
             if (player.isShiftKeyDown()) {
                 player.setMaxUpStep(0.9F);

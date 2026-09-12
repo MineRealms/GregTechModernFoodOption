@@ -22,6 +22,7 @@ public class CreativeFlyEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoPotionConfig.creativity) return;
         if (entity instanceof Player player) {
             if (!player.getAbilities().mayfly) {
                 player.getAbilities().mayfly = true;

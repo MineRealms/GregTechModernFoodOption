@@ -2,6 +2,7 @@ package com.ironsword.gtmfo.common.data;
 
 import com.ironsword.gtmfo.api.item.component.GTMFOFoodStats;
 import com.ironsword.gtmfo.common.data.GTMFOEffects;
+import com.ironsword.gtmfo.GTMFOConfigHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,7 +31,7 @@ public class Foods {
     public static final GTMFOFoodStats APPLE_CORED           = builder( 4    , 0.3f  , 0     , 1f    , 0     , 0     , 0     ).eatDuration(24).build();
     public static final GTMFOFoodStats APPLE_SLICE           = builder( 1    , 0.1f  , 0     , 1f    , 0     , 0     , 0     ).build();
     public static final GTMFOFoodStats APPLE_TUNGSTENSTEEL   = builder( 3    , 1f    , 0     , 1f    , 0     , 0     , 0     ).eatDuration(80).effect(MobEffects.MOVEMENT_SPEED,1200,2,1f).effect(MobEffects.DAMAGE_RESISTANCE,1200,3,1f).effect(MobEffects.NIGHT_VISION,3600,2,0.6f).effect(MobEffects.HARM,1,1,1f).build();
-    public static final GTMFOFoodStats APPLE_CANDY           = builder( 1    , 1f    , 0     , 0.5f  , 0     , 0     , 0     ).eatDuration(24).effect(MobEffects.REGENERATION,1200,1,0.5f).build();
+    public static final GTMFOFoodStats APPLE_CANDY           = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.hardCandyHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.hardCandySaturation, 0     , 0.5f  , 0     , 0     , 0     ).eatDuration(24).effect(MobEffects.REGENERATION,1200,1,0.5f).build();
 
     //berry
     public static final GTMFOFoodStats BERRY                 = builder( 1    , 0.5f  , 0     , 1f    , 0     , 0     , 0     ).build();
@@ -41,7 +42,7 @@ public class Foods {
     public static final GTMFOFoodStats BUN                   = builder( 1    , 1f    , 0     , 0     , 1f    , 0     , 0     ).eatDuration(25).build();
     public static final GTMFOFoodStats BUN_SLICED            = builder( 0    , 0     , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(20).build();
     public static final GTMFOFoodStats BREAD_SLICED          = builder( 1    , 1f    , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(20).build();
-    public static final GTMFOFoodStats BAGUETTE              = builder( 2    , 1f    , 0     , 0     , 1f    , 0     , 0     ).eatDuration(40).effect(MobEffects.DIG_SPEED,1200,0,0.5f).build();
+    public static final GTMFOFoodStats BAGUETTE              = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.baguetteHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.baguetteSaturation, 0     , 0     , 1f    , 0     , 0     ).eatDuration(40).effect(MobEffects.DIG_SPEED,1200,0,0.5f).build();
     public static final GTMFOFoodStats BAGUETTE_SLICED       = builder( 1    , 1f    , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(20).build();
     public static final GTMFOFoodStats BREAD_SLICE           = builder( 1    , 0.5f  , 0     , 0     , 1f    , 0     , 0     ).build();
     public static final GTMFOFoodStats TOAST                 = builder( 2    , 0.5f  , 0     , 0     , 1.5f  , 0     , 0     ).build();
@@ -86,11 +87,11 @@ public class Foods {
 
     //potato
     public static final GTMFOFoodStats CHIPS_SYALS           = builder( 1    , 0.25f , 0     , 0     , 0.5f  , 0     , 0     ).effect(MobEffects.LEVITATION,300,1,1f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
-    public static final GTMFOFoodStats CHIPS_BAG             = builder( 2    , 0.5f  , 0     , 0     , 0.5f  , 0     , 0     ).effect(MobEffects.DIG_SPEED,600,1,1f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
+    public static final GTMFOFoodStats CHIPS_BAG             = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.chipHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.chipSaturation, 0     , 0     , 0.5f  , 0     , 0     ).effect(MobEffects.DIG_SPEED,600,1,1f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
     public static final GTMFOFoodStats CHIPS_KETTLE          = builder( 3    , 0.5f  , 0     , 0     , 1f    , 0     , 0     ).effect(MobEffects.DIG_SPEED,900,1,1f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
     public static final GTMFOFoodStats CHIPS_REDUCED_FAT     = builder( 2    , 1.5f  , 0     , 0     , 1.5f  , 0     , 0     ).eatDuration(20).effect(MobEffects.DIG_SPEED,1200,1,1f).effect(MobEffects.DIG_SPEED,1200,2,0.5f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
     public static final GTMFOFoodStats CHIPS_NAQUADAH        = builder( 2    , 0.5f  , 0     , 0     , 1f    , 0     , 1f    ).alwaysEat().effect(MobEffects.BLINDNESS,500,0,1f).item(GTMFOItems.CHIPS_BAG_EMPTY::asStack).build();
-    public static final GTMFOFoodStats FRENCH_FRIES          = builder( 3    , 0     , 0     , 0     , 1f    , 0     , 0     ).eatDuration(20).effect(MobEffects.DAMAGE_BOOST,1200,1,1f).item(GTMFOItems.PAPER_BAG_USED::asStack).build();
+    public static final GTMFOFoodStats FRENCH_FRIES          = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.friesHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.friesSaturation, 0     , 0     , 1f    , 0     , 0     ).eatDuration(20).effect(MobEffects.DAMAGE_BOOST,1200,1,1f).item(GTMFOItems.PAPER_BAG_USED::asStack).build();
     public static final GTMFOFoodStats POTATO_STICK_ROASTED  = builder( 3    , 0.8f  , 0     , 0     , 1f    , 0     , 0     ).eatDuration(12).item(Items.STICK::getDefaultInstance).build();
 
 
@@ -98,10 +99,10 @@ public class Foods {
     public static final GTMFOFoodStats PORCHETTA             =    food( 7    , 0.7f  , 50    , 0     , 0     , 0     , 0.5f  , 0.1f  );
 
     //public static final GTMFOFoodStats MINERAL_WATER         =    food( 0    , 0     , 32    , 0     , 0     , 0     , 0     , 0     );
-    public static final GTMFOFoodStats SPARKLING_WATER       = builder( 1    , 1f    , 0     , 0     , 0     , 0     , 0     ).drink().effect(MobEffects.MOVEMENT_SPEED,600,1,1f).item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
-    public static final GTMFOFoodStats LEMON                 =    food( 1    , 0.5f  , 32    , 0     , 1f    , 0     , 0     , 0     );
-    public static final GTMFOFoodStats LIME                  =    food( 1    , 0.5f  , 32    , 0     , 1f    , 0     , 0     , 0     );
-    public static final GTMFOFoodStats ETIRPS                = builder( 0    , 0     , 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().effect(MobEffects.MOVEMENT_SPEED,1200,2,1f).build();
+    public static final GTMFOFoodStats SPARKLING_WATER       = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.sparklingWaterHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.sparklingWaterSaturation, 0     , 0     , 0     , 0     , 0     ).drink().effect(MobEffects.MOVEMENT_SPEED,600,1,1f).item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
+    public static final GTMFOFoodStats LEMON                 =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
+    public static final GTMFOFoodStats LIME                  =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
+    public static final GTMFOFoodStats ETIRPS                = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.etirpsHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.etirpsSaturation, 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().effect(MobEffects.MOVEMENT_SPEED,1200,2,1f).build();
     public static final GTMFOFoodStats BACON                 =    food( 2    , 0.8f  , 24    , 0     , 0     , 0     , 1f    , 0     );
 
     public static final GTMFOFoodStats CAKE_BOTTOM           = builder( 2    , 0.5f  , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(60).effect(MobEffects.POISON,200,1,0.2f).build();

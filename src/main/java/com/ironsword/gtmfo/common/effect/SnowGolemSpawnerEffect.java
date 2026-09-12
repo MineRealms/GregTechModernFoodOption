@@ -29,6 +29,7 @@ public class SnowGolemSpawnerEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
+        if (!com.ironsword.gtmfo.GTMFOConfigHolder.INSTANCE.gtfoPotionConfig.snowGolemSpawner) return;
         if (entity.level().isClientSide) return;
         if (entity.getRandom().nextInt(100 / (amplifier + 1)) != 0) return;
 
