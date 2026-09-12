@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "gtmfo:block/pizzabox/pizzabox_side",
+    "top": "gtmfo:block/pizzabox/pizzabox_mincemeat_top",
+    "bottom": "gtmfo:block/pizzabox/pizzabox_bottom",
+    "side": "gtmfo:block/pizzabox/pizzabox_side"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "down": { "texture": "#bottom" },
+        "up": { "texture": "#top" },
+        "north": { "texture": "#side" },
+        "south": { "texture": "#side" },
+        "west": { "texture": "#side" },
+        "east": { "texture": "#side" }
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.ironsword.gtmfo.GregTechModernFoodOption;
 import com.ironsword.gtmfo.common.block.PizzaBlock;
+import com.ironsword.gtmfo.common.block.PizzaBoxBlock;
 import com.ironsword.gtmfo.common.block.SmogusBlock;
 import com.ironsword.gtmfo.common.block.SmoreBlock;
 import com.ironsword.gtmfo.data.GTMFOProviderTypes;
@@ -109,9 +110,27 @@ public class GTMFOBlocks {
             .simpleItem()
             .register();
 
+    private static BlockEntry<PizzaBoxBlock> pizzaBox(String id, String topTexture, java.util.function.Supplier<? extends net.minecraft.world.level.block.Block> pizzaBlock, String enLang, String cnLang){
+        return REGISTRATE.<PizzaBoxBlock>block(id, p -> new PizzaBoxBlock(p, pizzaBlock))
+                .initialProperties(() -> Blocks.OAK_PLANKS)
+                .lang(enLang)
+                .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) ->
+                        prov.add(ctx.get().getDescriptionId(), cnLang))
+                .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.getEntry())
+                        .partialState().setModels(net.minecraftforge.client.model.generators.ConfiguredModel.builder()
+                                .modelFile(prov.models().getExistingFile(GregTechModernFoodOption.id("block/" + id)))
+                                .build()))
+                .simpleItem()
+                .register();
+    }
+
     public static final BlockEntry<PizzaBlock> PIZZA_CHEESE = pizza("pizza_cheese","block/pizza/top_2","block/pizza/cheese","item/pizza/cheese","Cheese Pizza"            ,"芝士披萨"    );
     public static final BlockEntry<PizzaBlock> PIZZA_MEAT   = pizza("pizza_meat"  ,"block/pizza/top_1","block/pizza/meat"  ,"item/pizza/meat"  ,"Mince Meat Pizza"        ,"肉末披萨"    );
     public static final BlockEntry<PizzaBlock> PIZZA_VEGGIE = pizza("pizza_veggie","block/pizza/top_2","block/pizza/veggie","item/pizza/veggie","Olive and Mushroom Pizza","橄榄蘑菇披萨");
+
+    public static final BlockEntry<PizzaBoxBlock> PIZZA_BOX_CHEESE = pizzaBox("pizza_box_cheese", "pizzabox_cheese_top", PIZZA_CHEESE, "Cheese Pizza Box", "芝士披萨盒");
+    public static final BlockEntry<PizzaBoxBlock> PIZZA_BOX_MEAT = pizzaBox("pizza_box_mincemeat", "pizzabox_mincemeat_top", PIZZA_MEAT, "Mince Meat Pizza Box", "肉末披萨盒");
+    public static final BlockEntry<PizzaBoxBlock> PIZZA_BOX_VEGGIE = pizzaBox("pizza_box_veggie", "pizzabox_veggie_top", PIZZA_VEGGIE, "Olive and Mushroom Pizza Box", "橄榄蘑菇披萨盒");
 
 //    public static final BlockEntry<SmoreBlock> SMORE_1 = smore("smore_block_1",0,1,"S1","S1");
 //    public static final BlockEntry<SmoreBlock> SMORE_64 = smore("smore_block_64",5,64,"S1","S1");

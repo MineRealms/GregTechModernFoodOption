@@ -1,11 +1,13 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
 import com.ironsword.gtmfo.common.data.GTMFOItems;
 import com.ironsword.gtmfo.common.data.material.GTMFOFluids;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
@@ -37,6 +39,23 @@ public class PizzaRecipes {
         VanillaRecipeHelper.addShapelessRecipe(provider,id("pizza_veggie_slice"),
                 GTMFOItems.PIZZA_VEGGIE_SLICE.asStack(4),
                 GTMFOBlocks.PIZZA_VEGGIE.asStack());
+
+        // pizza boxes (original ItalianChain packer recipes)
+        GTRecipeTypes.PACKER_RECIPES.recipeBuilder(id("pizza_box_cheese"))
+                .inputItems(GTMFOBlocks.PIZZA_CHEESE.asStack())
+                .inputItems(Items.PAPER, 4)
+                .outputItems(GTMFOBlocks.PIZZA_BOX_CHEESE.asStack())
+                .EUt(16).duration(80).save(provider);
+        GTRecipeTypes.PACKER_RECIPES.recipeBuilder(id("pizza_box_mincemeat"))
+                .inputItems(GTMFOBlocks.PIZZA_MEAT.asStack())
+                .inputItems(Items.PAPER, 4)
+                .outputItems(GTMFOBlocks.PIZZA_BOX_MEAT.asStack())
+                .EUt(16).duration(80).save(provider);
+        GTRecipeTypes.PACKER_RECIPES.recipeBuilder(id("pizza_box_veggie"))
+                .inputItems(GTMFOBlocks.PIZZA_VEGGIE.asStack())
+                .inputItems(Items.PAPER, 4)
+                .outputItems(GTMFOBlocks.PIZZA_BOX_VEGGIE.asStack())
+                .EUt(16).duration(80).save(provider);
 
         GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("pizza_cheese"))
                 .inputItems(
