@@ -909,11 +909,21 @@
 - [x] **温室链**：原版树木（6 种 × 3 电路）+ 橡胶树割胶（4 电路）+ 橡胶液 → 粘性树脂 → 已补
 - [x] **生物提取机**：意大利水牛奶配方（电路 1）+ EU 修正（村民 64 / 马 24）→ 已补
 - [x] **浆果链**：越橘果酱（原版有，现代缺失）→ 已补
-- [ ] **原版覆写链**（`VanillaOverrideChain`，186 行）：配置开关 `vanillaOverrideChain` 控制，未移植
-- [ ] **Caplet 链缺口**：核对 `CHORUS_CAPLET`/`VIBRANT_CAPLET` 等 4 条
-- [ ] **Pasta 链**：已并入 `ItalianRecipes`（419 行），需抽查完整性
+- [x] **原版覆写链**（`VanillaOverrideChain`）→ `VanillaOverrideRecipes`：烤土豆/7 种烤肉（配置）、
+      蘑菇/甜菜/兔肉汤、擀面杖造纸+粘性活塞、金胡萝卜/金苹果重构（纤维骨架 + 氯金酸浴）、
+      钨钢苹果；配方移除（原版熔炼/合成）通过 GTCEu recipe filter，配置门控
+- [x] **Caplet 链缺口**：对乙酰氨基酚完整化学链（硝基苯酚→氨基苯酚→乙酸酐→对乙酰氨基酚）、
+      钚-241/紫颂/活力胶囊 → 已补
+- [x] **makeChainsHarder 配置接线**：奶酪 4 条简单路径 / 白酒简单发酵 / 意面简单和面+热水煮
+      （原版 3 条链共 9 处条件），配置现在真实生效
+- [x] **生产审计（物品被消耗但无生产）**：修复 培根链（切片+烤制）、黄瓜/洋葱/茄子/胡萝卜切片、
+      吐司（烤炉）、意式馄饨、玉米粒（离心+手搓）、披萨刀片（现代新增物品补配方）、温室玻璃
+- [ ] **披萨盒**（`GTFOPizzaBox`，原版方块，未移植；物品栏存储披萨用，低优先级）
+- [ ] **爆米花链**：原版 `POPCORN_BAG`/`FLAVORED_POPCORN_FLAKE` 已有物品但原版配方整段注释（WIP）
 - 说明：`MineralWaterChain`（512 行）、`PopcornChain`（179 行）、`Dewar Flask` 在原版**整段注释**（WIP），未移植属正常
-- 说明：`SmogusChain` 由 `SmoreRecipes`（smogus 组装）+ `ChocolateRecipes`（可可）覆盖，恒星熔炉部分用成型压床替代
+- 说明：`SmogusChain` 由 `SmoreRecipes`（smogus 组装）+ `ChocolateRecipes`（可可）覆盖，恒星熔炉部分用成型压床替代；
+      巧克力精炼（liquor/dutching/press cake）在原版有更多阶段，现代版简化为可可→熔融巧克力
+- 说明：生产审计剩余告警均为误报（作物来自种植、脏容器来自进食返还、面包/干面来自熔炉配方、循环变量输出）
 
 ### P3 — 兼容与打磨
 18. **JEI 集成**（进食/掺加信息页）— 🔄 部分
