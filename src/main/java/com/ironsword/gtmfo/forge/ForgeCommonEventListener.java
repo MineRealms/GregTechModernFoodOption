@@ -143,6 +143,22 @@ public class ForgeCommonEventListener {
     }
 
     /**
+     * Adds legacy item tooltips from the language files ({@code item.gtmfo.<id>.tooltip}).
+     */
+    @SubscribeEvent
+    public static void onItemTooltip(net.minecraftforge.event.entity.player.ItemTooltipEvent event){
+        var stack = event.getItemStack();
+        if (stack.isEmpty()) return;
+        var id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem());
+        if (!id.getNamespace().equals(GregTechModernFoodOption.MODID)) return;
+        String key = "item." + GregTechModernFoodOption.MODID + "." + id.getPath() + ".tooltip";
+        var tooltip = net.minecraft.network.chat.Component.translatable(key);
+        if (!tooltip.getString().equals(key)) {
+            event.getToolTip().add(tooltip.copy().withStyle(net.minecraft.ChatFormatting.GRAY));
+        }
+    }
+
+    /**
      * Plants GTFO crops when a registered seed is right-clicked on farmland (or water for rice).
      */
     @SubscribeEvent
