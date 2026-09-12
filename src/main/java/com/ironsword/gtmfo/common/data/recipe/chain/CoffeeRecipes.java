@@ -69,14 +69,16 @@ public class CoffeeRecipes {
     }
 
     private static void beans(Consumer<FinishedRecipe> provider){
+        // original: cutter turns coffee cherries into seeds
         GTRecipeTypes.CUTTER_RECIPES.recipeBuilder(id("coffee_seed_from_cherry"))
                 .inputItems(GTMFOItems.COFFEE_CHERRY.asStack())
-                .outputItems(GTMFOItems.COFFEE_BEANS_RAW_LARGE.asStack(9))
-                .chancedOutput(GTMFOItems.COFFEE_BEANS_RAW_LARGE.asStack(), 5000, 500)
+                .outputItems(GTMFOItems.SEED_COFFEE.asStack(9))
+                .chancedOutput(GTMFOItems.SEED_COFFEE.asStack(), 5000, 500)
                 .EUt(60).duration(20).save(provider);
 
+        // original: centrifuge sorts seeds into large/small raw beans
         GTRecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(id("coffee_beans_sorted"))
-                .inputItems(GTMFOItems.COFFEE_BEANS_RAW_LARGE.asStack(30))
+                .inputItems(GTMFOItems.SEED_COFFEE.asStack(30))
                 .outputItems(GTMFOItems.COFFEE_BEANS_RAW_LARGE.asStack(9))
                 .chancedOutput(GTMFOItems.COFFEE_BEANS_RAW_LARGE.asStack(), 5000, 200)
                 .outputItems(GTMFOItems.COFFEE_BEANS_RAW_SMALL.asStack(19))

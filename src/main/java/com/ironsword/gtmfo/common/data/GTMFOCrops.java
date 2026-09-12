@@ -76,6 +76,7 @@ public class GTMFOCrops {
 
     public static void init() {
         // === crops ===
+        pair(() -> GTMFOItems.SEED_COFFEE.get(), crop("coffee", () -> GTMFOItems.SEED_COFFEE.get(), () -> GTMFOItems.COFFEE_CHERRY.get()));
         pair(() -> GTMFOItems.CUCUMBER.get(), crop("cucumber", () -> GTMFOItems.CUCUMBER.get(), () -> GTMFOItems.CUCUMBER.get()));
         pair(() -> GTMFOItems.SEED_ONION.get(), rootCrop("onion", () -> GTMFOItems.SEED_ONION.get(), () -> GTMFOItems.ONION.get()));
         pair(() -> GTMFOItems.SEED_SOY.get(), crop("soy", () -> GTMFOItems.SEED_SOY.get(), () -> GTMFOItems.SOYBEAN.get()));

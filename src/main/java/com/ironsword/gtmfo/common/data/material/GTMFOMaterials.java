@@ -112,7 +112,12 @@ public class GTMFOMaterials {
     }
 
     public static void init(){
+        // original GTFOMaterialHandler.onMaterialsInit: material flags
+        GTMaterials.Iron.addFlags(MaterialFlags.GENERATE_FRAME);
         GTMaterials.BismuthBronze.addFlags(MaterialFlags.GENERATE_FRAME);
+        GTMaterials.Aluminium.addFlags(MaterialFlags.GENERATE_DENSE);
+        GTMaterials.StainlessSteel.addFlags(MaterialFlags.GENERATE_DENSE, MaterialFlags.GENERATE_SPRING_SMALL);
+        GTMaterials.Titanium.addFlags(MaterialFlags.GENERATE_DENSE);
         GTMaterials.DistilledWater.setProperty(CleanerProperty.CLEANER, new CleanerProperty(2));
         GTMFOFluids.SodiumStearate.setProperty(CleanerProperty.CLEANER, new CleanerProperty(16));
     }

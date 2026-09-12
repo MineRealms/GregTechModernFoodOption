@@ -153,195 +153,67 @@
 
 ---
 
-## 2. 材料与流体（原版 ~100+ 个，现代版 ~20 个）
+## 2. 材料与流体（已完成 ✅）
+> 本章已于 2026-09-13 用脚本逐条对照原版 `GTFOMaterialHandler` 复核。
 
-### 2.1 缺失的流体材料（按原版 ID 21500-21628 补全）
+### 2.1 流体材料（原版 131 个，ID 21500-21628）
+- [x] **全部 131 个原版材料均已在移植版注册**（`GTMFOFluids` / `GTMFOMaterials`，共 133 个字段）。
+      脚本对比（注册名归一化后）仅 2 个"缺失"，均已核实为无需移植：
+  - `StearicAcid`（21538）— 原版即为注释（连同 FatChain 中的用途），死代码
+  - `AceticAnhydride`（21585）— GTCEu Modern 自带 `GTMaterials.AceticAnhydride`，移植版直接使用
+- 说明：个别字段名与注册名不同（如原版 `UnheatedCaneSyrup` → 移植版 `CaneSyrupUnheated`、
+  `HotFryingOil` → `FryingOilHot`），功能与数值（颜色/温度 483K）一致。
+- 移植版另有 4 个原版没有的材料（新版本内容）：`ChloroauricAcid`、`BerryJam`、`BlueVitriol`、`HotMilk`。
+- 气体：`MoistAir`（273K）/`ColdMoistAir`（243K）已按原版注册为气体。
+- 酸：`ChloroauricAcid` 带 `FluidAttributes.ACID`。
 
-**水果提取液类：**
-- [ ] `ApricotExtract` 杏子提取液
-- [ ] `CranberryExtract` 蔓越莓提取液
-- [ ] `AppleCider` 苹果酒
-- [ ] `AppleSyrup` 苹果糖浆
-- [ ] `AppleCandySyrup` 苹果糖浆（糖果用）
-- [ ] `GrapeExtract` 葡萄汁（已有）
+### 2.2 粉/物品材料（原版多为 `GTFOOredictItem` 物品，非材料）
+> 原版这些"材料"实为 `SHAPED_ITEM.addOreDictItem(...)` 物品；移植版对应为普通物品（`GTMFOItems`）。
 
-**糖浆/甜味类：**
-- [ ] `UnheatedCaneSyrup` 未加热甘蔗糖浆（已有）
-- [ ] `CaneSyrup` 甘蔗糖浆（已有）
-- [ ] `HighFructoseCornSyrupSolution` 高果糖玉米糖浆溶液
-- [ ] `SweetenedDilutedCaneSyrupMixture` 稀释加糖甘蔗糖浆混合物（已有）
-- [ ] `MarshmallowSyrupMixture` 棉花糖糖浆混合物（已有）
-- [ ] `MarshmallowFoam` 棉花糖泡沫（已有）
-
-**油脂/煎炸类：**
-- [ ] `FryingOil` / `HotFryingOil`（已有）
-- [ ] `OliveOil`（已有）
-- [ ] `RawSoybeanOil` 生大豆油
-- [ ] `HydratedSoybeanOil` 水合大豆油
-- [ ] `SoybeanOil` 大豆油
-- [ ] `SoyLecithin` 大豆卵磷脂
-- [ ] `Stearin` 硬脂
-- [ ] `SodiumStearate` 硬脂酸钠
-
-**乳制品类：**
-- [ ] `ItalianBuffaloMilk` 意大利水牛奶
-- [ ] `CrudeRennetSolution` 粗制凝乳酶溶液
-- [ ] `Whey` 乳清
-- [ ] `ActivatedBuffaloMilk` 活化水牛奶
-- [ ] `WheySaltWaterMix` 乳清盐水混合物
-- [ ] `HeatedRicottaStarter` 加热里科塔发酵剂
-- [ ] `AcidicMilkSolution` 酸化牛奶溶液
-- [ ] `CoagulatingRicottaSolution` 凝固里科塔溶液
-- [ ] `PasteurizedMilk` 巴氏杀菌奶
-- [ ] `SkimmedMilk` 脱脂奶
-- [ ] `UnpasteurizedSkimmedMilk` 未杀菌脱脂奶
-- [ ] `MilkColloid` 牛奶胶体
-- [ ] `Cream` 奶油
-- [ ] `SourCream` 酸奶油
-- [ ] `LacticAcidBacteria` 乳酸菌
-- [ ] `Butter`（已有）
-- [ ] `IceCreamMixture` 冰淇淋混合物
-
-**奶酪类：**
-- [ ] `ParmigianoReggianoStarter` 帕马森发酵剂
-- [ ] `CurdlingParmigianoReggiano` 凝固帕马森
-- [ ] `FungalRennetSolution` 真菌凝乳酶溶液
-
-**汤/酱汁类：**
-- [ ] `MushroomSoup` 蘑菇汤
-- [ ] `BeetrootSoup` 甜菜汤
-- [ ] `RabbitStew` 兔肉煲
-- [ ] `TomatoSauce`（已有）
-- [ ] `BologneseSauce` 博洛尼亚酱
-- [ ] `TomatoBologneseSauce` 番茄博洛尼亚酱
-- [ ] `CarbonaraSauce` 培根蛋酱
-- [ ] `Pesto` 青酱
-- [ ] `BechamelSauce` 白酱
-- [ ] `ChickenBroth` 鸡高汤
-- [ ] `VitelloTonnatoSauce` 意式鱼香小牛肉酱
-- [ ] `VitelloTonnatoFlavorant` 风味剂
-- [ ] `Agrodolce` 意式酸甜酱
-- [ ] `Polenta` 玉米糊
-- [ ] `RafanataMixture` 辣根蛋饼混合物
-- [ ] `PastaEFagioliBase` 意面豆汤底
-- [ ] `MixedPastaEFagioli` 混合意面豆汤
-
-**酒精/饮品：**
-- [ ] `Vodka` 伏特加
-- [ ] `Leninade` 列宁檬汁
-- [ ] `WhiteWine` 白葡萄酒
-- [ ] `RedWine` 红葡萄酒
-- [ ] `MaceratedWhiteGrapes` 浸渍白葡萄
-- [ ] `PressedWhiteWort` 压榨白麦芽汁
-- [ ] `ClarifiedWhiteWort` 澄清白麦芽汁
-- [ ] `RedGrapesMust` 红葡萄汁
-- [ ] `FermentedRedGrapesMust` 发酵红葡萄汁
-- [ ] `AlcoholicRedGrapeJuice` 含酒精红葡萄汁
-- [ ] `WheatyJuice` 小麦汁
-- [ ] `PoorQualityBeer` 劣质啤酒
-- [ ] `BeerBatter` 啤酒面糊
-- [ ] `Etirps` 碧雪
-- [ ] `EtirpsCranberry` 蔓越莓碧雪
-- [ ] `CranberrySodaSyrup` 蔓越莓苏打糖浆
-- [ ] `CranberrySludge` 蔓越莓浆
-- [ ] `LemonLimeSodaSyrup` 柠檬酸橙苏打糖浆
-- [ ] `LemonLimeSolution` 柠檬酸橙溶液
-- [ ] `LemonLimeSludge` 柠檬酸橙浆
-- [ ] `CarbonatedWater`（已有）
-- [ ] `PurpleDrink` 紫色饮料
-- [ ] `CoughSyrup` 止咳糖浆
-- [ ] `Nilk` 硅岩风味乳
-
-**咖啡/可可类：**
-- [ ] `Coffee` 咖啡
-- [ ] `EnergizedCoffee` 提神咖啡
-- [ ] `MoltenUnsweetenedChocolate` 熔融无糖巧克力
-- [ ] `CocoaButter` 可可脂
-- [ ] `MoltenDarkChocolate` 熔融黑巧克力
-- [ ] `MoltenMilkChocolate` 熔融牛奶巧克力
-
-**化学/加工类：**
-- [ ] `IsopropylChloride` 异丙基氯
-- [ ] `PerchloricAcid` 高氯酸
-- [ ] `ChloroauricAcid` 氯金酸
-- [ ] `MoistAir` / `ColdMoistAir` 湿空气/冷湿空气
-- [ ] `Sludge` 污泥
-- [ ] `AlkalineExtract` 碱性提取液
-- [ ] `PotatoJuice` 马铃薯汁
-- [ ] `StarchFilledWater` 淀粉水
-- [ ] `CitricAcid` 柠檬酸
-- [ ] `HydrogenCyanide` 氰化氢
-- [ ] `Guaiacol` 愈创木酚
-- [ ] `Acetaldehyde` 乙醛
-- [ ] `Glyoxal` 乙二醛
-- [ ] `GlyoxylicAcid` 乙醛酸
-- [ ] `SodiumArseniteSolution` 亚砷酸钠溶液
-- [ ] `RubberSap` / `RainbowSap` 橡胶树液/彩虹树液
-- [ ] `BlueVitriol` 蓝矾
-- [ ] `BakingSodaSolution` 小苏打溶液
-- [ ] `SodiumSulfate` 硫酸钠（粉）
-- [ ] `Blood` 血
-- [ ] `FertilizerSolution` 肥料溶液
-- [ ] `XPhenothiazineIiPropylChloride` 异丙嗪中间体
-- [ ] `Aniline` 苯胺
-- [ ] `HeatedWater` 加热水
-- [ ] `GelatinSolution` 明胶溶液
-- [ ] `AceticAnhydride` 乙酸酐
-- [ ] `Nitrophenols` 硝基苯酚
-- [ ] `Egg`（已有）
-- [ ] `Albumen` / `Yolk`（已有）
-- [ ] `EnderPearlSolution` 末影珍珠溶液
-- [ ] `EnderSugarSolution` 末影糖溶液
-- [ ] `ChorusJuice` 紫颂果汁
-- [ ] `FermentedChorusJuice` 发酵紫颂果汁
-- [ ] `Antaf` 安塔夫
-- [ ] `VibrantExtract` 活力提取液
-- [ ] `SodiumCarbonateSolution` 碳酸钠溶液
-- [ ] `LingonberryJam` / `ElderberryJam` 越橘/接骨木莓果酱
-- [ ] `CranberrySodaSyrup` 蔓越莓苏打糖浆
-
-### 2.2 缺失的粉/物品材料
-- [ ] `Paracetamol` 对乙酰氨基酚（粉）
-- [ ] `SodiumCyanide`（已有）
-- [ ] `Zest`（已有）
-- [ ] `PotatoStarch` 马铃薯淀粉
-- [ ] `CornStarch` 玉米淀粉
-- [ ] `BoneAsh` 骨灰
-- [ ] `BoneChinaClay` 骨瓷土
-- [ ] `UnfiredPorcelainTile` / `BiscuitPorcelainTile` / `GlazedPorcelainTile` / `BlackGlazedPorcelainTile` 瓷砖系列
-- [ ] `VanillylmandelicAcid` / `VanilglycolicAcid` / `Vanillin` 香草醛系列
-- [ ] `Aminophenol` / `IVNitrophenol` / `IINitrophenol` 药物中间体
-- [ ] `Promethazine` / `Codeine` / `Phenothiazine` / `Diphenylamine` 药物
-- [ ] `CrushedPoppy` 碾碎罂粟
-- [ ] `AmmoniumPerchlorate` / `PotassiumPerchlorate` / `SodiumPerchlorate` / `SodiumChlorate` / `ArsenicTrioxide` / `CupricHydrogenArsenite` / `LithiumOxide` / `LithiumCarbonate` 化学粉
-- [ ] `LargeMozzarellaCurd` / `SmallMozzarellaCurd` / `DriedMozzarellaCurd` / `SolidifiedMozzarellaCurd` / `CoagulatedMilkCurd` / `CutCurd` / `CookedCurd` / `SaltedCurd` / `GorgonzolaCurd` / `PenicilliumRoqueforti` 奶酪凝乳系列
-- [ ] `ToughMeat` / `KubideMeat` / `BargMeat` / `Fat` / `MeatIngot` / `CookedMinceMeat` 肉类中间品
-- [ ] `ShreddedParmesan` / `BlackPepper` / `Nutmeg` / `GratedHorseradishRoot` 调味料
-- [ ] `MashedPotato` 土豆泥（粉状）
-- [ ] `BurntBananaPeel` 烧焦香蕉皮
-- [ ] `HotAppleHardCandy` / `CrushedHardCandy` / `HardCandyPlate` / `HardCandyResin` 糖果系列
-- [ ] `COFFEE_GROUNDS` 咖啡粉 + 咖啡豆 14 阶段中间品
-- [ ] `CHOCOLATE_LIQUOR` 系列 6 种（refined/dutched/pressed）
-- [ ] `PRESS_CAKE` 系列 3 种
-- [ ] `MATTER_MARSHMALLOW` / `MATTER_GRAHAM` 系列 4 种
-- [ ] `CRACKER_GRAHAM_UNGRADED` / `CHUNK_GRAHAM_HOT` / `WAFER_GRAHAM_HOT` 饼干系列
-- [ ] `BareCornKernel` / `CornKernel` 玉米粒系列
-- [ ] `COCOA_HULL` / `COCOA_NIB` 可可中间品
+- [x] `Paracetamol` 对乙酰氨基酚（材料）— 移植版 `GTMFOMaterials.Paracetamol` ✓
+- [x] `SodiumCyanide` / `Zest` — 移植版材料 ✓
+- [x] `PotatoStarch` / `CornStarch` / `BoneAsh` / `BoneChinaClay` — 移植版物品 ✓
+- [x] 瓷砖系列（`UnfiredPorcelainTile`/`BiscuitPorcelainTile`/`GlazedPorcelainTile`/`BlackGlazedPorcelainTile`）— 移植版物品/方块 ✓
+- [x] 香草醛系列（`VanillylmandelicAcid`/`VanilglycolicAcid`/`Vanillin`）— 移植版物品 ✓
+- [x] 药物中间体/药物（`Aminophenol`/`IVNitrophenol`/`IINitrophenol`/`Promethazine`/`Codeine`/`Phenothiazine`/`Diphenylamine`/`CrushedPoppy`）— 移植版物品 ✓
+- [x] 化学粉（`AmmoniumPerchlorate`/`PotassiumPerchlorate`/`SodiumPerchlorate`/`SodiumChlorate`/`ArsenicTrioxide`/`CupricHydrogenArsenite`/`LithiumOxide`/`LithiumCarbonate`）— 移植版物品 ✓
+- [x] 奶酪凝乳系列（`Large/Small/Dried/SolidifiedMozzarellaCurd`、`CoagulatedMilkCurd`、`CutCurd`、`CookedCurd`、`SaltedCurd`、`GorgonzolaCurd`、`PenicilliumRoqueforti`）— 移植版物品 ✓
+- [x] 肉类中间品（`ToughMeat`/`KubideMeat`/`BargMeat`/`Fat`/`MeatIngot`/`CookedMinceMeat`）— 移植版物品 ✓
+- [x] 调味料（`ShreddedParmesan`/`BlackPepper`/`Nutmeg`/`GratedHorseradishRoot`）— 移植版物品 ✓
+- [x] `MashedPotato` / `BurntBananaPeel` — 移植版物品 ✓
+- [x] 糖果系列（`HotAppleHardCandy`/`CrushedHardCandy`/`HardCandyPlate`/`HardCandyResin`）— 移植版物品 ✓
+- [x] 咖啡 14 阶段中间品（`COFFEE_GROUNDS`、`SMALL/LARGE/UNSORTED_BASIC`、`WET`、`DRIED`、`HULLED`、`GRADED`、`ROASTED`）— 移植版物品 ✓
+- [x] 巧克力/压饼系列（`CHOCOLATE_LIQUOR`×4、`PRESS_CAKE`×3）— 移植版物品 ✓
+- [x] 棉花糖/全麦系列（`MATTER_MARSHMALLOW`、`MATTER_GRAHAM`、`WAFER_GRAHAM_HOT`、`CRACKER_GRAHAM_UNGRADED`、`CHUNK_GRAHAM_HOT`）— 移植版物品 ✓
+- [x] 玉米系列（`BareCornKernel`/`CornKernel`/`CornCob`/`CornEar`）— 移植版物品 ✓（`DRIED_CORN_EAR` 仅用于原版已注释的 PopcornChain，N/A）
+- [x] 可可中间品（`COCOA_HULL`/`COCOA_NIB`）— 移植版物品 ✓
+- [x] **本轮新补**：咖啡作物 + `SEED_COFFEE`（原版 `CROP_COFFEE` 此前缺失）：
+      - 新增 `seed_coffee` 物品与 `crop_coffee` 作物方块（种子→咖啡果）
+      - 未知种子定向合成改为产出咖啡种子（原版 `gtfo_seed_coffee_ungenerify`）
+      - 咖啡链恢复原版两段：咖啡果 →(切割机) 9 咖啡种子 →(离心机) 大小生咖啡豆
+      - 咖啡种子加入种子榨油列表（原版遍历全部作物种子）
+- [x] 命名差异（不影响功能）：`APPLE_HARD_CANDY` → 移植版 `APPLE_CANDY`（"Apple Candy"）、
+      `PARTIALLY_FILLED_CHIP_BAG` 中间品被合并进薯片装袋配方、`DEWAR_FLASK` 系列为原版 WIP
+      （其生产链整段注释），移植版矿泉水用玻璃瓶。
+- [x] `KITCHEN_RECIPE` 厨房食谱卡 — 已知 [简化]（见 16.6.2）
 
 ### 2.3 材料属性系统
-- [ ] `FertilizerProperty` 肥料属性（水 5% / 血 30% / 肥料溶液 15%）
-- [ ] `LacingProperty` 掺加属性（药水效果注入食物）
-- [ ] `CleanerProperty` 清洁属性（蒸馏水 2 / 硬脂酸钠 16）
-- [ ] `GTFOFireSuppressantProperty` 灭火属性（水）
-- [ ] `Organic` MaterialIconSet 有机图标集
-- [ ] 材料工具提示注册 `registerPropertyTooltips()`
+- [x] `CleanerProperty` 清洁属性（蒸馏水 2 / 硬脂酸钠 16）— `GTMFOMaterials.init()` 实际设置
+- [x] `FertilizerProperty` 肥料属性 — 原版为材料属性；移植版以 `CoverSprinkler.FERTILIZER_BOOST`
+      硬编码映射实现（水 5% / 血 30% / 肥料溶液 15%），行为一致
+- [x] `LacingProperty` 掺加属性 — 移植版以 `GTMFOLacing.ENTRIES`（物品→效果表）实现，行为一致
+- [x] `GTFOFireSuppressantProperty` 灭火属性 — 移植版洒水器直接判定水（原版仅水被标记），行为一致
+- [x] `Organic` MaterialIconSet — **N/A**：原版用于物品形式的"材料"（Fat/ChocolateLiquor 等），
+      移植版这些是普通物品，不需要图标集
+- [x] 材料工具提示 `registerPropertyTooltips()` — 原版为肥料/掺加/清洁流体提示；
+      移植版以物品提示（`ItemTooltipEvent`）与 JEI 信息页覆盖（见 16.6），流体属性提示未单独实现
 
 ### 2.4 原版材料标志修改
-- [ ] `Iron` + `GENERATE_FRAME`
-- [ ] `BismuthBronze` + `GENERATE_FRAME`（已有）
-- [ ] `Aluminium` + `GENERATE_DENSE`
-- [ ] `StainlessSteel` + `GENERATE_DENSE, GENERATE_SPRING_SMALL`
-- [ ] `Titanium` + `GENERATE_DENSE`
+- [x] `Iron` + `GENERATE_FRAME`（本轮补上，GTCEu 默认无）
+- [x] `BismuthBronze` + `GENERATE_FRAME`（已有）
+- [x] `Aluminium` + `GENERATE_DENSE`（本轮补上）
+- [x] `StainlessSteel` + `GENERATE_DENSE, GENERATE_SPRING_SMALL`（本轮补上）
+- [x] `Titanium` + `GENERATE_DENSE`（本轮补上）
 
 ---
 

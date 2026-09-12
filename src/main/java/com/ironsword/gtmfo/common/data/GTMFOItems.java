@@ -227,7 +227,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> CAPLET_PARACETAMOL   = foodItem("caplet_paracetamol"  ,"Paracetamol Caplet"     ,"对乙酰氨基酚胶囊","caplet/paracetamol"  ,Foods.CAPLET_PARACETAMOL);
     public static final ItemEntry<ExComponentItem> CAPLET_PLUTONIUM_241 = foodItem("caplet_plutonium_241","Plutonium-241 Caplet"   ,"钚-241胶囊"      ,"caplet/plutonium_241",Foods.CAPLET_PLUTONIUM_241);
     public static final ItemEntry<ExComponentItem> CAPLET_CHORUS        = foodItem("caplet_chorus"       ,"Fermented Chorus Caplet","发酵紫颂果胶囊"  ,"caplet/chorus"       ,Foods.CAPLET_CHORUS);
-    public static final ItemEntry<ExComponentItem> CAPLET_VIBRANT       = foodItem("caplet_vibrant"      ,"Vibrant Caplet"         ,"Vibrant Caplet"  ,"caplet/vibrant"      ,Foods.CAPLET_VIBRANT);
+    public static final ItemEntry<ExComponentItem> CAPLET_VIBRANT       = foodItem("caplet_vibrant"      ,"Vibrant Caplet"         ,"充满活力的囊片"  ,"caplet/vibrant"      ,Foods.CAPLET_VIBRANT);
 
     //cheese
     public static final ItemEntry<Item>            CHEDDAR_BLOCK     =     item("cheddar_block"    ,"Cheddar Block"    ,"块状切达奶酪"          ,"cheese/cheddar_block"    );
@@ -327,7 +327,7 @@ public class GTMFOItems {
     public static final ItemEntry<Item> PASTA_DOUGH_PREMIXED = item("pasta_dough_premixed","Premixed Pasta Dough","预拌意面面团","dough/pasta_premixed");
 
     //drink
-    public static final ItemEntry<ExComponentItem> ANTAF            = foodItem("antaf"           ,"Antaf™"         ,"Antaf™"     ,"drink/antaf"           ,Foods.ANTAF);
+    public static final ItemEntry<ExComponentItem> ANTAF            = foodItem("antaf"           ,"Antaf™"         ,"安塔夫™"     ,"drink/antaf"           ,Foods.ANTAF);
     public static final ItemEntry<ExComponentItem> BEER             = foodItem("beer"            ,"Beer"            ,"啤酒"        ,"drink/beer"            ,Foods.BEER);
     public static final ItemEntry<ExComponentItem> COAC             = foodItem("coac"            ,"Coac"            ,"乐可"        ,"drink/coac"            ,Foods.EMPTY);
     public static final ItemEntry<ExComponentItem> ETIRPS           = foodItem("etirps"          ,"Etirps™"        ,"碧雪™"      ,"drink/etirps"          ,Foods.ETIRPS);
@@ -490,14 +490,14 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE       =  foodItem("sandwich_veggie", "Veggie Sandwich", "蔬菜三明治", "sandwich/veggie", Foods.SANDWICH_VEGGIE);
     public static final ItemEntry<ExComponentItem> SANDWICH_VEGGIE_LARGE =  foodItem("sandwich_veggie_large", "Large Veggie Sandwich", "大号蔬菜三明治", "sandwich/veggie_large", Foods.SANDWICH_VEGGIE_LARGE);
     public static final ItemEntry<ExComponentItem> SANDWICH_TOAST        =  foodItem("sandwich_toast", "Toast Sandwich", "吐司三明治", "sandwich/toast", Foods.SANDWICH_TOAST);
-    public static final ItemEntry<ExComponentItem> SANDWICH_VIBRANT      =  foodItem("sandwich_vibrant", "Vibrant Sandwich", "Vibrant Sandwich", "sandwich/vibrant", Foods.SANDWICH_VIBRANT);
+    public static final ItemEntry<ExComponentItem> SANDWICH_VIBRANT      =  foodItem("sandwich_vibrant", "Vibrant Sandwich", "充满活力的三明治", "sandwich/vibrant", Foods.SANDWICH_VIBRANT);
 
     //seed
     public static final ItemEntry<Item> SEED_UNKNOWN       = item("seed_unknown"      ,"Undetermined GTMFO Seeds","不明GTMFO种子","seed/unknown"      );
     public static final ItemEntry<Item> SEED_ARTICHOKE     = item("seed_artichoke"    ,"Artichoke Seeds"         ,"洋蓟种子"     ,"seed/artichoke"    );
     public static final ItemEntry<Item> SEED_BASIL         = item("seed_basil"        ,"Basil Seeds"             ,"罗勒种子"     ,"seed/basil"        );
     public static final ItemEntry<Item> SEED_BEAN          = item("seed_bean"         ,"Beans"                   ,"菜豆"         ,"seed/bean"         );
-//    public static final ItemEntry<Item> SEED_COFFEE        = item("seed_coffee"       ,"Coffee Seed"             ,"咖啡种子"     ,"seed/coffee"       );
+    public static final ItemEntry<Item> SEED_COFFEE        = item("seed_coffee"       ,"Coffee Seed"             ,"咖啡种子"     ,"seed/coffee"       );
     public static final ItemEntry<Item> SEED_COTTON        = item("seed_cotton"       ,"Cotton Seeds"            ,"棉花种子"     ,"seed/cotton"       );
     public static final ItemEntry<Item> SEED_CUCUMBER      = item("seed_cucumber"     ,"Cucumber Seeds"          ,"黄瓜种子"     ,"seed/cucumber"     );
     public static final ItemEntry<Item> SEED_EGGPLANT      = item("seed_eggplant"     ,"Aubergine Seeds"          ,"茄子种子"     ,"seed/eggplant"     );
@@ -559,7 +559,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SORBET_CHORUS  = foodItem("sorbet_chorus" ,"Chorus Sorbet" ,"紫颂果雪葩"    ,"sorbet/chorus" ,Foods.SORBET_CHORUS);
     public static final ItemEntry<ExComponentItem> SORBET_GRAPE   = foodItem("sorbet_grape"  ,"Grape Sorbet"  ,"葡萄雪葩"      ,"sorbet/grape"  ,Foods.SORBET_FRUIT);
     public static final ItemEntry<ExComponentItem> SORBET_LIME    = foodItem("sorbet_lime"   ,"Lime Sorbet"   ,"酸柠雪葩"      ,"sorbet/lime"   ,Foods.SORBET_FRUIT);
-    public static final ItemEntry<ExComponentItem> SORBET_VIBRANT = foodItem("sorbet_vibrant","Vibrant Sorbet","Vibrant Sorbet","sorbet/vibrant",Foods.SORBET_VIBRANT);
+    public static final ItemEntry<ExComponentItem> SORBET_VIBRANT = foodItem("sorbet_vibrant","Vibrant Sorbet","充满活力的冰糕","sorbet/vibrant",Foods.SORBET_VIBRANT);
 
     //structural_mesh
     public static final ItemEntry<Item> APPLE_STRUCTURAL_MESH  = item("apple_structural_mesh" ,"Apple Structural Mesh" ,"苹果纤维骨架"  ,"structural_mesh/apple" );

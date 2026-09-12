@@ -104,7 +104,7 @@ public class SeedsRecipes {
     private static void seedOilExtraction(Consumer<FinishedRecipe> provider){
         var seeds = java.util.List.of(
                 GTMFOItems.SEED_ARTICHOKE, GTMFOItems.SEED_BASIL, GTMFOItems.SEED_BEAN,
-                GTMFOItems.SEED_COTTON, GTMFOItems.SEED_CUCUMBER, GTMFOItems.SEED_EGGPLANT,
+                GTMFOItems.SEED_COFFEE, GTMFOItems.SEED_COTTON, GTMFOItems.SEED_CUCUMBER, GTMFOItems.SEED_EGGPLANT,
                 GTMFOItems.SEED_GARLIC_PURPLE, GTMFOItems.SEED_GARLIC_WHITE, GTMFOItems.SEED_GRAPE,
                 GTMFOItems.SEED_HORSERADISH, GTMFOItems.SEED_ONION, GTMFOItems.SEED_OREGANO,
                 GTMFOItems.SEED_PEA, GTMFOItems.SEED_SOY, GTMFOItems.SEED_TOMATO,
@@ -129,7 +129,7 @@ public class SeedsRecipes {
                 { "seed_cucumber_ungenerify", GTMFOItems.SEED_CUCUMBER.asStack(), "   ", "S  ", "   " },
                 { "seed_onion_ungenerify", GTMFOItems.SEED_ONION.asStack(), "  S", "   ", "   " },
                 { "seed_grapes_ungenerify", GTMFOItems.SEED_GRAPE.asStack(), "   ", " S ", "   " },
-                { "seed_coffee_ungenerify", GTMFOItems.COFFEE_CHERRY.asStack(), "   ", "   ", "S  " },
+                { "seed_coffee_ungenerify", GTMFOItems.SEED_COFFEE.asStack(), "   ", "   ", "S  " },
                 { "seed_pea_ungenerify", GTMFOItems.SEED_PEA.asStack(), "   ", "  S", "   " },
                 { "seed_bean_ungenerify", GTMFOItems.SEED_BEAN.asStack(), "   ", "   ", " S " },
                 { "seed_oregano_ungenerify", GTMFOItems.SEED_OREGANO.asStack(), "   ", "   ", "  S" },
