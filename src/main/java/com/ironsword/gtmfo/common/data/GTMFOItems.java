@@ -619,8 +619,8 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> MUSHY_PEAS =  foodItem("mushy_peas", "Mushy Peas", "豌豆糊", Foods.MUSHY_PEAS);
     public static final ItemEntry<Item> PIE_CRUST = item("pie_crust","Pie Crust","馅饼皮");
 //    public static final ItemEntry<Item> RICE_COOKED = item("rice_cooked","Cooked Rice","熟米饭");
-//    public static final ItemEntry<Item> ROTTEN_FISH = item("rotten_fish","Rotten Fish","臭鱼");
-//    public static final ItemEntry<Item> ROTTEN_MEAT = item("rotten_meat","Rotten Meat","臭肉");
+    public static final ItemEntry<ExComponentItem> ROTTEN_FISH = foodItem("rotten_fish","Rotten Fish","臭鱼",Foods.ROTTEN_FISH);
+    public static final ItemEntry<ExComponentItem> ROTTEN_MEAT = foodItem("rotten_meat","Rotten Meat","臭肉",Foods.ROTTEN_MEAT);
     public static final ItemEntry<ExComponentItem> SAUSAGE          =  foodItem("sausage", "Sausage", "香肠", Foods.SAUSAGE);
     public static final ItemEntry<Item> SAUSAGE_RAW      = item("sausage_raw"     ,"Raw Sausage"          ,"生香肠"  );
     public static final ItemEntry<ExComponentItem> SAUSAGE_ROLL     =  foodItem("sausage_roll", "Sausage Roll", "香肠卷", Foods.SAUSAGE_ROLL);

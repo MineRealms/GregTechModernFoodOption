@@ -10,7 +10,10 @@ import com.ironsword.gtmfo.common.data.GTMFOItems;
 import com.ironsword.gtmfo.common.data.material.GTMFOFluids;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Consumer;
 
@@ -25,7 +28,81 @@ public class CoreChain {
         liquidFoodExtracts(provider);
         slicingRecipes(provider);
         drink(provider);
+        chum(provider);
         misc(provider);
+    }
+
+    private static void chum(Consumer<FinishedRecipe> provider){
+        // Mixer: sludge + rotten fish/meat + red mushroom + poisonous potato + fermented spider eye -> chum
+        for (int i = 0; i < 2; i++) {
+            boolean fish = i == 0;
+            String suffix = fish ? "fish" : "meat";
+            var rotten = fish ? GTMFOItems.ROTTEN_FISH : GTMFOItems.ROTTEN_MEAT;
+
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("chum_" + suffix))
+                    .inputFluids(GTMFOFluids.Sludge.getFluid(100))
+                    .inputItems(rotten)
+                    .inputItems(Ingredient.of(Items.RED_MUSHROOM), Ingredient.of(Items.POISONOUS_POTATO), Ingredient.of(Items.FERMENTED_SPIDER_EYE))
+                    .outputItems(GTMFOItems.CHUM.asStack(3))
+                    .duration(100).EUt(24).save(provider);
+
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("chum_" + suffix + "_purple"))
+                    .inputFluids(GTMFOFluids.Sludge.getFluid(100), GTMFOFluids.PurpleDrink.getFluid(100))
+                    .inputItems(rotten)
+                    .inputItems(Ingredient.of(Items.RED_MUSHROOM), Ingredient.of(Items.POISONOUS_POTATO), Ingredient.of(Items.FERMENTED_SPIDER_EYE))
+                    .outputItems(GTMFOItems.CHUM.asStack(6))
+                    .duration(100).EUt(24).save(provider);
+        }
+
+        // Fermenting: fish -> rotten fish
+        String[] fishNames = { "cod", "salmon", "tropical_fish" };
+        Item[] fishes = { Items.COD, Items.SALMON, Items.TROPICAL_FISH };
+        for (int i = 0; i < fishes.length; i++) {
+            GTRecipeTypes.FERMENTING_RECIPES.recipeBuilder(id("rotten_fish_" + fishNames[i]))
+                    .inputItems(fishes[i])
+                    .inputFluids(GTMaterials.Water.getFluid(100))
+                    .outputItems(GTMFOItems.ROTTEN_FISH)
+                    .outputFluids(GTMaterials.Water.getFluid(100))
+                    .duration(100).EUt(8).save(provider);
+        }
+
+        // Fermenting: meat (+ rotten flesh / spider eye) -> rotten meat
+        String[] meatNames = { "beef", "chicken", "mutton", "porkchop", "rabbit", "rotten_flesh", "spider_eye" };
+        Item[] meats = { Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, Items.ROTTEN_FLESH,
+                Items.SPIDER_EYE };
+        for (int i = 0; i < meats.length; i++) {
+            GTRecipeTypes.FERMENTING_RECIPES.recipeBuilder(id("rotten_meat_" + meatNames[i]))
+                    .inputItems(meats[i])
+                    .inputFluids(GTMaterials.Water.getFluid(100))
+                    .outputItems(GTMFOItems.ROTTEN_MEAT)
+                    .outputFluids(GTMaterials.Water.getFluid(100))
+                    .duration(100).EUt(8).save(provider);
+        }
+
+        // Mixer: animal products -> sludge
+        Item[] animalProducts = { Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT,
+                Items.COD, Items.SALMON, Items.TROPICAL_FISH };
+        for (int i = 0; i < animalProducts.length; i++) {
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("sludge_water_" + i))
+                    .inputItems(animalProducts[i])
+                    .inputFluids(GTMaterials.Water.getFluid(400))
+                    .outputFluids(GTMFOFluids.Sludge.getFluid(100))
+                    .duration(500).EUt(16).save(provider);
+            GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("sludge_sulfuric_" + i))
+                    .inputItems(animalProducts[i])
+                    .inputFluids(GTMaterials.SulfuricAcid.getFluid(200))
+                    .outputFluids(GTMFOFluids.Sludge.getFluid(200))
+                    .duration(250).EUt(16).save(provider);
+        }
+
+        // Chum on a stick
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("chum_stick_by_hand"),
+                GTMFOItems.CHUM_STICK.asStack(), GTMFOItems.CHUM.asStack(), new ItemStack(Items.STICK));
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("chum_stick"))
+                .inputItems(GTMFOItems.CHUM)
+                .inputItems(Items.STICK)
+                .outputItems(GTMFOItems.CHUM_STICK)
+                .EUt(4).duration(5).save(provider);
     }
 
     public static void zestChain(Consumer<FinishedRecipe> provider){
