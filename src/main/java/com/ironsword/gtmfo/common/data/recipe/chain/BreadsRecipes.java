@@ -95,7 +95,6 @@ public class BreadsRecipes {
                 .EUt(20).duration(100).save(provider);
 
         //baked
-        //TODO: baking oven recipe
         RecipeUtils.addFoodSmeltingRecipe(provider,"bun",
                 GTMFOItems.BUN_UNBAKED.asStack(),
                 GTMFOItems.BUN.asStack(),
@@ -154,7 +153,6 @@ public class BreadsRecipes {
                 .outputItems(GTMFOItems.BAGUETTE_SLICED)
                 .EUt(18).duration(30).save(provider);
 
-        //TODO: baking oven recipe
         VanillaRecipeHelper.addShapedRecipe(provider,id("bread_slice_by_hand"),
                 GTMFOItems.BREAD_SLICE.asStack(4),
                 "k",
@@ -189,7 +187,6 @@ public class BreadsRecipes {
                 .outputItems(GTMFOItems.CAKE_BOTTOM)
                 .EUt(30).duration(100).save(provider);
 
-        //TODO: baking oven recipe
         RecipeUtils.addFoodSmeltingRecipe(provider,"cake_bottom_baked",GTMFOItems.CAKE_BOTTOM.asStack(),GTMFOItems.CAKE_BOTTOM_BAKED.asStack(),0.35f);
 
         VanillaRecipeHelper.addShapedRecipe(provider,id("cake_by_hand"),Items.CAKE.getDefaultInstance(),

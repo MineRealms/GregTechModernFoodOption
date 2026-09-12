@@ -70,7 +70,6 @@ public class GTMFOBlocks {
                         return ConfiguredModel.builder().modelFile(model).build();
                     });
                 })
-                //TODO: rewrite loots
                 .loot((table,block)->table.dropOther(block, Items.AIR))
                 .item().model((ctx,prov)-> prov.generated(ctx::getEntry,prov.modLoc(itemTexture))).build()
                 .register();

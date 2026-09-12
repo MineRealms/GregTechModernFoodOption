@@ -221,7 +221,6 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> BURGER_STEAK  = foodItem("burger_steak" ,"Steak Burger" ,"牛肉汉堡","burger/steak" ,Foods.BURGER_MEAT);
     public static final ItemEntry<ExComponentItem> BURGER_VEGGIE = foodItem("burger_veggie","Veggie Burger","蔬菜汉堡","burger/veggie",Foods.BURGER_VEGGIE);
 
-    //TODO:caplet
     public static final ItemEntry<Item> CAPLET_CAP           = item("caplet_cap"          ,"Caplet Cap"             ,"囊帽"            ,"caplet/cap"          );
     public static final ItemEntry<Item> CAPLET_BODY          = item("caplet_body"         ,"Caplet Body"            ,"囊体"            ,"caplet/body"         );
     public static final ItemEntry<ExComponentItem> CAPLET_GEL           = foodItem("caplet_gel"          ,"Gel Caplet"             ,"明胶胶囊"        ,"caplet/gel"          ,Foods.CAPLET_GEL);
