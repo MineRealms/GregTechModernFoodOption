@@ -37,6 +37,43 @@ public class GreenhouseMachine extends WorkableElectricMultiblockMachine {
         return true;
     }
 
+    /**
+     * The original {@code GreenhouseWorkable}: without sun the progress advances by
+     * {@code (long) (Math.random() * 2)} per tick, i.e. a 50% chance, making recipes take
+     * twice as long (see the original tooltip).
+     */
+    @Override
+    protected com.gregtechceu.gtceu.api.machine.trait.RecipeLogic createRecipeLogic(Object... args) {
+        return new GreenhouseRecipeLogic(this);
+    }
+
+    public static class GreenhouseRecipeLogic extends com.gregtechceu.gtceu.api.machine.trait.RecipeLogic {
+
+        private boolean hasSun = true;
+
+        public GreenhouseRecipeLogic(com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine machine) {
+            super(machine);
+        }
+
+        @Override
+        public void setupRecipe(com.gregtechceu.gtceu.api.recipe.GTRecipe recipe) {
+            super.setupRecipe(recipe);
+            if (getMachine().self() instanceof GreenhouseMachine greenhouse) {
+                this.hasSun = greenhouse.checkNaturalLighting();
+            }
+        }
+
+        @Override
+        public void handleRecipeWorking() {
+            int before = this.progress;
+            super.handleRecipeWorking();
+            if (!hasSun && this.progress > before && getMachine().getLevel() != null &&
+                    getMachine().getLevel().random.nextBoolean()) {
+                this.progress = before;
+            }
+        }
+    }
+
     /** Soil predicate accepting dirt/grass plus the configured blocks. */
     public static TraceabilityPredicate soilPredicate() {
         return new TraceabilityPredicate(state -> {
