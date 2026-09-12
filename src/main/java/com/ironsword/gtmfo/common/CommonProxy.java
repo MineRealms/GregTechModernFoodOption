@@ -86,5 +86,6 @@ public class CommonProxy {
     @SubscribeEvent
     public static void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event){
         event.enqueueWork(GTMFOCreativeModeTabs::assignTabs);
+        event.enqueueWork(GTFODungeonLoot::init);
     }
 }
