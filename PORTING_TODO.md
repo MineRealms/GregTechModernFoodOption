@@ -217,43 +217,46 @@
 
 ---
 
-## 3. 物品（原版 ~200 个）
+## 3. 物品（已完成 ✅）
+> 本章已于 2026-09-13 逐项对照原版 `GTFOMetaItem`（325 个有英文名的物品）复核。
+> 脚本按英文名对比：移植版 422 个物品，原版物品仅 26 个"未匹配"，逐一核实后
+> 均为命名差异 / 原版死代码 / 已知简化（见下），无功能性缺失。
 
 ### 3.1 容器类
 - [x] 烤盘 / 易拉罐 / 瓷碗 / 脏碗 / 瓷盘 / 脏盘 / 空杯 / 纸袋 / 塑料袋
-- [ ] 未烧制容器系列（碗/盘/杯）
-- [ ] `Dewar Flask` 保温杯系列（原版已注释，可选）
+- [x] 未烧制容器系列（`ceramic_bowl_unfired` 未烧制骨瓷碗 / `ceramic_plate_unfired` 未烧制骨瓷盘 /
+      `cup_unfired` 未烧制杯子）
+- [x] `Dewar Flask` 保温杯系列 — **N/A**：原版 `MineralWaterChain` 整段注释（死代码），
+      移植版矿泉水使用玻璃瓶容器
 
-### 3.2 缺失食物物品（对比 `GTMFOItems` vs 原版 `GTFOMetaItem`）
-- [x] **食物属性接线审计（2026-09-12）**：用脚本逐项对比原版 `GTFOMetaItem` 的 163 个
-      `GTFOFoodStats` 物品与 `GTMFOItems`，发现 **110 个原版食物在现代版是普通物品**
-  - [x] 已修复 72 个（有现成 `Foods` 常量）：水果/蔬菜、切片、冰淇淋 10、三明治 9、千层面 3、
-        烤肉 9、饺子 2、培根/焗豆/豆吐司/蛋糕底/全麦饼干/棉花糖/豌豆泥/炸鱼薯条/煎鱼/全套早餐/
-        香肠×2/牧羊人派/牛奶巧克力/应急口粮/发酵紫颂果×2 等
-  - [x] 补充接线：披萨片×3（`PIZZA_CHEESE/VEGGIE/MEAT`）、`PASTA_ALL_AMOGUS`（+VENTING 50%）、
-        `ICE_CREAM` 原味（`ICE_CREAM_PLAIN`）、`CHUM_BUCKET`（`KEBAB_CHUM_BUCKET`）、
-        `BRICK_MUD`（+中毒 50%）、`BRICK_ADOBE`（可食用）、`SORBET_CHORUS`/`SORBET_VIBRANT`
-  - [x] 取消注释并接线 5 个 `Foods` 条目（SANDWICH_BACON_LARGE 台阶辅助 /
-        ICE_CREAM_VANILLA 雪人生成 50% / FERMENTED_CHORUS / PIE / SANDWICH_VIBRANT）
-  - [ ] **剩余真实缺失物品**：`ROTTEN_MEAT` 臭肉 / `ROTTEN_FISH` 臭鱼（现代版被注释掉，
-        原版为 (1,0) alwaysEat + 中毒 500t 100%）；对应 `Foods.ROTTEN_MEAT`/`ROTTEN_FISH` 已存在
-  - 说明：`ICE_CREAM_CHORUS` 为现代版新增（原版无），保持普通物品未加属性
-- [ ] 逐项核对 `GTMFOItems` 与原版 `GTFOMetaItem` 的 ID 差异表（已完成食物部分）
-- [ ] 补全 `POPCORN_BAG` 爆米花袋（原版即注释 WIP）
-- [ ] 补全 `MINERAL_WATER` 矿泉水（原版 0.x 内容；现代版物品已存在，需核对是否食物）
-- [x] 补全 Sorbet 系列（`SORBET`/`SORBET_APPLE`/`APRICOT`/`GRAPE`/`LIME`/`CHORUS`/`VIBRANT`）
-- [x] 补全 Fermented Chorus 系列（`FERMENTED_CHORUS`/`FERMENTED_CHORUS_PIE`）
-- [ ] 补全 IV Bag 输液袋（`IVBagChain`）
-- [ ] 补全 `DEWAR_FLASK` 保温杯系列（原版已注释）
-- [x] 补全 British 英式料理系列（`BritishRecipes`）
+### 3.2 食物物品（对照 `GTMFOItems` vs 原版 `GTFOMetaItem`）
+- [x] **食物属性接线审计（2026-09-12/13）**：163 个原版 `GTFOFoodStats` 物品全部接线
+  - [x] 72 个批量修复 + 补充接线（披萨片×3、PASTA_ALL_AMOGUS、原味冰淇淋、CHUM_BUCKET、
+        BRICK_MUD/ADOBE、SORBET_CHORUS/VIBRANT 等）
+  - [x] 取消注释并接线 5 个 `Foods` 条目
+  - [x] `ROTTEN_MEAT`/`ROTTEN_FISH` 已补（1 饥饿 / alwaysEat / 中毒 500t）
+  - [x] 数值/效果/概率/alwaysEdible/时长逐项审计（见 16.6），修复 BRUSCHETTA、VITELLO_TONNATO、
+        RED_WINE、SORBET/FERMENTED/SANDWICH_VIBRANT、培根/吐司/胶囊 alwaysEdible、咖啡饮品等
+- [x] ID/命名差异表（本次审计结论）：
+  - 命名现代化（同物品）：`Apple Hard Candy`→`Apple Candy`、`Undetermined GTFO Seeds`→
+    `seed_unknown`、`Garlic Bulb/Clove`→`Purple/White Garlic`（新版内容）
+  - 烤肉串名称词序不同（`Kebab Meat Raw`→`Raw Meat Kebab` 等），物品齐全
+  - 披萨为方块（`block.gtmfo.pizza_*`），名称与原版一致
+  - `PARTIALLY_FILLED_CHIP_BAG` 中间品被合并进薯片装袋配方
+  - `KITCHEN_RECIPE` 厨房食谱卡 — 已知 [简化]（见 16.6.2）
+- [x] `POPCORN_BAG` 爆米花袋 — 已接线原版数值（5 饥饿 / 0.4 饱和 / alwaysEat / 跳跃提升）
+      + 组装机配方（本轮修复）
+- [x] `MINERAL_WATER` 矿泉水 — `Foods.MINERAL_WATER`（配置饥饿/饱和 + alwaysEat + 创造飞行 5000t）
+- [x] Sorbet 系列 / Fermented Chorus 系列 / British 系列 / IV Bag（`iv_bag` 物品 + 组装机配方）
 
 ### 3.3 种子类
-- [ ] 所有作物种子物品（番茄/黄瓜/葡萄/洋葱/大豆/咖啡/豆/豌豆/牛至/辣根/大蒜/罗勒/茄子/玉米/洋蓟/黑胡椒/大米/白葡萄/棉花）
-- [ ] `Unidentified GTFO Seeds` 未鉴定种子（杂草掉落）
+- [x] 全部作物种子物品（番茄/黄瓜/葡萄/洋葱/大豆/豆/豌豆/牛至/辣根/大蒜（紫/白）/罗勒/茄子/
+      玉米/洋蓟/黑胡椒/大米/白葡萄/棉花/**咖啡（本轮补）**）
+- [x] `seed_unknown` 未鉴定种子（杂草掉落 + 定向合成 19 种）
 
 ### 3.4 工具类
-- [ ] `ROLLING_PIN` 擀面杖（GTCEu ToolItem 系统，支持木/橡胶/聚乙烯/聚四氟乙烯材质）
-- [ ] `BUTCHERY_KNIFE_HV` 电动屠刀 HV（带 Looting 5 附魔）
+- [x] `ROLLING_PIN` 擀面杖（GTCEu ToolItem 系统，木/橡胶/聚乙烯/聚四氟乙烯 4 材质 + 合成配方）
+- [x] `BUTCHERY_KNIFE` 电动屠刀 HV（Looting 5、HV 电动、损坏返还 HV 电源单元 + 能量转移合成配方）
 
 ---
 
