@@ -39,6 +39,7 @@ public class GTMFORecipes {
         ChocolateRecipes.init(provider);
         AlcoholRecipes.init(provider);
         SeedsRecipes.init(provider);
+        CoffeeRecipes.init(provider);
         BananaRecipes.init(provider);
         BritishRecipes.init(provider);
         AdobeBrickRecipes.init(provider);
