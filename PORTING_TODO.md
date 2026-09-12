@@ -103,7 +103,7 @@
 ### 1.3 核心 API / Mixin
 - [x] `GTMFOFoodStats` 食物组件系统（6 维营养）
 - [x] `INutrients` / `Nutrients` / `NutrientsTracker` 营养能力
-- [x] `FoodPropertiesMixin` / `ItemMixin` / `PlayerMixin`
+- [x] FoodPropertiesMixin / ItemMixin（**已修复**：mixin 配置此前为空列表 + plugin 返回 false + refmap 名不匹配，导致进食时长从未生效；现已启用并修正：非食物不再被覆盖为 0，容器返还由 GTCEu FoodStats 组件处理，PlayerMixin 已移除（营养素由组件应用））
 - [ ] `IEatingDuration` 进食时长接口补全
 - [ ] `IContainerItem` 容器返还接口补全
 - [ ] `RecipeMapFluidCannerMixin`（原版 late mixin，修改流体罐装器配方）
@@ -954,6 +954,21 @@
 22. **其他模组兼容**（TFC/AgriCraft/EnderIO/Nutrition 等）— [ ] 未移植（对应模组未安装，优先级低）
 
 ---
+
+## 16.5 最近修复记录（2026-09-13）
+
+- **mixin 系统重启**：此前完全未生效（空列表 + plugin false + refmap 不匹配），
+  导致自定义进食时长（如炖菜 100 tick）全部失效。已修正配置、插件、refmap 名，
+  并修正 ItemMixin 对非食物返回 0 的 bug（会弄坏弓/盾牌等）。
+- **配方表容量**：酿酒机输出槽 0→1、提取机输入 1→2、发酵/压缩流体槽补齐
+  （原版 CommonProxy.preLoad）——此前蚌豆泥/炸鱼/葡萄汁压榨配方无法运行。
+- **杂草种子掉落**：1.20 全局战利品修饰器，概率 0.125×weight/(weight+1)，对应原版权重语义。
+- **温室土壤配置**：greenhouseDirts 现实际生效（支持方块状态字符串）。
+- **树叶着色**：10 种树各自颜色 + 彩虹木坐标彩虹色。
+- **资源完整性**：修复 8 个缺失树叶模型、错误父级、59 个缺失物品模型、
+  砖块/温室玻璃 blockstate；审计确认 0 个模型/纹理引用缺失。
+- **接口线**：药水增幅/延长实际生效；新增掺加 JEI 信息页；食物信息页；
+  GTFO GUI 标志；洒水器粒子；披萨盒；抗精神分裂/肺癌图标。
 
 ## 17. 技术难点与注意事项
 
