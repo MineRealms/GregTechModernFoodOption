@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.ironsword.gtmfo.common.data.GTMFOItems;
+import com.ironsword.gtmfo.common.data.material.GTMFOFluids;
 import com.ironsword.gtmfo.common.data.recipe.GTMFORecipeTypes;
 import com.ironsword.gtmfo.common.data.recipe.RecipeUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -257,7 +258,82 @@ public class BreadsRecipes {
     }
 
     private static void sandwich(Consumer<FinishedRecipe> provider){
+        // by hand
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("sandwich_veggie_by_hand"),
+                GTMFOItems.SANDWICH_VEGGIE.asStack(),
+                GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.CUCUMBER_SLICE.asStack(),
+                GTMFOItems.CUCUMBER_SLICE.asStack(), GTMFOItems.TOMATO_SLICE.asStack(),
+                GTMFOItems.TOMATO_SLICE.asStack(), GTMFOItems.ONION_SLICE.asStack(),
+                GTMFOItems.ONION_SLICE.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("sandwich_cheese_by_hand"),
+                GTMFOItems.SANDWICH_CHEESE.asStack(),
+                GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack(),
+                GTMFOItems.CHEDDAR_SLICE.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack(),
+                GTMFOItems.CHEDDAR_SLICE.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("sandwich_bacon_by_hand"),
+                GTMFOItems.SANDWICH_BACON.asStack(),
+                GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.BACON.asStack(), GTMFOItems.BACON.asStack(),
+                GTMFOItems.BACON.asStack(), GTMFOItems.BACON.asStack(), GTMFOItems.BACON.asStack(),
+                GTMFOItems.BACON.asStack(), GTMFOItems.BACON.asStack(), GTMFOItems.BACON.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("sandwich_steak_by_hand"),
+                GTMFOItems.SANDWICH_STEAK.asStack(),
+                GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.MEAT_INGOT_COOKED.asStack(),
+                GTMFOItems.CHEDDAR_SLICE.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("sandwich_toast_by_hand"),
+                GTMFOItems.SANDWICH_TOAST.asStack(),
+                GTMFOItems.TOAST.asStack(), GTMFOItems.BREAD_SLICE.asStack(), GTMFOItems.BREAD_SLICE.asStack());
 
+        // cuisine assembler
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_veggie"))
+                .inputItems(GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.TOMATO_SLICE.asStack(), GTMFOItems.CUCUMBER_SLICE.asStack(), GTMFOItems.ONION_SLICE.asStack())
+                .outputItems(GTMFOItems.SANDWICH_VEGGIE)
+                .EUt(24).duration(120).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_cheese"))
+                .inputItems(GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack(2))
+                .circuitMeta(1)
+                .outputItems(GTMFOItems.SANDWICH_CHEESE)
+                .EUt(24).duration(120).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_bacon"))
+                .inputItems(GTMFOItems.BREAD_SLICED.asStack(), GTMFOItems.BACON.asStack(4))
+                .outputItems(GTMFOItems.SANDWICH_BACON)
+                .EUt(24).duration(120).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_vibrant"))
+                .inputItems(GTMFOItems.SANDWICH_BACON.asStack())
+                .inputFluids(GTMFOFluids.VibrantExtract.getFluid(100))
+                .outputItems(GTMFOItems.SANDWICH_VIBRANT)
+                .EUt(120).duration(120).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_steak"))
+                .inputItems(GTMFOItems.BREAD_SLICED.asStack(3))
+                .inputItems(GTMFOItems.CHEDDAR_SLICE.asStack(3))
+                .circuitMeta(2)
+                .inputItems(GTMFOItems.MEAT_INGOT_COOKED.asStack())
+                .outputItems(GTMFOItems.SANDWICH_STEAK, 3)
+                .EUt(24).duration(120).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_toast"))
+                .inputItems(GTMFOItems.BREAD_SLICE.asStack(2))
+                .inputItems(GTMFOItems.TOAST.asStack())
+                .outputItems(GTMFOItems.SANDWICH_TOAST)
+                .EUt(24).duration(120).save(provider);
+
+        // large sandwiches (baguette)
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_veggie_large"))
+                .inputItems(GTMFOItems.BAGUETTE_SLICED.asStack(), GTMFOItems.TOMATO_SLICE.asStack(3), GTMFOItems.CUCUMBER_SLICE.asStack(3), GTMFOItems.ONION_SLICE.asStack(3))
+                .outputItems(GTMFOItems.SANDWICH_VEGGIE_LARGE)
+                .EUt(75).duration(180).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_cheese_large"))
+                .inputItems(GTMFOItems.BAGUETTE_SLICED.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack(5))
+                .circuitMeta(1)
+                .outputItems(GTMFOItems.SANDWICH_CHEESE_LARGE)
+                .EUt(75).duration(180).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_bacon_large"))
+                .inputItems(GTMFOItems.BAGUETTE_SLICED.asStack(), GTMFOItems.BACON.asStack(5))
+                .outputItems(GTMFOItems.SANDWICH_BACON_LARGE)
+                .EUt(75).duration(180).save(provider);
+        GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("sandwich_steak_large"))
+                .inputItems(GTMFOItems.BAGUETTE_SLICED.asStack(), GTMFOItems.CHEDDAR_SLICE.asStack())
+                .inputItems(GTMFOItems.MEAT_INGOT_COOKED.asStack())
+                .outputItems(GTMFOItems.SANDWICH_STEAK_LARGE)
+                .EUt(75).duration(180).save(provider);
     }
 
     private static void pumpkinPie(Consumer<FinishedRecipe> provider){
