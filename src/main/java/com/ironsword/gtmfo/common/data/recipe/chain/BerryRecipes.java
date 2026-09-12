@@ -33,6 +33,11 @@ public class BerryRecipes {
                 .inputFluids(GTMFOFluids.LemonExtract.getFluid(150))
                 .outputFluids(GTMFOFluids.ElderberryJam.getFluid(1000))
                 .EUt(16).duration(240).save(provider);
+        GTMFORecipeTypes.MULTICOOKER_RECIPES.recipeBuilder(id("lingonberry_jam"))
+                .inputItems(GTMFOItems.LINGONBERRY.asStack())
+                .inputItems(Items.SUGAR.getDefaultInstance())
+                .outputFluids(GTMFOFluids.LingonberryJam.getFluid(1000))
+                .EUt(16).duration(240).save(provider);
         GTMFORecipeTypes.CUISINE_ASSEMBLER_RECIPES.recipeBuilder(id("berry_medley"))
                 .inputItems(GTMFOTags.BERRY_SWEET)
                 .inputItems(GTMFOTags.BERRY_TART)

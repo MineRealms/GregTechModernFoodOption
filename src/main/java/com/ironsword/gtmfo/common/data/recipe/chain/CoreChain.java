@@ -407,6 +407,71 @@ public class CoreChain {
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
                 .outputFluids(GTMFOFluids.Butter.getFluid(9000))
                 .EUt(15).duration(1200).save(provider);
+
+        GTRecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(id("egg_separation_item"))
+                .inputItems(Items.EGG)
+                .outputFluids(GTMFOFluids.Albumen.getFluid(100), GTMFOFluids.Yolk.getFluid(100))
+                .EUt(45).duration(60).save(provider);
+
+        GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(id("mashed_potato"))
+                .inputItems(Items.POTATO)
+                .outputItems(GTMFOItems.POTATO_MASHED.asStack())
+                .EUt(4).duration(40).save(provider);
+
+        net.minecraft.world.item.Item[] minceMeats = { Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP,
+                Items.RABBIT };
+        String[] minceNames = { "beef", "chicken", "mutton", "porkchop", "rabbit" };
+        for (int i = 0; i < minceMeats.length; i++) {
+            GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(id("mince_meat_" + minceNames[i]))
+                    .inputItems(minceMeats[i])
+                    .outputItems(GTMFOItems.MINCE_MEAT.asStack())
+                    .EUt(8).duration(80).save(provider);
+        }
+
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("mince_meat_cooked"))
+                .inputItems(GTMFOItems.MINCE_MEAT.asStack())
+                .outputItems(GTMFOItems.MINCE_MEAT_COOKED.asStack())
+                .EUt(30).duration(200).save(provider);
+
+        GTRecipeTypes.EXTRUDER_RECIPES.recipeBuilder(id("meat_ingot"))
+                .inputItems(TagPrefix.dust, GTMaterials.Meat)
+                .notConsumable(GTItems.SHAPE_EXTRUDER_INGOT.asStack())
+                .outputItems(GTMFOItems.MEAT_INGOT.asStack())
+                .EUt(28).duration(20).save(provider);
+
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("meat_ingot_cooked"))
+                .inputItems(GTMFOItems.MEAT_INGOT.asStack())
+                .outputItems(GTMFOItems.MEAT_INGOT_COOKED.asStack())
+                .EUt(30).duration(200).save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("paper_bag"))
+                .inputItems(Items.PAPER, 3)
+                .circuitMeta(2)
+                .outputItems(GTMFOItems.PAPER_BAG.asStack())
+                .EUt(80).duration(30).save(provider);
+
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("fertilizer_solution"))
+                .inputItems(GTItems.FERTILIZER.asStack())
+                .inputFluids(GTMaterials.Water.getFluid(10000))
+                .outputFluids(GTMFOFluids.FertilizerSolution.getFluid(10000))
+                .EUt(16).duration(100).save(provider);
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("fertilizer_solution_bone_meal"))
+                .inputItems(Items.BONE_MEAL)
+                .inputFluids(GTMaterials.Water.getFluid(5000))
+                .outputFluids(GTMFOFluids.FertilizerSolution.getFluid(5000))
+                .EUt(16).duration(100).save(provider);
+
+        GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(id("emergency_rations"))
+                .inputItems(GTMFOItems.SEED_BEAN.asStack(), GTMFOItems.MEAT_INGOT.asStack())
+                .inputItems(ChemicalHelper.get(TagPrefix.plate, GTMaterials.Polyethylene, 2))
+                .outputItems(GTMFOItems.EMERGENCY_RATIONS.asStack())
+                .EUt(64).duration(200).save(provider);
+
+        GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("purple_drink_from_bottle"))
+                .inputItems(GTItems.BOTTLE_PURPLE_DRINK.asStack())
+                .outputItems(Items.GLASS_BOTTLE)
+                .outputFluids(GTMFOFluids.PurpleDrink.getFluid(500))
+                .EUt(30).duration(20).save(provider);
     }
 
 
