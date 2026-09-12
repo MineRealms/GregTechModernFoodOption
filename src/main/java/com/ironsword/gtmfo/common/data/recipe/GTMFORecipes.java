@@ -104,6 +104,15 @@ public class GTMFORecipes {
                 .outputItems(GTMFOItems.DOUGH_FLAT)
                 .EUt(60).duration(40)
                 .save(provider);
+        // original: shaped recipe with any rolling pin (craftingToolRollingPin)
+        for (var entry : com.ironsword.gtmfo.common.data.GTMFOTools.ROLLING_PINS.entrySet()) {
+            com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper.addShapedRecipe(provider,
+                    id("flat_dough_" + entry.getKey().getName()),
+                    GTMFOItems.DOUGH_FLAT.asStack(),
+                    "RD ",
+                    'R', entry.getValue().asStack(),
+                    'D', GTItems.DOUGH.asStack());
+        }
     }
 
 }
