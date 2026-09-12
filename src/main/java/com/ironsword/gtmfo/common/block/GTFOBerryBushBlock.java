@@ -187,6 +187,17 @@ public class GTFOBerryBushBlock extends GTFOCropBlock {
     }
 
     @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos,
+                                boolean isMoving) {
+        if (!(level.getBlockState(fromPos).getBlock() instanceof GTFOBerryBushBlock)) {
+            // we don't want crops transmuting to higher efficiencies
+            int newEfficiency = Math.min(calcEfficiency(level, pos), this.getEfficiency(state));
+            level.setBlock(pos, state.setValue(EFFICIENCY, newEfficiency), 2);
+        }
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+    }
+
+    @Override
     public boolean canSurvive(BlockState state, net.minecraft.world.level.LevelReader level, BlockPos pos) {
         BlockPos below = pos.below();
         return level.getBlockState(below).is(Blocks.DIRT) || super.canSurvive(state, level, pos);

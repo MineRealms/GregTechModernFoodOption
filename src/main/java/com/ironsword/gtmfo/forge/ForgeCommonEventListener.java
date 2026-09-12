@@ -101,6 +101,48 @@ public class ForgeCommonEventListener {
 //    }
 
     /**
+     * Potion amplifier / lengthener (original {@code GTFOEventHandler.onDrinkPotion}).
+     * <p>
+     * Note: the original computes the lengthener duration from the added effect's <b>amplifier</b>
+     * ({@code amplifier * ((durationBonus * 0.5) + 1.5)}) rather than its duration. That looks like an
+     * upstream bug, but it is ported as-is; see PORTING_TODO for details.
+     */
+    private static final ThreadLocal<Boolean> BOOSTING = ThreadLocal.withInitial(() -> Boolean.FALSE);
+
+    @SubscribeEvent
+    public static void onEffectApplicable(net.minecraftforge.event.entity.living.MobEffectEvent.Applicable event){
+        if (BOOSTING.get()) return;
+        var effect = event.getEffectInstance();
+        if (effect == null) return;
+        if (effect.getEffect() == GTMFOEffects.AMPLIFIER.get() || effect.getEffect() == GTMFOEffects.LENGTHENER.get()) {
+            return;
+        }
+        LivingEntity entity = event.getEntity();
+        var amplifierEffect = entity.getEffect(GTMFOEffects.AMPLIFIER.get());
+        var lengthenerEffect = entity.getEffect(GTMFOEffects.LENGTHENER.get());
+        if (amplifierEffect == null && lengthenerEffect == null) return;
+
+        int newAmplifier = effect.getAmplifier();
+        int newDuration = effect.getDuration();
+        if (amplifierEffect != null) {
+            newAmplifier += amplifierEffect.getAmplifier() + 1;
+        }
+        if (lengthenerEffect != null) {
+            int durationBonus = lengthenerEffect.getAmplifier();
+            newDuration = Math.max(newDuration, (int) (newAmplifier * ((durationBonus * 0.5) + 1.5)));
+        }
+
+        event.setResult(net.minecraftforge.eventbus.api.Event.Result.DENY);
+        BOOSTING.set(Boolean.TRUE);
+        try {
+            entity.addEffect(new net.minecraft.world.effect.MobEffectInstance(effect.getEffect(), newDuration,
+                    newAmplifier, effect.isAmbient(), effect.isVisible(), effect.showIcon()));
+        } finally {
+            BOOSTING.set(Boolean.FALSE);
+        }
+    }
+
+    /**
      * Plants GTFO crops when a registered seed is right-clicked on farmland (or water for rice).
      */
     @SubscribeEvent
