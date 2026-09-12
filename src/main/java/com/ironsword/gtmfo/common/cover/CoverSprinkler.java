@@ -99,6 +99,15 @@ public class CoverSprinkler extends CoverBehavior {
         BlockPos opPos = operationPosition;
         updateOperationPosition(basePos);
 
+        // visual feedback: colored drop flying from the sprinkler to the target
+        if (level.random.nextFloat() < 0.5F) {
+            level.sendParticles(
+                    new com.ironsword.gtmfo.common.particle.GTFOSprinkleOptions(
+                            opPos.getX() + 0.5, opPos.getY() + 1, opPos.getZ() + 0.5, fluidColor(fluid)),
+                    coverHolder.getPos().getX() + 0.5, coverHolder.getPos().getY() - 0.1,
+                    coverHolder.getPos().getZ() + 0.5, 1, 0, 0, 0, 0);
+        }
+
         // accelerate crop growth
         if (level.random.nextInt(100) < percentageChance) {
             BlockState cropState = level.getBlockState(opPos);
@@ -130,6 +139,20 @@ public class CoverSprinkler extends CoverBehavior {
         return Math.abs(pos.getX() - basePos.getX()) <= LENGTH / 2
                 && Math.abs(pos.getZ() - basePos.getZ()) <= LENGTH / 2
                 && pos.getY() == basePos.getY();
+    }
+
+    /** Particle tint per supported fluid (client fluid extensions are not available server-side). */
+    private static int fluidColor(FluidStack fluid) {
+        if (fluid.getFluid().isSame(net.minecraft.world.level.material.Fluids.WATER)) {
+            return 0x3F76E4;
+        }
+        if (fluid.getFluid().isSame(com.ironsword.gtmfo.common.data.material.GTMFOFluids.FertilizerSolution.getFluid())) {
+            return 0x947760;
+        }
+        if (fluid.getFluid().isSame(com.ironsword.gtmfo.common.data.material.GTMFOFluids.Blood.getFluid())) {
+            return 0x7A0C0C;
+        }
+        return 0xFFFFFF;
     }
 
     private void updateOperationPosition(BlockPos basePos) {

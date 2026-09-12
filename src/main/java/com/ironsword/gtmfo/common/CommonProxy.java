@@ -57,6 +57,7 @@ public class CommonProxy {
 
         GTMFOEffects.init(bus);
         GTMFOSounds.init(bus);
+        GTMFOParticles.init(bus);
         GTMFODataGen.initEntityLang();
         GTMFODataGen.initTabLang();
     }

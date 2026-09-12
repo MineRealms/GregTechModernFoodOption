@@ -19,4 +19,10 @@ public class GTMFOClientEvents {
         event.registerEntityRenderer(GTMFOEntities.STRONG_SNOWMAN.get(), SnowGolemRenderer::new);
         event.registerEntityRenderer(GTMFOEntities.STRONG_SNOWBALL.get(), context -> new ThrownItemRenderer<>(context, 1.0F, true));
     }
+
+    @SubscribeEvent
+    public static void onRegisterParticleProviders(net.minecraftforge.client.event.RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(com.ironsword.gtmfo.common.data.GTMFOParticles.SPRINKLE.get(),
+                com.ironsword.gtmfo.client.particle.GTFOSprinkleParticle.Provider::new);
+    }
 }
