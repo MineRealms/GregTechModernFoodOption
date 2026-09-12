@@ -58,6 +58,7 @@ public class CommonProxy {
         GTMFOEffects.init(bus);
         GTMFOSounds.init(bus);
         GTMFODataGen.initEntityLang();
+        GTMFODataGen.initTabLang();
     }
 
     public static void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event){
@@ -80,5 +81,10 @@ public class CommonProxy {
         GTMFOFluids.init();
         GTMFOMaterials.init();
         GTMFODataGen.initMaterialLang();
+    }
+
+    @SubscribeEvent
+    public static void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event){
+        event.enqueueWork(GTMFOCreativeModeTabs::assignTabs);
     }
 }

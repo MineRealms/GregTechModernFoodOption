@@ -35,4 +35,8 @@ public class GTMFODataGen {
         GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, com.ironsword.gtmfo.common.data.GTMFOEntities::initCNLang);
     }
 
+    public static void initTabLang(){
+        GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, com.ironsword.gtmfo.common.data.GTMFOCreativeModeTabs::initCNLang);
+    }
+
 }
