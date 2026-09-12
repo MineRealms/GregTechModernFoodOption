@@ -1015,6 +1015,28 @@
 - **机器提示**：温室 3 条、厨房 5 条、电力烤炉 3 条原版提示；每级风味提示（切片机/微波炉/多功锅/菜肴组装机）。
 - **抗精神分裂**：本地玩家拥有该效果时隐藏其他玩家渲染（原版 `handlePlayerRender`）。
 - **氰化物**：掺加施加时隐藏粒子（原版 `PotionColorCalculationEvent`）。
+- **扁平面团**：补回原版擀面杖手搓配方（`gtfo_flat_dough`，4 种擀面杖各一条）。
+
+### 16.6.1 本轮审计结论（与原版逐项比对）
+- **配方链**：原版 `GTFORecipeAddition` 的 32 条链中，`PopcornChain` 与 `MineralWaterChain`
+  在原版即为整段注释（死代码），无需移植；其余链均已在移植版注册（部分合并，如 Pasta→Italian）。
+- **食物数值**：162 条原版食物逐项比对完成（饥饿/饱和/营养素/效果概率/alwaysEdible/进食时长），
+  唯一已知偏差：BUN 饥饿值移植版为 1，原版为 `baguetteHunger / 3`（默认配置整数除法=0，
+  疑似原版 bug，保留 1 并在此记录）。
+- **世界生成**：原版为 Perlin 噪声 + 生物群系/温湿度条件；移植版为数据驱动 JSON
+  （生物群系标签 + rarity_filter 近似），已在此前章节记录为 [简化]。
+- **未移植的兼容集成**（1.20.1 无对应模组或非必需）：TOP 根茎作物提示（改用 Jade 可做，未实现）、
+  AppleCore/AppleSkin 插件（移植版使用标准 FoodProperties，AppleSkin 自动显示数值）、
+  NuclearCraft/ActuallyAdditions/AgriCraft/EnderIO/TFC/SereneSeasons 兼容、Kitchen Recipe 物品
+  （厨房多方块已用幻影槽替代其设定目标的功能，见下）。
+
+### 16.6.2 已知 [简化] 清单（待后续可选补全）
+1. **厨房食谱物品**（原版 `GTFOKitchenRecipeBehaviour` + `KitchenRecipeWidget`）：原版可编程
+   食谱卡（NBT 存多条配方、JEI 拖拽写入、放入厨房配方槽生效）；移植版厨房使用控制器上的
+   幻影目标槽 + 订单数量按钮实现同等目标设定功能，物品与 GUI 未移植。
+2. **世界生成分布**：Perlin 聚簇分布未复刻，改用生物群系标签 + 稀有度。
+3. **洒水器耗液**：原版 `drain(1, true)` 仅模拟不实际消耗（疑似 bug），移植版实际消耗 1mB。
+4. **咖啡/矿泉水的 Creativity 效果**：移植版以原版 FLY 效果近似（1.20.1 无「允许飞行」药水属性）。
 
 ## 17. 技术难点与注意事项
 
