@@ -986,6 +986,36 @@
 - **接口线**：药水增幅/延长实际生效；新增掺加 JEI 信息页；食物信息页；
   GTFO GUI 标志；洒水器粒子；披萨盒；抗精神分裂/肺癌图标。
 
+## 16.6 最近修复记录（2026-09-13 第二轮）
+- **烤炉温度系统**（原版 `MetaTileEntityElectricBakingOven` + `GTFOUtils.addBakingOvenRecipes`）：
+  - `BAKING_OVEN_RECIPES` 恢复 2 个输入槽（食物 + 燃料），新增 `ELECTRIC_BAKING_OVEN_RECIPES`。
+  - `GTMFOBakingOvenRecipes.add(...)`：木板燃料配方 + 煤/木炭 x4 配方 + 电动四分之一时长配方（温度写入 recipe data）。
+  - `ElectricBakingOvenMachine`：300K 起步、±5K/20t 调温、维持温度耗电 `exp((temp-100+size*5)/100)`、
+    配方温度精确匹配、并行=多方块长度、无超频、长度指示器 `bakingOvenLength`。
+  - `SteamBakingOvenMachine`（原版蒸汽烤炉）：时长 x4、蒸汽=温度/100、无并行。
+  - 原始烤炉 GUI 补燃料槽；`bakingOvenReplacement` 配置门控熔炉/烟熏/营火替代配方（默认 false，与原版一致）。
+  - 所有烘焙配方按原版参数（时长/温度/燃料量）重写：面包类、披萨、千层、烤肉、香肠卷、豆子、烤肉串、全麦饼干、原版肉类。
+- **农夫模式系统**（原版 `FarmerModeRegistry`，11 种模式全部移植）：原版作物、可可、地狱疣、
+  茎秆（棋盘格规则）、高杆作物（甘蔗/仙人掌整列）、地面清理（草/花/蘑菇等）、紫颂、
+  GTFO 作物/根茎作物（有种子收作物、无种子收种子）/浆果丛（重置为 maxAge-1）。
+  `FarmerMachine` 改为原版两阶段算法（收集作物→种植种子，输出满时跳过模式，播放激光音效）。
+- **掺加（Lacing）动态配方**：新增 `LacingCannerLogic`（`GTRecipeType.ICustomRecipeLogic`），
+  任意 GTFO 食物 + 任意掺加物在流体罐装机中掺加，取代此前硬编码的 6 种食物列表
+  （原版为 `RecipeMapFluidCannerMixin`）。
+- **食物数值全面审计**（对照原版 162 条 `GTFOFoodStats`）：
+  - 修复 BRUSCHETTA/VITELLO_TONNATO/RED_WINE/SORBET_CHORUS/VIBRANT/FERMENTED_CHORUS/PIE/
+    SANDWICH_VIBRANT 的缺失效果与概率；ELDERBERRY 中毒概率 4%/1%。
+  - alwaysEdible 修正：培根、吐司、全部 5 种胶囊；咖啡为饮品（drink）；冰糕仅原味可随时食用。
+  - 进食时长修正：PASTA_AL_POMODORO 16、FERMENTED_CHORUS 60、BAKED_CAKE_BOTTOM 32。
+  - 玉米袋（Popcorn Bag）接入原版数值 + 组装机配方；补缺失的玉米袋配方。
+  - 名称恢复为原版：Aubergine（茄子/片/种子）、Chumburger、Meat Burger、Meat Sandwich。
+- **lang 补全**：472 条缺失的物品/方块语言（树木各部位用原版名称如 Banana Pseudostem、
+  作物/浆果丛、新物品、砖块）；修复温室玻璃/安塔夫/活力系列 CN；106 条原版物品提示
+  （`ItemTooltipEvent` + `item.gtmfo.<id>.tooltip`）；机器风味提示（拍拍刀/狗狗币/厨师机器人等）。
+- **机器提示**：温室 3 条、厨房 5 条、电力烤炉 3 条原版提示；每级风味提示（切片机/微波炉/多功锅/菜肴组装机）。
+- **抗精神分裂**：本地玩家拥有该效果时隐藏其他玩家渲染（原版 `handlePlayerRender`）。
+- **氰化物**：掺加施加时隐藏粒子（原版 `PotionColorCalculationEvent`）。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异
