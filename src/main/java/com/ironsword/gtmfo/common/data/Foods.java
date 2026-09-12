@@ -45,7 +45,7 @@ public class Foods {
     public static final GTMFOFoodStats BAGUETTE              = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.baguetteHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.baguetteSaturation, 0     , 0     , 1f    , 0     , 0     ).eatDuration(40).effect(MobEffects.DIG_SPEED,1200,0,0.5f).build();
     public static final GTMFOFoodStats BAGUETTE_SLICED       = builder( 1    , 1f    , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(20).build();
     public static final GTMFOFoodStats BREAD_SLICE           = builder( 1    , 0.5f  , 0     , 0     , 1f    , 0     , 0     ).build();
-    public static final GTMFOFoodStats TOAST                 = builder( 2    , 0.5f  , 0     , 0     , 1.5f  , 0     , 0     ).build();
+    public static final GTMFOFoodStats TOAST                 = builder( 2    , 0.5f  , 0     , 0     , 1.5f  , 0     , 0     ).alwaysEat().build();
 
     //burger
     public static final GTMFOFoodStats BURGER_VEGGIE         = builder( 4    , 0.6f  , 0     , 0     , 1f    , 0     , 1f    ).build();
@@ -54,11 +54,11 @@ public class Foods {
     public static final GTMFOFoodStats BURGER_CHUM           = builder( 4    , 1f    , 0     , 0     , 1f    , 0.5f  , 0     ).effect(MobEffects.CONFUSION,500,10,0.01f).build();
 
     //caplet
-    public static final GTMFOFoodStats CAPLET_GEL            = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).build();
-    public static final GTMFOFoodStats CAPLET_PARACETAMOL    = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(MobEffects.REGENERATION,400,0,1f).build();
-    public static final GTMFOFoodStats CAPLET_PLUTONIUM_241  = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(MobEffects.POISON,7000,0,1f).build();
-    public static final GTMFOFoodStats CAPLET_CHORUS         = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(GTMFOEffects.CHORUS.get(),300,0,1f).build();
-    public static final GTMFOFoodStats CAPLET_VIBRANT        = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).eatDuration(1).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),600,0),0.6f).effect(MobEffects.POISON,600,2,0.9f).build();
+    public static final GTMFOFoodStats CAPLET_GEL            = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).build();
+    public static final GTMFOFoodStats CAPLET_PARACETAMOL    = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(MobEffects.REGENERATION,400,0,1f).build();
+    public static final GTMFOFoodStats CAPLET_PLUTONIUM_241  = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(MobEffects.POISON,7000,0,1f).build();
+    public static final GTMFOFoodStats CAPLET_CHORUS         = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(GTMFOEffects.CHORUS.get(),300,0,1f).build();
+    public static final GTMFOFoodStats CAPLET_VIBRANT        = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),600,0),0.6f).effect(MobEffects.POISON,600,2,0.9f).build();
 
     //cheese
     public static final GTMFOFoodStats CHEDDAR_SLICE         =    food( 2    , 0.2f  , 20    , 2f    , 0     , 0     , 0     , 0     );
@@ -103,7 +103,7 @@ public class Foods {
     public static final GTMFOFoodStats LEMON                 =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.lemonSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
     public static final GTMFOFoodStats LIME                  =    food( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.limeSaturation, 32    , 0     , 1f    , 0     , 0     , 0     );
     public static final GTMFOFoodStats ETIRPS                = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.etirpsHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.etirpsSaturation, 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().effect(MobEffects.MOVEMENT_SPEED,1200,2,1f).build();
-    public static final GTMFOFoodStats BACON                 =    food( 2    , 0.8f  , 24    , 0     , 0     , 0     , 1f    , 0     );
+    public static final GTMFOFoodStats BACON                 = builder( 2    , 0.8f  , 0     , 0     , 0     , 1f    , 0     ).alwaysEat().eatDuration(24).build();
 
     public static final GTMFOFoodStats CAKE_BOTTOM           = builder( 2    , 0.5f  , 0     , 0     , 0.5f  , 0     , 0     ).eatDuration(60).effect(MobEffects.POISON,200,1,0.2f).build();
     public static final GTMFOFoodStats CAKE_BOTTOM_BAKED     =    food( 3    , 0.5f  , 0     , 0     , 1f    , 0     , 0     );
