@@ -15,14 +15,23 @@ import java.util.function.Supplier;
  */
 public class GTFOBlockLeaves extends LeavesBlock {
 
+    /** original fancy-graphics sapling drop chance passed to dropApple */
+    private static final int FANCY_APPLE_CHANCE = 20;
+
     private final Supplier<? extends Item> sapling;
     private final Supplier<? extends Item> fruit;
+    private final int fruitDivisor;
+    private final int fruitMin;
+    private final int fruitMax;
 
     public GTFOBlockLeaves(Properties properties, Supplier<? extends Item> sapling,
-                           Supplier<? extends Item> fruit) {
+                           Supplier<? extends Item> fruit, int fruitDivisor, int fruitMin, int fruitMax) {
         super(properties);
         this.sapling = sapling;
         this.fruit = fruit;
+        this.fruitDivisor = fruitDivisor;
+        this.fruitMin = fruitMin;
+        this.fruitMax = fruitMax;
     }
 
     @Override
@@ -35,8 +44,13 @@ public class GTFOBlockLeaves extends LeavesBlock {
         if (random.nextInt(50) == 0) {
             drops.add(new ItemStack(net.minecraft.world.item.Items.STICK));
         }
-        if (this.fruit != null && random.nextInt(20) == 0) {
-            drops.add(new ItemStack(this.fruit.get()));
+        // original GTFOTree.getAppleDrop: nextInt(chance / divisor) == 0, chance = 20
+        if (this.fruit != null && this.fruitDivisor > 0
+                && random.nextInt(Math.max(1, FANCY_APPLE_CHANCE / this.fruitDivisor)) == 0) {
+            int count = this.fruitMin + random.nextInt(this.fruitMax - this.fruitMin + 1);
+            if (count > 0) {
+                drops.add(new ItemStack(this.fruit.get(), count));
+            }
         }
         return drops;
     }

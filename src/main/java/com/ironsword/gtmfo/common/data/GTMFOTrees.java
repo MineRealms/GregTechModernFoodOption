@@ -29,7 +29,8 @@ import static com.ironsword.gtmfo.common.registry.GTMFORegistries.REGISTRATE;
  */
 public class GTMFOTrees {
 
-    public record TreeData(String name, int index, Supplier<? extends Item> fruit, int leafColor) {}
+    public record TreeData(String name, int index, Supplier<? extends Item> fruit, int leafColor,
+                            int fruitDivisor, int fruitMin, int fruitMax) {}
 
     public static final int RAINBOWWOOD_INDEX = 7;
     public static final int RAINBOWWOOD_ITEM_COLOR = 0x8F00FF;
@@ -40,16 +41,16 @@ public class GTMFOTrees {
             0x0000ff, 0x4000ff, 0x8000ff, 0xc000ff, 0xff00ff, 0xff00c0, 0xff0080, 0xff0040 };
 
     public static final List<TreeData> TREES = List.of(
-            new TreeData("banana", 0, () -> GTMFOItems.BANANA.get(), 0x396A2E),
-            new TreeData("orange", 1, () -> GTMFOItems.ORANGE.get(), 0x76c92c),
-            new TreeData("mango", 2, () -> GTMFOItems.MANGO.get(), 0x7D921E),
-            new TreeData("apricot", 3, () -> GTMFOItems.APRICOT.get(), 0x87A92C),
-            new TreeData("lemon", 4, () -> GTMFOItems.LEMON.get(), 0x87A92C),
-            new TreeData("lime", 5, () -> GTMFOItems.LIME.get(), 0x426801),
-            new TreeData("olive", 6, () -> GTMFOItems.OLIVE.get(), 0x828E5A),
-            new TreeData("rainbowwood", 7, null, RAINBOWWOOD_ITEM_COLOR),
-            new TreeData("nutmeg", 8, () -> GTMFOItems.NUTMEG.get(), 0x6DB626),
-            new TreeData("coconut", 9, () -> GTMFOItems.COCONUT.get(), 0x657F1C));
+            new TreeData("banana", 0, () -> GTMFOItems.BANANA.get(), 0x396A2E, 8, 3, 6),
+            new TreeData("orange", 1, () -> GTMFOItems.ORANGE.get(), 0x76c92c, 10, 1, 2),
+            new TreeData("mango", 2, () -> GTMFOItems.MANGO.get(), 0x7D921E, 10, 0, 2),
+            new TreeData("apricot", 3, () -> GTMFOItems.APRICOT.get(), 0x87A92C, 15, 1, 1),
+            new TreeData("lemon", 4, () -> GTMFOItems.LEMON.get(), 0x87A92C, 10, 1, 2),
+            new TreeData("lime", 5, () -> GTMFOItems.LIME.get(), 0x426801, 10, 1, 2),
+            new TreeData("olive", 6, () -> GTMFOItems.OLIVE.get(), 0x828E5A, 15, 1, 4),
+            new TreeData("rainbowwood", 7, null, RAINBOWWOOD_ITEM_COLOR, 0, 0, 0),
+            new TreeData("nutmeg", 8, () -> GTMFOItems.NUTMEG.get(), 0x6DB626, 10, 1, 2),
+            new TreeData("coconut", 9, () -> GTMFOItems.COCONUT.get(), 0x657F1C, 7, 0, 1));
 
     private static final int COCONUT_INDEX = 9;
 
@@ -101,7 +102,7 @@ public class GTMFOTrees {
 
             Supplier<? extends Item> fruit = tree.fruit();
             BlockEntry<GTFOBlockLeaves> leaves = REGISTRATE
-                    .block(name + "_leaves", p -> new GTFOBlockLeaves(p, saplingItem, fruit))
+                    .block(name + "_leaves", p -> new GTFOBlockLeaves(p, saplingItem, fruit, tree.fruitDivisor(), tree.fruitMin(), tree.fruitMax()))
                     .initialProperties(() -> Blocks.OAK_LEAVES)
                     .lang(capitalize(name) + " Leaves")
                     .tag(BlockTags.LEAVES, BlockTags.MINEABLE_WITH_HOE)
