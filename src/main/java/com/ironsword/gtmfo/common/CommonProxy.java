@@ -46,6 +46,7 @@ public class CommonProxy {
         GTMFOTools.init();
         GTMFOCovers.init();
         GTMFOLacing.init();
+        GTMFOEntities.init(bus);
 
         bus.addGenericListener(MachineDefinition.class,CommonProxy::registerMachines);
         bus.addGenericListener(GTRecipeType.class,CommonProxy::registerRecipeTypes);
@@ -56,6 +57,7 @@ public class CommonProxy {
 
         GTMFOEffects.init(bus);
         GTMFOSounds.init(bus);
+        GTMFODataGen.initEntityLang();
     }
 
     public static void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event){

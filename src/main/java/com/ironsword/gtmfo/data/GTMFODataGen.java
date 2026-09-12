@@ -30,4 +30,9 @@ public class GTMFODataGen {
         GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, GTMFOEffects::initCNLang);
     }
 
+    public static void initEntityLang(){
+        GTMFORegistries.REGISTRATE.addDataGenerator(ProviderType.LANG, com.ironsword.gtmfo.common.data.GTMFOEntities::initENLang);
+        GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, com.ironsword.gtmfo.common.data.GTMFOEntities::initCNLang);
+    }
+
 }

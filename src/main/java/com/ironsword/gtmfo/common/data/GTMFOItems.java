@@ -15,6 +15,7 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import java.util.function.Supplier;
 
@@ -626,6 +627,14 @@ public class GTMFOItems {
     public static final ItemEntry<Item> SAUSAGE_ROLL_RAW = item("sausage_roll_raw","Uncooked Sausage Roll","生香肠卷");
 //    public static final ItemEntry<Item> SCRAP_MEAT = item("scrap_meat","Scrap Meat","废肉");
     public static final ItemEntry<Item> SEASONED_PORK = item("seasoned_pork","Seasoned Pork","调味猪肉");
+    public static final ItemEntry<ForgeSpawnEggItem> ITALIAN_BUFFALO_SPAWN_EGG =
+            REGISTRATE.item("italian_buffalo_spawn_egg",
+                    p -> new ForgeSpawnEggItem(GTMFOEntities.ITALIAN_BUFFALO, 0x3d352f, 0xf0ded1, p))
+                    .lang("Italian Buffalo Spawn Egg")
+                    .setData(GTMFOProviderTypes.CNLANG, cn("意大利水牛刷怪蛋"))
+                    .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/template_spawn_egg")))
+                    .register();
+
     public static final ItemEntry<Item> SHEPHERDS_PIE = item("shepherds_pie","Shepherd's Pie","牧羊人派");
 //    public static final ItemEntry<Item> SPRINKLER = item("sprinkler","Sprinkler","洒水器");
 
