@@ -66,6 +66,76 @@ public class GTMFOMachineRecipes {
                 'A', GTCraftingComponents.CABLE,
                 'L', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead));
 
+        MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.MOB_AGE_SORTER,
+                "OWS",
+                "OHW",
+                "OCW",
+                'O', GTCraftingComponents.CONVEYOR,
+                'W', GTCraftingComponents.CABLE,
+                'H', GTCraftingComponents.HULL,
+                'C', GTCraftingComponents.CIRCUIT,
+                'S', GTCraftingComponents.SENSOR);
+
+        MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.MOB_EXTERMINATOR,
+                "EIE",
+                "WHW",
+                "CSC",
+                'E', GTCraftingComponents.EMITTER,
+                'W', GTCraftingComponents.CABLE,
+                'I', GTCraftingComponents.WIRE_QUAD,
+                'H', GTCraftingComponents.HULL,
+                'C', GTCraftingComponents.CIRCUIT,
+                'S', GTCraftingComponents.SENSOR);
+
+        MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.MOB_EXTRACTOR,
+                "BCE",
+                "PME",
+                "WCW",
+                'M', GTCraftingComponents.HULL,
+                'E', GTCraftingComponents.PISTON,
+                'P', GTCraftingComponents.PUMP,
+                'C', GTCraftingComponents.CIRCUIT,
+                'W', GTCraftingComponents.CABLE,
+                'B', GTCraftingComponents.SAWBLADE);
+
+        MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.FARMER,
+                "BEP",
+                "WMW",
+                "CWC",
+                'M', GTCraftingComponents.HULL,
+                'E', GTCraftingComponents.EMITTER,
+                'P', GTCraftingComponents.PISTON,
+                'C', GTCraftingComponents.CIRCUIT,
+                'W', GTCraftingComponents.CABLE_QUAD,
+                'B', GTCraftingComponents.SENSOR);
+
+        MetaTileEntityLoader.registerMachineRecipe(provider, GTMFOMachines.MULTICOOKER,
+                "CGC",
+                "GHG",
+                "WMW",
+                'G', GTCraftingComponents.GLASS,
+                'H', GTCraftingComponents.HULL,
+                'C', GTCraftingComponents.CIRCUIT,
+                'W', GTCraftingComponents.COIL_HEATING_DOUBLE,
+                'M', GTCraftingComponents.MOTOR);
+
+        // primitive baking oven (original ModHandler.addShapedRecipe "baking_oven")
+        VanillaRecipeHelper.addShapedRecipe(provider, id("primitive_baking_oven_1"),
+                GTMFOMultiMachines.PRIMITIVE_BAKING_OVEN.asStack(),
+                "dSS",
+                "RRA",
+                "fSS",
+                'S', ChemicalHelper.get(TagPrefix.screw, GTMaterials.Iron),
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Iron),
+                'A', GTMFOBlocks.ADOBE_BRICKS.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, id("primitive_baking_oven_2"),
+                GTMFOMultiMachines.PRIMITIVE_BAKING_OVEN.asStack(),
+                "dRR",
+                "RRA",
+                "fRR",
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Iron),
+                'A', GTMFOBlocks.ADOBE_BRICKS.asStack());
+
         VanillaRecipeHelper.addShapedRecipe(provider,id("steam_baking_oven"),
                 GTMFOMultiMachines.STEAM_BAKING_OVEN.asStack(),
                 "dSG",
