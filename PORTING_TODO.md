@@ -928,7 +928,8 @@
 ### P3 — 兼容与打磨
 18. **JEI 集成**（进食/掺加信息页）— 🔄 部分
     - ✅ GT 配方 JEI 分类由 GTCEu 自动生成（切片机/微波炉/多功锅/菜肴组装机等）
-    - [ ] 原版 `EatingRecipeCategory`（食物数值信息页）/ `LacingCategory`（掺加信息页）未移植
+    - ✅ `FoodInfoCategory`（原版 `EatingRecipeCategory`）：饥饿值/饱和度/效果/营养素，自动收集所有已注册可食用物品，EN/CN 本地化
+    - [ ] `LacingCategory`（掺加信息页）未移植
 19. **AppleSkin / TOP 兼容** — [ ] 未移植（对应模组未安装；原版 AppleSkin 4 个类）
 20. **地牢战利品** — ✅ 已完成（对照原版 `GTFODungeonLootLoader`）
     - ✅ 41 种食物注入 7 个战利品表（废弃矿井/丛林神庙/沙漠神殿/地牢/要塞走廊·交叉/林地府邸）
@@ -938,7 +939,10 @@
     - ✅ 配置开关 `addDungeonFoods` / `addLacedDungeonFoods` 生效
 21. **音效/粒子效果** — 🔄 部分
     - ✅ 音效注册（微波炉完成/农场激光/排气）+ 代码调用
-    - [ ] 粒子效果：洒水器水花（`GTFOSprinkleMaker`）/农场机激光束未移植
+    - ✅ 洒水器粒子（`GTFOSprinkleOptions` + `GTFOSprinkleParticle`，飞向目标 + 流体颜色）
+    - ✅ GTFO GUI 标志（`GTMFOGuiUtils.withLogo`，6 张原版 logo 纹理）
+    - ✅ 药水图标：从原版 `potions.png` 图集提取 8 个（氰化物/抗精神分裂无图标，同原版）
+    - [ ] 农场机激光束（GTCEu 7.5.2 无对应粒子系统，跳过）
 22. **其他模组兼容**（TFC/AgriCraft/EnderIO/Nutrition 等）— [ ] 未移植（对应模组未安装，优先级低）
 
 ---
