@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
 import com.ironsword.gtmfo.common.data.GTMFOBlocks;
+import com.ironsword.gtmfo.common.data.GTMFOCovers;
 import com.ironsword.gtmfo.common.data.machine.GTMFOMachines;
 import com.ironsword.gtmfo.common.data.machine.GTMFOMultiMachines;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -158,6 +159,38 @@ public class GTMFOMachineRecipes {
                 'W', ChemicalHelper.get(TagPrefix.wireGtQuadruple,GTMaterials.Cupronickel),
                 'A', GTBlocks.COIL_CUPRONICKEL.asStack());
 
+
+        // kitchen (original ModHandler.addShapedRecipe "kitchen")
+        VanillaRecipeHelper.addShapedRecipe(provider, id("kitchen"),
+                GTMFOMultiMachines.KITCHEN.asStack(),
+                "PIP",
+                "ICI",
+                "RWR",
+                'C', GTBlocks.CASING_STEEL_SOLID.asStack(),
+                'R', GTItems.ROBOT_ARM_MV.asStack(),
+                'I', CustomTags.MV_CIRCUITS,
+                'W', ChemicalHelper.get(TagPrefix.cableGtQuadruple, GTMaterials.AnnealedCopper),
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.BismuthBronze));
+
+        // greenhouse (original assembler recipe)
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("greenhouse"))
+                .inputItems(GTMachines.HULL[com.gregtechceu.gtceu.api.GTValues.MV].asStack())
+                .inputItems(GTItems.ELECTRIC_PUMP_MV.asStack(2))
+                .inputItems(CustomTags.HV_CIRCUITS, 4)
+                .inputItems(ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Steel))
+                .inputItems(ChemicalHelper.get(TagPrefix.plate, GTMaterials.SterlingSilver, 6))
+                .circuitMeta(3)
+                .outputItems(GTMFOMultiMachines.GREENHOUSE.asStack())
+                .EUt(120).duration(400).save(provider);
+
+        // sprinkler cover (original assembler recipe)
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("sprinkler_cover"))
+                .inputItems(ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron))
+                .inputItems(ChemicalHelper.get(TagPrefix.pipeTinyFluid, GTMaterials.Steel))
+                .inputItems(GTItems.FLUID_FILTER.asStack())
+                .inputFluids(GTMaterials.Tin.getFluid(144))
+                .outputItems(GTMFOCovers.SPRINKLER_COVER.asStack())
+                .EUt(16).duration(200).save(provider);
 
         //bismuth_bronze_casing
         VanillaRecipeHelper.addShapedRecipe(provider,true, id("bismuth_bronze_casing"),
