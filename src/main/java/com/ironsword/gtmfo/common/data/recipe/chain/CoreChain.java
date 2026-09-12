@@ -380,6 +380,19 @@ public class CoreChain {
                 .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
                 .outputItems(GTMFOItems.TOMATO_SLICE,8)
                 .EUt(18).duration(30).save(provider);
+
+        // bacon (original CoreChain.bakingOvenRecipes)
+        VanillaRecipeHelper.addShapelessRecipe(provider, id("bacon_by_hand"),
+                GTMFOItems.BACON_RAW.asStack(3), Items.PORKCHOP, CustomTags.CRAFTING_KNIVES);
+        GTMFORecipeTypes.SLICER_RECIPES.recipeBuilder(id("bacon_raw"))
+                .inputItems(Items.PORKCHOP)
+                .notConsumable(GTMFOItems.SLICER_BLADE_FLAT)
+                .outputItems(GTMFOItems.BACON_RAW.asStack(6))
+                .EUt(18).duration(30).save(provider);
+        GTMFORecipeTypes.BAKING_OVEN_RECIPES.recipeBuilder(id("bacon"))
+                .inputItems(GTMFOItems.BACON_RAW.asStack())
+                .outputItems(GTMFOItems.BACON.asStack())
+                .EUt(60).duration(500).save(provider);
     }
 
     private static void drink(Consumer<FinishedRecipe> provider){
