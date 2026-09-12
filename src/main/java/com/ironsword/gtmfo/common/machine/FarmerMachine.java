@@ -164,6 +164,25 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
         for (int i = 0; i < importItems.getSlots(); i++) {
             ItemStack stack = importItems.getStackInSlot(i);
             if (stack.isEmpty()) continue;
+
+            // GTFO seeds place their crop block directly (same rules as the planting event)
+            net.minecraft.world.level.block.Block crop = com.ironsword.gtmfo.common.data.GTMFOCrops
+                    .getCropFor(stack.getItem());
+            if (crop != null) {
+                if (!level.getBlockState(pos).isAir()) continue;
+                BlockPos below = pos.below();
+                boolean onFarmland = level.getBlockState(below).is(Blocks.FARMLAND);
+                boolean onWater = level.getBlockState(below).getFluidState()
+                        .is(net.minecraft.tags.FluidTags.WATER);
+                if (onFarmland || onWater) {
+                    level.setBlock(pos, crop.defaultBlockState(), 3);
+                    importItems.extractItem(i, 1, false);
+                    return;
+                }
+                continue;
+            }
+
+            // vanilla seeds
             ItemStack toPlace = stack.copyWithCount(1);
             fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, toPlace);
             InteractionResult result = toPlace.useOn(new net.minecraft.world.item.context.UseOnContext(
