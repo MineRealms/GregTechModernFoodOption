@@ -726,6 +726,14 @@
 
 ---
 
+### 14.5 资源完整性审计（脚本扫描，2026-09-13）
+- 修复缺失方块状态/模型：土坯砖系列、磁砖系列、温室玻璃（datagen 外手写）
+- 修复缺失树叶模型：原版仅有 banana/rainbowwood 纹理，其余 8 种树用 plain 纹理
+- 修复错误父级：minecraft:block/block/leaves → minecraft:block/leaves
+- 生成 59 个缺失物品模型（10 种树×4 + 新增物品 + 洒水器覆盖板）
+- 审计结果：0 个 blockstate 引用缺失模型，0 个物品模型引用缺失纹理
+- 剩余未引用模型（hops/popcorn 作物、artichoke stage6-7）为原版 WIP/未注册内容，无害
+
 ## 15. 数据生成
 
 - [ ] 核对 `GTMFODataGen` 覆盖的 provider 类型
