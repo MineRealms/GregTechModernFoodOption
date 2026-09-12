@@ -538,7 +538,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> SMOGUS_1     = smogus("smogus_1"    ,"S'mogus S'mingot"          ,"牛奶巧克力棉花糖夹心内鬼饼干"    ,"smore/sus1"        ,Foods.SMOGUS, GTMFOBlocks.SMOGUS_1);
     public static final ItemEntry<ExComponentItem> SMOGUS_2     = smogus("smogus_2"    ,"MultiS'mogus GrandS'mingot","多重牛奶巧克力棉花糖夹心内鬼饼干","smore/sus2"        ,Foods.SMOGUS_2,GTMFOBlocks.SMOGUS_2);
     public static final ItemEntry<ExComponentItem> SMOGUS_4     = smogus("smogus_4"    ,"AllS'mogus OmniS'mingot"   ,"全能牛奶巧克力棉花糖夹心内鬼饼干","smore/sus4"        ,Foods.SMOGUS_4,GTMFOBlocks.SMOGUS_4);
-    public static final ItemEntry<ExComponentItem> SMOGUS_HEART = smogus("smogus_heart","Heart of the S'mogus"      ,"夹心内鬼饼干之心"                ,"smore/smogus_heart",Foods.EMPTY,GTMFOBlocks.SMOGUS_HEART);
+    public static final ItemEntry<ExComponentItem> SMOGUS_HEART = smogus("smogus_heart","Heart of the S'mogus"      ,"夹心内鬼饼干之心"                ,"smore/smogus_heart",Foods.SMOGUS_HEART,GTMFOBlocks.SMOGUS_HEART);
 
 
 

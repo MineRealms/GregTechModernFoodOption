@@ -165,14 +165,15 @@ public class Foods {
     public static final GTMFOFoodStats SMORE_2               =    food( 20   , 3.8f  , 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
     public static final GTMFOFoodStats SMORE_4               =    food( 44,8.61363636364f, 32, 0.5f  , 0     , 1f    , 0.5f  , 0     );
 
-    // TODO:smore_8 to smogus_4 are wip
-    public static final GTMFOFoodStats SMORE_8               =    food( 92   , 18.2f , 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMORE_16              =    food( 188  , 37.4f , 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMORE_32              =    food( 380  , 75.8f , 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMORE_64              =    food( 764  , 152.6f, 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMOGUS                =    food( 1532 , 306.2f, 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMOGUS_2              =    food( 3068 , 613.4f, 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
-    public static final GTMFOFoodStats SMOGUS_4              =    food( 6140 ,1227.8f, 32    , 0.5f  , 0     , 1f    , 0.5f  , 0     );
+    public static final GTMFOFoodStats SMORE_8                  = builder( 92   , 18.2f    , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(32).effect(MobEffects.MOVEMENT_SPEED,1500,4,0.0f).effect(MobEffects.ABSORPTION,1500,4,0.0f).effect(MobEffects.DIG_SPEED,1500,4,0.0f).effect(MobEffects.SATURATION,1500,4,0.0f).effect(MobEffects.HEALTH_BOOST,1500,4,0.0f).build();
+    public static final GTMFOFoodStats SMORE_16                 = builder( 188  , 37.4f    , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(42).effect(MobEffects.MOVEMENT_SPEED,1875,6,0.02f).effect(MobEffects.ABSORPTION,1875,6,0.02f).effect(MobEffects.DIG_SPEED,1875,6,0.02f).effect(MobEffects.SATURATION,1875,6,0.02f).effect(MobEffects.HEALTH_BOOST,1875,6,0.02f).build();
+    public static final GTMFOFoodStats SMORE_32                 = builder( 380  , 75.8f    , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(52).effect(MobEffects.MOVEMENT_SPEED,2343,10,0.04f).effect(MobEffects.ABSORPTION,2343,10,0.04f).effect(MobEffects.DIG_SPEED,2343,10,0.04f).effect(MobEffects.SATURATION,2343,10,0.04f).effect(MobEffects.HEALTH_BOOST,2343,10,0.04f).build();
+    public static final GTMFOFoodStats SMORE_64                 = builder( 764  , 152.6f   , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(62).effect(MobEffects.MOVEMENT_SPEED,2929,16,0.06f).effect(MobEffects.ABSORPTION,2929,16,0.06f).effect(MobEffects.DIG_SPEED,2929,16,0.06f).effect(MobEffects.SATURATION,2929,16,0.06f).effect(MobEffects.HEALTH_BOOST,2929,16,0.06f).build();
+    public static final GTMFOFoodStats SMOGUS                   = builder( 1532 , 306.2f   , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(72).effect(MobEffects.MOVEMENT_SPEED,3662,28,0.08f).effect(MobEffects.ABSORPTION,3662,28,0.08f).effect(MobEffects.DIG_SPEED,3662,28,0.08f).effect(MobEffects.SATURATION,3662,28,0.08f).effect(MobEffects.HEALTH_BOOST,3662,28,0.08f).build();
+    public static final GTMFOFoodStats SMOGUS_2                 = builder( 3068 , 613.4f   , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(82).effect(MobEffects.MOVEMENT_SPEED,4577,48,0.1f).effect(MobEffects.ABSORPTION,4577,48,0.1f).effect(MobEffects.DIG_SPEED,4577,48,0.1f).effect(MobEffects.SATURATION,4577,48,0.1f).effect(MobEffects.HEALTH_BOOST,4577,48,0.1f).build();
+    public static final GTMFOFoodStats SMOGUS_4                 = builder( 6140 , 1227.8f  , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(92).effect(MobEffects.MOVEMENT_SPEED,5722,83,0.12f).effect(MobEffects.ABSORPTION,5721,83,0.12f).effect(MobEffects.DIG_SPEED,5721,83,0.12f).effect(MobEffects.SATURATION,5721,83,0.12f).effect(MobEffects.HEALTH_BOOST,5721,83,0.12f).build();
+
+    public static final GTMFOFoodStats SMOGUS_HEART             = builder( 12284, 2456.6f  , 0.5f  , 0f    , 1f    , 0.5f  , 0f    ).eatDuration(102).effect(MobEffects.MOVEMENT_SPEED,7151,145,0.14f).effect(MobEffects.ABSORPTION,7151,145,0.14f).effect(MobEffects.DIG_SPEED,7151,145,0.14f).effect(MobEffects.SATURATION,7151,145,0.14f).effect(MobEffects.HEALTH_BOOST,7151,145,0.14f).build();
 
     public static final GTMFOFoodStats MARSHMALLOW           =    food( 1    , 1f    , 32    , 0     , 0     , 0.5f  , 0.5f  , 0     );
 
