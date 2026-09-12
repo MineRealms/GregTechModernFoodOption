@@ -70,7 +70,7 @@ public class Foods {
     public static final GTMFOFoodStats COFFEE_ENERGIZING     = builder( 8    , 0.6f  , 0     , 0.5f  , 1f    , 0.5f  , 0     ).effect(MobEffects.REGENERATION,200,3,1f).effect(MobEffects.MOVEMENT_SPEED,2400,3,1f).effect(MobEffects.DAMAGE_BOOST,500,1,1f).effect(MobEffects.DAMAGE_RESISTANCE,500,1,1f).item(GTMFOItems.CUP_EMPTY::asStack).build();
 
     //corn
-    //public static final GTMFOFoodStats POPCORN_BAG           = builder( 5    , 0.4f  , 0     , 0     , 0.5f  , 0     , 0     ).alwaysEat().effect().item(GTMFOItems.PAPER_BAG::asStack).build();
+    public static final GTMFOFoodStats POPCORN_BAG           = builder( GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.popcornHunger, GTMFOConfigHolder.INSTANCE.gtfoFoodConfig.popcornSaturation, 0     , 0     , 0.5f  , 0     , 0     ).alwaysEat().item(GTMFOItems.PAPER_BAG::asStack).effect(MobEffects.JUMP,300,1,1f).build();
 
     //crop
     public static final GTMFOFoodStats CARROT_SLICE          =    food( 1    , 0     , 32    , 0     , 0     , 0     , 0     , 0.75f );

@@ -280,7 +280,7 @@ public class GTMFOItems {
     public static final ItemEntry<Item> CORN_KERNEL            = item("corn_kernel"           ,"Corn Kernel"           ,"玉米粒"      ,"corn/kernel"           );
     //public static final ItemEntry<Item> CORN_KERNEL_ACCEPTABLE = item("corn_kernel_acceptable","Acceptable Corn Kernel","合格级玉米粒","corn/kernel_acceptable");
     public static final ItemEntry<Item> FLAVORED_POPCORN_FLAKE = item("flavored_flake"        ,"Flavored Popcorn Flake","调味爆米花粒","corn/flavored_flake"   );
-    public static final ItemEntry<ExComponentItem> POPCORN_BAG = foodItem("popcorn_bag"           ,"Popcorn Bag"           ,"袋装爆米花"  ,"corn/popcorn_bag"      ,Foods.EMPTY);
+    public static final ItemEntry<ExComponentItem> POPCORN_BAG = foodItem("popcorn_bag"           ,"Popcorn Bag"           ,"袋装爆米花"  ,"corn/popcorn_bag"      ,Foods.POPCORN_BAG);
 
     //crop
     public static final ItemEntry<Item> ARTICHOKE      = item("artichoke"     ,"Artichoke Heart"  ,"洋蓟心"  ,"crop/artichoke"     );

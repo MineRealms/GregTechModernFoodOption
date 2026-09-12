@@ -498,6 +498,12 @@ public class CoreChain {
                 .outputItems(GTMFOItems.PAPER_BAG.asStack())
                 .EUt(80).duration(30).save(provider);
 
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("popcorn_bag"))
+                .inputItems(GTMFOItems.PAPER_BAG.asStack())
+                .inputItems(GTMFOItems.FLAVORED_POPCORN_FLAKE.asStack(32))
+                .outputItems(GTMFOItems.POPCORN_BAG.asStack())
+                .EUt(30).duration(60).save(provider);
+
         GTRecipeTypes.MIXER_RECIPES.recipeBuilder(id("fertilizer_solution"))
                 .inputItems(GTItems.FERTILIZER.asStack())
                 .inputFluids(GTMaterials.Water.getFluid(10000))
