@@ -1,5 +1,6 @@
 package com.ironsword.gtmfo.common.data.recipe;
 
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -46,6 +47,7 @@ public class GTMFORecipes {
         AdobeBrickRecipes.init(provider);
         TreeRecipes.init(provider);
         ToolRecipes.init(provider);
+        ivBag(provider);
         MobExtractionRecipes.init(provider);
         GreenhouseRecipes.init(provider);
         LacingRecipes.init(provider);
@@ -59,6 +61,15 @@ public class GTMFORecipes {
 
         GTMFOMachineRecipes.init(provider);
 
+    }
+
+    private static void ivBag(Consumer<FinishedRecipe> provider){
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(id("iv_bag"))
+                .inputItems(TagPrefix.foil, GTMaterials.PolyvinylChloride)
+                .inputItems(TagPrefix.pipeSmallItem, GTMaterials.PolyvinylChloride)
+                .inputItems(TagPrefix.bolt, GTMaterials.StainlessSteel)
+                .outputItems(GTMFOItems.IV_BAG.asStack())
+                .EUt(30).duration(100).save(provider);
     }
 
     public static void remove(Consumer<ResourceLocation> consumer){

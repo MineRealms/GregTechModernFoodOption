@@ -607,7 +607,7 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> HOT_BEETROOT_SOUP = foodItem("hot_beetroot_soup","Hot Beetroot Soup","热甜菜汤",Foods.HOT_BEETROOT_SOUP,STACK_1);
     public static final ItemEntry<ExComponentItem> HOT_MUSHROOM_STEW = foodItem("hot_mushroom_stew","Hot Mushroom Stew","热蘑菇煲",Foods.HOT_MUSHROOM_STEW,STACK_1);
     public static final ItemEntry<ExComponentItem> HOT_RABBIT_STEW   = foodItem("hot_rabbit_stew"  ,"Hot Rabbit Stew"  ,"热兔肉煲",Foods.HOT_RABBIT_STEW  ,STACK_1);
-//    public static final ItemEntry<Item> IV_BAG = item("iv_bag","IV Bag","静脉注射(IV)袋");
+    public static final ItemEntry<Item> IV_BAG = item("iv_bag","IV Bag","静脉注射(IV)袋");
     public static final ItemEntry<ExComponentItem> MARSHMALLOW               =  foodItem("marshmallow", "Marshmallow", "棉花软糖", Foods.MARSHMALLOW);
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK         = item("marshmallow_stick"        ,"Marshmallow on a Stick","棉花软糖串");
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK_ROASTED = item("marshmallow_stick_roasted","Roasted Marshmallow"   ,"烤棉花软糖");
