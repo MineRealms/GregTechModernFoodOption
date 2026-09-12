@@ -25,6 +25,20 @@ public class ToolRecipes {
                 ChemicalHelper.get(TagPrefix.plate, GTMaterials.Polyethylene));
         rollingPin(provider, "polytetrafluoroethylene", GTMaterials.Polytetrafluoroethylene,
                 ChemicalHelper.get(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene));
+        butcheryKnife(provider);
+    }
+
+    /** HV electric butchery knife: original shaped energy-transfer recipe (4 power-unit variants). */
+    private static void butcheryKnife(Consumer<FinishedRecipe> provider){
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, false, true, true, id("butchery_knife"),
+                net.minecraft.world.item.crafting.Ingredient.of(
+                        com.gregtechceu.gtceu.common.data.GTItems.POWER_UNIT_HV.asStack()),
+                GTMFOTools.BUTCHERY_KNIFE_ITEM.asStack(),
+                "WUd", "wMf", "H H",
+                'H', ChemicalHelper.get(TagPrefix.plate, GTMaterials.StainlessSteel),
+                'U', com.gregtechceu.gtceu.common.data.GTItems.POWER_UNIT_HV.asStack(),
+                'M', com.gregtechceu.gtceu.common.data.GTItems.ELECTRIC_MOTOR_HV.asStack(),
+                'W', ChemicalHelper.get(TagPrefix.cableGtDouble, GTMaterials.Gold));
     }
 
     private static void rollingPin(Consumer<FinishedRecipe> provider, String materialName,
