@@ -21,10 +21,12 @@ public class GTMFOJEIPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new FoodInfoCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new LacingCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(FoodInfoCategory.TYPE, FoodInfoCategory.FoodInfo.collect());
+        registration.addRecipes(LacingCategory.TYPE, LacingCategory.LacingInfo.collect());
     }
 }

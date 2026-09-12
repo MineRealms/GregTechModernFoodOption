@@ -192,6 +192,8 @@ public class GTMFOMachines {
         JEILangPairMap.put("gtmfo.jei.food_info.hunger", Pair.of("Hunger: %s", "饥饿值：%s"));
         JEILangPairMap.put("gtmfo.jei.food_info.saturation", Pair.of("Saturation: %s", "饱和度：%s"));
         JEILangPairMap.put("gtmfo.jei.food_info.effects", Pair.of("Effects:", "效果："));
+        JEILangPairMap.put("gtmfo.jei.lacing", Pair.of("Food Lacing", "食物掺加"));
+        JEILangPairMap.put("gtmfo.jei.lacing.effect", Pair.of("Applies: %s", "施加：%s"));
         JEILangPairMap.put("gtmfo.machine.farmer.tooltip.speed", Pair.of("Action every %s ticks",
                 "每 %s tick 执行一次动作"));
     }

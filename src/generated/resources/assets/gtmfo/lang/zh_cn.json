@@ -81,6 +81,8 @@
   "gtmfo.jei.food_info.effects": "效果：",
   "gtmfo.jei.food_info.hunger": "饥饿值：%s",
   "gtmfo.jei.food_info.saturation": "饱和度：%s",
+  "gtmfo.jei.lacing": "食物掺加",
+  "gtmfo.jei.lacing.effect": "施加：%s",
   "gtmfo.machine.kitchen.dirtiness": "脏污度：%s",
   "gtmfo.machine.kitchen.machines": "机器数：%s",
   "gtmfo.machine.kitchen.none": "无",

@@ -81,6 +81,8 @@
   "gtmfo.jei.food_info.effects": "Effects:",
   "gtmfo.jei.food_info.hunger": "Hunger: %s",
   "gtmfo.jei.food_info.saturation": "Saturation: %s",
+  "gtmfo.jei.lacing": "Food Lacing",
+  "gtmfo.jei.lacing.effect": "Applies: %s",
   "gtmfo.machine.kitchen.dirtiness": "Dirtiness: %s",
   "gtmfo.machine.kitchen.machines": "Machines: %s",
   "gtmfo.machine.kitchen.none": "None",
