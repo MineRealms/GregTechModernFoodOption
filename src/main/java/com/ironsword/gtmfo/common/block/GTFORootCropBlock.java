@@ -59,10 +59,11 @@ public class GTFORootCropBlock extends GTFOCropBlock {
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = new ArrayList<>();
         int age = this.getAge(state);
+        int fortune = getFortune(params);
         if (this.cropHarvestable(state)) {
-            drops.add(new ItemStack(this.cropItem.get()));
+            drops.add(new ItemStack(this.cropItem.get(), 1 + fortune));
         } else if (age >= this.getMaxAge()) {
-            drops.add(new ItemStack(this.seedItem.get(), 3));
+            drops.add(new ItemStack(this.seedItem.get(), 3 + fortune));
         }
         return drops;
     }

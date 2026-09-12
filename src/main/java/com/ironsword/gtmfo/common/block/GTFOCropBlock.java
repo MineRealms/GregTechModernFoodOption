@@ -98,7 +98,7 @@ public class GTFOCropBlock extends CropBlock {
             drops.add(seedStack);
 
             int cropCount = 0;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3 + getFortune(params); i++) {
                 if (random.nextInt(2 * this.getMaxAge()) <= age) {
                     cropCount++;
                 }
@@ -108,6 +108,15 @@ public class GTFOCropBlock extends CropBlock {
             }
         }
         return drops;
+    }
+
+    /** Original drop code iterated {@code 3 + fortune} times. */
+    protected static int getFortune(net.minecraft.world.level.storage.loot.LootParams.Builder params) {
+        ItemStack tool = params.getParameter(
+                net.minecraft.world.level.storage.loot.parameters.LootContextParams.TOOL);
+        if (tool == null) return 0;
+        return net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
+                net.minecraft.world.item.enchantment.Enchantments.BLOCK_FORTUNE, tool);
     }
 
     @Override
