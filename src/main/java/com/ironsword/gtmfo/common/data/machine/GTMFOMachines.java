@@ -141,18 +141,26 @@ public class GTMFOMachines {
     private static MachineDefinition[] registerMicrowaves() {
         return GTMachineUtils.registerTieredMachines(REGISTRATE, "microwave",
                 (info, tier) -> new MicrowaveMachine(info, tier),
-                (tier, builder) -> builder
-                        .langValue("%s %s %s".formatted(GTValues.VLVH[tier], toEnglishName("microwave"),
-                                GTValues.VLVT[tier]))
-                        .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id("microwave"),
-                                GTMFORecipeTypes.MICROWAVE_RECIPES))
-                        .rotationState(RotationState.NON_Y_AXIS)
-                        .recipeType(GTMFORecipeTypes.MICROWAVE_RECIPES)
-                        .workableTieredHullModel(GTCEu.id("block/machines/microwave"))
-                        .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
-                                GTMFORecipeTypes.MICROWAVE_RECIPES,
-                                GTMachineUtils.defaultTankSizeFunction.applyAsInt(tier), true))
-                        .register(),
+                (tier, builder) -> {
+                    java.util.List<Component> tooltips = new java.util.ArrayList<>();
+                    String flavorKey = flavorTooltipKey("microwave", tier);
+                    if (flavorKey != null) {
+                        tooltips.add(Component.translatable(flavorKey));
+                    }
+                    tooltips.addAll(java.util.Arrays.asList(GTMachineUtils.workableTiered(tier, GTValues.V[tier],
+                            GTValues.V[tier] * 64, GTMFORecipeTypes.MICROWAVE_RECIPES,
+                            GTMachineUtils.defaultTankSizeFunction.applyAsInt(tier), true)));
+                    return builder
+                            .langValue("%s %s %s".formatted(GTValues.VLVH[tier], toEnglishName("microwave"),
+                                    GTValues.VLVT[tier]))
+                            .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id("microwave"),
+                                    GTMFORecipeTypes.MICROWAVE_RECIPES))
+                            .rotationState(RotationState.NON_Y_AXIS)
+                            .recipeType(GTMFORecipeTypes.MICROWAVE_RECIPES)
+                            .workableTieredHullModel(GTCEu.id("block/machines/microwave"))
+                            .tooltips(tooltips.toArray(new Component[0]))
+                            .register();
+                },
                 GTMachineUtils.ELECTRIC_TIERS);
     }
 
@@ -166,6 +174,28 @@ public class GTMFOMachines {
         for (int tier:GTMachineUtils.ELECTRIC_TIERS){
             CNLangMap.put("block."+ GregTechModernFoodOption.MODID+ "." +GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,"%s%s %s".formatted(VLVH_CN[tier], cnLang, VLVT[tier]));
         }
+    }
+
+    /**
+     * Per-tier flavor tooltip, ported from the original language files
+     * (e.g. {@code gtmfo.machine.slicer.lv.tooltip = Slap-Chop}).
+     *
+     * @return the translation key, or {@code null} for machines without one
+     */
+    public static String flavorTooltipKey(String machine, int tier) {
+        return switch (machine) {
+            case "slicer", "microwave", "multicooker" -> "gtmfo.machine." + machine + ".flavor."
+                    + (tier >= GTValues.UV ? 2 : 1);
+            case "cuisine_assembler" -> switch (tier) {
+                case GTValues.IV -> "gtmfo.machine.cuisine_assembler.flavor.2";
+                case GTValues.LuV -> "gtmfo.machine.cuisine_assembler.flavor.3";
+                case GTValues.ZPM -> "gtmfo.machine.cuisine_assembler.flavor.4";
+                case GTValues.UV -> "gtmfo.machine.cuisine_assembler.flavor.5";
+                default -> tier > GTValues.UV ? "gtmfo.machine.cuisine_assembler.flavor.6"
+                        : "gtmfo.machine.cuisine_assembler.flavor.1";
+            };
+            default -> null;
+        };
     }
 
     public static void init(){
@@ -196,6 +226,25 @@ public class GTMFOMachines {
         JEILangPairMap.put("gtmfo.jei.lacing.effect", Pair.of("Applies: %s", "施加：%s"));
         JEILangPairMap.put("gtmfo.machine.farmer.tooltip.speed", Pair.of("Action every %s ticks",
                 "每 %s tick 执行一次动作"));
+
+        JEILangPairMap.put("gtmfo.machine.slicer.flavor.1", Pair.of("Slap-Chop", "拍拍刀"));
+        JEILangPairMap.put("gtmfo.machine.slicer.flavor.2", Pair.of("Slaps those nuts into pieces",
+                "把这些家伙打碎！"));
+        JEILangPairMap.put("gtmfo.machine.microwave.flavor.1", Pair.of("Turns Ingots into Energy instantly",
+                "可以把锭瞬间转化为能量！"));
+        JEILangPairMap.put("gtmfo.machine.microwave.flavor.2", Pair.of("Insert Ingot for free Doge Coin",
+                "放入锭以获取免费狗狗币！"));
+        JEILangPairMap.put("gtmfo.machine.multicooker.flavor.1",
+                Pair.of("Now you're cooking with (other Things)", "你终于开始用[别的东西]烹饪了"));
+        JEILangPairMap.put("gtmfo.machine.multicooker.flavor.2", Pair.of("Cooking Pot 9001", "烹饪锅 9001"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.1",
+                Pair.of("Industrial Sandwich Maker", "工业三明治制造者"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.2", Pair.of("Chef-Bot 3000", "厨师机器人 3000"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.3", Pair.of("Chef-Bot 5000", "厨师机器人 5000"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.4", Pair.of("Chef-Bot 7000", "厨师机器人 7000"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.5", Pair.of("Chef-Bot 9001", "厨师机器人 9001"));
+        JEILangPairMap.put("gtmfo.machine.cuisine_assembler.flavor.6", Pair.of("Aggressively Makes Pizza",
+                "激进地制造披萨（小心意大利人）"));
     }
 
     public static void initENLang(RegistrateLangProvider provider){

@@ -28,16 +28,24 @@ public class GTMFOMachineUtils {
                                                              GTRecipeType recipeType,
                                                              it.unimi.dsi.fastutil.ints.Int2IntFunction tankScalingFunction) {
         return GTMachineUtils.registerTieredMachines(registrate, name,
-                (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
-                        .recipeModifier(com.gregtechceu.gtceu.common.data.GTRecipeModifiers.OC_NON_PERFECT)
-                        .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
-                        .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id(name), recipeType))
-                        .rotationState(RotationState.NON_Y_AXIS)
-                        .recipeType(recipeType)
-                        .workableTieredHullModel(GTCEu.id("block/machines/" + name))
-                        .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
-                                recipeType, tankScalingFunction.applyAsInt(tier), true))
-                        .register(),
+                (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
+                    java.util.List<net.minecraft.network.chat.Component> tooltips = new java.util.ArrayList<>();
+                    String flavorKey = GTMFOMachines.flavorTooltipKey(name, tier);
+                    if (flavorKey != null) {
+                        tooltips.add(net.minecraft.network.chat.Component.translatable(flavorKey));
+                    }
+                    tooltips.addAll(java.util.Arrays.asList(GTMachineUtils.workableTiered(tier, GTValues.V[tier],
+                            GTValues.V[tier] * 64, recipeType, tankScalingFunction.applyAsInt(tier), true)));
+                    return builder
+                            .recipeModifier(com.gregtechceu.gtceu.common.data.GTRecipeModifiers.OC_NON_PERFECT)
+                            .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
+                            .editableUI(GTMFOGuiUtils.withLogo(GTCEu.id(name), recipeType))
+                            .rotationState(RotationState.NON_Y_AXIS)
+                            .recipeType(recipeType)
+                            .workableTieredHullModel(GTCEu.id("block/machines/" + name))
+                            .tooltips(tooltips.toArray(new net.minecraft.network.chat.Component[0]))
+                            .register();
+                },
                 GTMachineUtils.ELECTRIC_TIERS);
     }
 }
