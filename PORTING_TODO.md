@@ -548,8 +548,8 @@
 - [x] `SnowGolemSpawnerEffect` 雪人生成（射线追踪生成强力雪人 + 力量 IV 1000t，同原版）
 - [x] `CyanidePoisoningEffect` 氰化物中毒（分阶段：反胃/虚弱 → 失明 → 递增魔法伤害）
 - [x] `VentingEffect` 排气（随机传送 + `amogus.vent` 音效，原版 `VentingPotion`）
-- [x] `PotionAmplifierEffect` 药水增幅（标记效果，原版 `PotionAmplifierPotion`）
-- [x] `PotionLengthenerEffect` 药水延长（标记效果）
+- [x] PotionAmplifierEffect 药水增幅（ForgeCommonEventListener.onEffectApplicable：新增效果等级 + 增幅等级 + 1）
+- [x] PotionLengthenerEffect 药水延长（同上；注意：原版时长公式用的是新效果的**等级**而非时长，疑似上游 bug，已忠实照搬）
 - [x] `AntiSchizoEffect` 抗精神分裂（标记效果）
 - [x] `LungCancerEffect` 肺癌（每 600 tick 最大生命 -1，不可治愈）
 - [x] `EnhancedChorusEffect` 强化紫颂果（潜行朝视线方向传送 8 格）
@@ -812,7 +812,7 @@
     - ✅ `SnowGolemSpawnerEffect`（雪人生成）
     - ✅ `CyanidePoisoningEffect`（分阶段中毒：反胃/虚弱→失明→致死伤害）
     - ✅ `VentingEffect`（随机传送 + amogus.vent 音效）
-    - ✅ `PotionAmplifierEffect` / `PotionLengthenerEffect`（掺加标记）
+    - ✅ PotionAmplifierEffect / PotionLengthenerEffect（实际生效，非标记）
     - ✅ `AntiSchizoEffect`（标记）
     - ✅ `LungCancerEffect`（每 600 tick 降低 1 点最大生命，不可治愈）
     - ✅ `EnhancedChorusEffect`（潜行看向方向传送 8 格）
