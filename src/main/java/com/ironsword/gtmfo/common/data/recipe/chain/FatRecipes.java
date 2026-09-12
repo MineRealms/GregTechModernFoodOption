@@ -55,8 +55,25 @@ public class FatRecipes {
                 .outputFluids(GTMaterials.Biomass.getFluid(200), GTMFOFluids.Stearin.getFluid(10))
                 .EUt(30).duration(300).save(provider);
 
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(id("scrap_meat_extract"))
+                .inputItems(GTMFOItems.SCRAP_MEAT.asStack(32))
+                .inputFluids(GTMaterials.Methanol.getFluid(4000), GTMaterials.Chloroform.getFluid(4000))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Meat, 32))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Bone, 20))
+                .outputFluids(GTMFOFluids.Stearin.getFluid(3500), GTMFOFluids.Sludge.getFluid(16000),
+                        GTMaterials.Chlorine.getFluid(12000))
+                .EUt(256).duration(1000).save(provider);
+
+        GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(id("scrap_meat_maceration"))
+                .inputItems(GTMFOItems.SCRAP_MEAT.asStack(8))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Meat, 10))
+                .outputItems(ChemicalHelper.get(TagPrefix.dustSmall, GTMaterials.Bone, 16))
+                .outputItems(GTMFOItems.ANIMAL_FAT.asStack(10))
+                .chancedOutput(GTMFOItems.ANIMAL_FAT.asStack(4), 5000, 2000)
+                .EUt(20).duration(400).save(provider);
+
         GTRecipeTypes.FERMENTING_RECIPES.recipeBuilder(id("scrap_meat_ferment"))
-                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Meat))
+                .inputItems(GTMFOItems.SCRAP_MEAT.asStack())
                 .inputFluids(GTMaterials.Chloroform.getFluid(100))
                 .outputFluids(GTMFOFluids.Stearin.getFluid(40))
                 .EUt(32).duration(1200).save(provider);

@@ -625,7 +625,7 @@ public class GTMFOItems {
     public static final ItemEntry<Item> SAUSAGE_RAW      = item("sausage_raw"     ,"Raw Sausage"          ,"生香肠"  );
     public static final ItemEntry<ExComponentItem> SAUSAGE_ROLL     =  foodItem("sausage_roll", "Sausage Roll", "香肠卷", Foods.SAUSAGE_ROLL);
     public static final ItemEntry<Item> SAUSAGE_ROLL_RAW = item("sausage_roll_raw","Uncooked Sausage Roll","生香肠卷");
-//    public static final ItemEntry<Item> SCRAP_MEAT = item("scrap_meat","Scrap Meat","废肉");
+    public static final ItemEntry<Item> SCRAP_MEAT = item("scrap_meat","Scrap Meat","废肉");
     public static final ItemEntry<Item> SEASONED_PORK = item("seasoned_pork","Seasoned Pork","调味猪肉");
     public static final ItemEntry<ForgeSpawnEggItem> ITALIAN_BUFFALO_SPAWN_EGG =
             REGISTRATE.item("italian_buffalo_spawn_egg",
