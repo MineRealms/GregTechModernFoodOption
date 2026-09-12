@@ -118,6 +118,10 @@ public class GTMFOMultiMachines {
             .workableCasingModel(
                     GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/machines/greenhouse"))
+            .tooltips(
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.greenhouse.tooltip.1"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.greenhouse.tooltip.2"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.greenhouse.tooltip.3"))
             .register();
 
     public static final MultiblockMachineDefinition KITCHEN = REGISTRATE
@@ -144,6 +148,12 @@ public class GTMFOMultiMachines {
             .workableCasingModel(
                     GTCEu.id("block/casings/pipe/machine_casing_pipe_steel"),
                     GTCEu.id("block/multiblock/electric_blast_furnace"))
+            .tooltips(
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.kitchen.tooltip.1"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.kitchen.tooltip.2"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.kitchen.tooltip.3"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.kitchen.tooltip.4"),
+                    net.minecraft.network.chat.Component.translatable("gtmfo.machine.kitchen.tooltip.5"))
             .register();
 
     public static void init(){
@@ -168,5 +178,23 @@ public class GTMFOMultiMachines {
         GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.hatches_full", Pair.of("Status: Fluid hatches full", "状态：流体仓已满"));
         GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.buses_full", Pair.of("Status: Item buses full", "状态：物品总线已满"));
         GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.status.bad_machines", Pair.of("Status: Missing machines", "状态：缺少机器"));
+
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.greenhouse.tooltip.1",
+                Pair.of("Simulates the growth of Trees inside.", "在内部模拟树木生长。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.greenhouse.tooltip.2",
+                Pair.of("Takes twice as long to run a Recipe if Any Part of the Roof is blocked, or it is Night.",
+                        "在夜间或顶部被遮挡时，运行速度将减半。"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.greenhouse.tooltip.3",
+                Pair.of("This is weather-resistant!", "此机器具有耐候性！"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.1",
+                Pair.of("§4Only can be used with JEI", "§4需要 JEI 才能使用！"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.2",
+                Pair.of("Runs food-related Recipes through a Kitchen Recipe", "按照厨房食谱处理食物相关的配方"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.3",
+                Pair.of("Place singleblock Machines on the porcelain tile!", "将单方块机器放置在瓷砖上！"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.4",
+                Pair.of("Any size larger than the Preview up to 15x15 is fine.", "可以搭建大于预览所示尺寸的厨房"));
+        GTMFOMachines.JEILangPairMap.put("gtmfo.machine.kitchen.tooltip.5",
+                Pair.of("§4Requires cleaning Products to remain efficient!", "§4需要清洁剂来保持运行效率！"));
     }
 }
