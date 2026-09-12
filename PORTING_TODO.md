@@ -683,7 +683,7 @@
 - [ ] JEI 集成
   - [ ] `JEIGTFOPlugin`
   - [ ] `EatingRecipeCategory` 进食信息页
-  - [ ] `LacingCategory` 掺加信息页
+    - ✅ LacingCategory（掺加信息页）：掺加物 + 食物 → 带效果的掺加食物
 - [ ] KubeJS 集成（原版有 ZenScript 注解，1.20.1 用 KubeJS）
 
 ---
@@ -926,10 +926,10 @@
 - 说明：生产审计剩余告警均为误报（作物来自种植、脏容器来自进食返还、面包/干面来自熔炉配方、循环变量输出）
 
 ### P3 — 兼容与打磨
-18. **JEI 集成**（进食/掺加信息页）— 🔄 部分
+18. **JEI 集成**（进食/掺加信息页）— ✅ 已完成
     - ✅ GT 配方 JEI 分类由 GTCEu 自动生成（切片机/微波炉/多功锅/菜肴组装机等）
     - ✅ `FoodInfoCategory`（原版 `EatingRecipeCategory`）：饥饿值/饱和度/效果/营养素，自动收集所有已注册可食用物品，EN/CN 本地化
-    - [ ] `LacingCategory`（掺加信息页）未移植
+    - ✅ LacingCategory（掺加信息页）：掺加物 + 食物 → 带效果的掺加食物
 19. **AppleSkin / TOP 兼容** — [ ] 未移植（对应模组未安装；原版 AppleSkin 4 个类）
 20. **地牢战利品** — ✅ 已完成（对照原版 `GTFODungeonLootLoader`）
     - ✅ 41 种食物注入 7 个战利品表（废弃矿井/丛林神庙/沙漠神殿/地牢/要塞走廊·交叉/林地府邸）
