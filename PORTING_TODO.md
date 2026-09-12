@@ -414,7 +414,7 @@
 - [x] 披萨方块（芝士/肉末/橄榄蘑菇，切片机制）
 - [x] Smogus 方块（4 级）
 - [ ] S'more 方块（1/64 等，当前注释）
-- [ ] `GTFOPizzaBox` 披萨盒
+- [x] 披萨盒（GTFOPizzaBox）：3 种方块 + 右键变披萨 + 打包机配方（原版 id）—— 已完成
 
 ---
 
@@ -705,7 +705,7 @@
 - [ ] 作物模型（`crop_cross.json` 需转换：forge_marker → 1.20.1 格式）
 - [ ] 树苗/木板/原木模型（`legacy-resources/assets/gtmfo/models/`）
 - [ ] 浆果丛模型（`small_berry_bush.json` / `large_berry_bush.json`）
-- [ ] 披萨盒模型（`pizza_box_*.json`）
+- [x] 披萨盒（GTFOPizzaBox）：3 种方块 + 右键变披萨 + 打包机配方（原版 id）—— 已完成
 - [ ] 多方块结构模型（由 GTCEu 系统处理）
 - [ ] 机器模型（Farmer/Mob 机器，由 GTCEu workable 系统处理）
 
@@ -918,7 +918,7 @@
       （原版 3 条链共 9 处条件），配置现在真实生效
 - [x] **生产审计（物品被消耗但无生产）**：修复 培根链（切片+烤制）、黄瓜/洋葱/茄子/胡萝卜切片、
       吐司（烤炉）、意式馄饨、玉米粒（离心+手搓）、披萨刀片（现代新增物品补配方）、温室玻璃
-- [ ] **披萨盒**（`GTFOPizzaBox`，原版方块，未移植；物品栏存储披萨用，低优先级）
+- [x] 披萨盒（GTFOPizzaBox）：3 种方块 + 右键变披萨 + 打包机配方（原版 id）—— 已完成
 - [ ] **爆米花链**：原版 `POPCORN_BAG`/`FLAVORED_POPCORN_FLAKE` 已有物品但原版配方整段注释（WIP）
 - 说明：`MineralWaterChain`（512 行）、`PopcornChain`（179 行）、`Dewar Flask` 在原版**整段注释**（WIP），未移植属正常
 - 说明：`SmogusChain` 由 `SmoreRecipes`（smogus 组装）+ `ChocolateRecipes`（可可）覆盖，恒星熔炉部分用成型压床替代；
