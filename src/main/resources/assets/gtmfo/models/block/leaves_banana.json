@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/block/leaves",
+  "parent": "minecraft:block/leaves",
   "textures": {
     "all": "gtmfo:block/leaves/banana"
   }

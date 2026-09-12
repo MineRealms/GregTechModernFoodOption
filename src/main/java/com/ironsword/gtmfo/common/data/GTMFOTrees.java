@@ -29,19 +29,27 @@ import static com.ironsword.gtmfo.common.registry.GTMFORegistries.REGISTRATE;
  */
 public class GTMFOTrees {
 
-    public record TreeData(String name, int index, Supplier<? extends Item> fruit) {}
+    public record TreeData(String name, int index, Supplier<? extends Item> fruit, int leafColor) {}
+
+    public static final int RAINBOWWOOD_INDEX = 7;
+    public static final int RAINBOWWOOD_ITEM_COLOR = 0x8F00FF;
+    /** original {@code RainbowwoodTree.RAINBOW_ARRAY} */
+    public static final int[] RAINBOW_ARRAY = {
+            0xff0000, 0xff4000, 0xff8000, 0xffc000, 0xffff00, 0xc0ff00, 0x80ff00, 0x40ff00,
+            0x00ff00, 0x00ff40, 0x00ff80, 0x00ffc0, 0x00ffff, 0x00c0ff, 0x0080ff, 0x0040ff,
+            0x0000ff, 0x4000ff, 0x8000ff, 0xc000ff, 0xff00ff, 0xff00c0, 0xff0080, 0xff0040 };
 
     public static final List<TreeData> TREES = List.of(
-            new TreeData("banana", 0, () -> GTMFOItems.BANANA.get()),
-            new TreeData("orange", 1, () -> GTMFOItems.ORANGE.get()),
-            new TreeData("mango", 2, () -> GTMFOItems.MANGO.get()),
-            new TreeData("apricot", 3, () -> GTMFOItems.APRICOT.get()),
-            new TreeData("lemon", 4, () -> GTMFOItems.LEMON.get()),
-            new TreeData("lime", 5, () -> GTMFOItems.LIME.get()),
-            new TreeData("olive", 6, () -> GTMFOItems.OLIVE.get()),
-            new TreeData("rainbowwood", 7, null),
-            new TreeData("nutmeg", 8, () -> GTMFOItems.NUTMEG.get()),
-            new TreeData("coconut", 9, () -> GTMFOItems.COCONUT.get()));
+            new TreeData("banana", 0, () -> GTMFOItems.BANANA.get(), 0x396A2E),
+            new TreeData("orange", 1, () -> GTMFOItems.ORANGE.get(), 0x76c92c),
+            new TreeData("mango", 2, () -> GTMFOItems.MANGO.get(), 0x7D921E),
+            new TreeData("apricot", 3, () -> GTMFOItems.APRICOT.get(), 0x87A92C),
+            new TreeData("lemon", 4, () -> GTMFOItems.LEMON.get(), 0x87A92C),
+            new TreeData("lime", 5, () -> GTMFOItems.LIME.get(), 0x426801),
+            new TreeData("olive", 6, () -> GTMFOItems.OLIVE.get(), 0x828E5A),
+            new TreeData("rainbowwood", 7, null, RAINBOWWOOD_ITEM_COLOR),
+            new TreeData("nutmeg", 8, () -> GTMFOItems.NUTMEG.get(), 0x6DB626),
+            new TreeData("coconut", 9, () -> GTMFOItems.COCONUT.get(), 0x657F1C));
 
     private static final int COCONUT_INDEX = 9;
 

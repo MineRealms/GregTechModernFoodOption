@@ -25,4 +25,30 @@ public class GTMFOClientEvents {
         event.registerSpriteSet(com.ironsword.gtmfo.common.data.GTMFOParticles.SPRINKLE.get(),
                 com.ironsword.gtmfo.client.particle.GTFOSprinkleParticle.Provider::new);
     }
+
+    @SubscribeEvent
+    public static void onRegisterBlockColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Block event) {
+        for (int i = 0; i < com.ironsword.gtmfo.common.data.GTMFOTrees.LEAVES.size(); i++) {
+            var tree = com.ironsword.gtmfo.common.data.GTMFOTrees.TREES.get(i);
+            var leaves = com.ironsword.gtmfo.common.data.GTMFOTrees.LEAVES.get(i).get();
+            if (i == com.ironsword.gtmfo.common.data.GTMFOTrees.RAINBOWWOOD_INDEX) {
+                event.register((state, level, pos, tintIndex) -> {
+                    if (pos == null) return com.ironsword.gtmfo.common.data.GTMFOTrees.RAINBOWWOOD_ITEM_COLOR;
+                    int[] rainbow = com.ironsword.gtmfo.common.data.GTMFOTrees.RAINBOW_ARRAY;
+                    return rainbow[(Math.abs(pos.getX()) + Math.abs(pos.getY()) + Math.abs(pos.getZ()))
+                            % rainbow.length];
+                }, leaves);
+            } else {
+                event.register((state, level, pos, tintIndex) -> tree.leafColor(), leaves);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
+        for (int i = 0; i < com.ironsword.gtmfo.common.data.GTMFOTrees.LEAVES.size(); i++) {
+            var tree = com.ironsword.gtmfo.common.data.GTMFOTrees.TREES.get(i);
+            event.register((stack, tintIndex) -> tree.leafColor(), com.ironsword.gtmfo.common.data.GTMFOTrees.LEAVES.get(i).get());
+        }
+    }
 }
