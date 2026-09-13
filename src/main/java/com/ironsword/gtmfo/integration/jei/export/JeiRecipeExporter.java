@@ -1,6 +1,21 @@
 package com.ironsword.gtmfo.integration.jei.export;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
+import com.gregtechceu.gtceu.api.item.IGTTool;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.ironsword.gtmfo.GTMFOConfigHolder;
 import com.mojang.logging.LogUtils;
 import mezz.jei.api.ingredients.ITypedIngredient;
@@ -13,8 +28,15 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.IIngredientManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -24,6 +46,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +56,9 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -188,6 +213,306 @@ public final class JeiRecipeExporter {
         Files.move(tmp, target, StandardCopyOption.REPLACE_EXISTING);
         LOGGER.info("[jei-export] wrote {} recipes in {} categories to {} ({} ms)",
                 recipeCount, categoryCount, target, (System.nanoTime() - start) / 1_000_000);
+
+        exportNames(config.jeiNameExportPath);
+    }
+
+    /** Writes the name/language-key lookup for machines, materials, items and fluids. */
+    private static void exportNames(String configuredPath) {
+        try {
+            String exportPath = configuredPath.trim();
+            if (exportPath.length() > 1 && exportPath.startsWith("\"") && exportPath.endsWith("\"")) {
+                exportPath = exportPath.substring(1, exportPath.length() - 1);
+            }
+            Path target = Path.of(exportPath);
+            if (!target.isAbsolute()) {
+                target = FMLPaths.GAMEDIR.get().resolve(target);
+            }
+            Path parent = target.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+            Path tmp = target.resolveSibling(target.getFileName() + ".tmp");
+
+            long start = System.nanoTime();
+            // resolve English and Chinese names independently of the client's current locale
+            Map<String, String> enLang = loadLanguageMap("en_us");
+            Map<String, String> zhLang = loadLanguageMap("zh_cn");
+            int machines = 0;
+            int materials = 0;
+            int blocks = 0;
+            int items = 0;
+            int fluids = 0;
+            try (JsonWriter writer = new JsonWriter(new BufferedWriter(
+                    Files.newBufferedWriter(tmp, StandardCharsets.UTF_8), 1 << 20))) {
+                writer.beginObject();
+                writer.name("format").value("gtmfo_jei_names");
+                writer.name("version").value(1);
+                writer.name("minecraft_version").value("1.20.1");
+                writer.name("exported_at").value(Instant.now().toString());
+
+                // GT machines
+                List<MachineDefinition> machineList = new ArrayList<>();
+                GTRegistries.MACHINES.forEach(machineList::add);
+                machineList.sort(Comparator.comparing(machine -> machine.getId().toString()));
+                writer.name("machines").beginArray();
+                for (MachineDefinition machine : machineList) {
+                    writer.beginObject();
+                    writer.name("id").value(machine.getId().toString());
+                    String key = machine.getDescriptionId();
+                    writer.name("key").value(key);
+                    String en = lookup(enLang, key, stripFormatting(machineName(machine)));
+                    writer.name("en").value(en);
+                    writer.name("zh").value(lookup(zhLang, key, en));
+                    int tier = Math.max(0, Math.min(machine.getTier(), GTValues.VN.length - 1));
+                    writer.name("tier").value(GTValues.VN[tier]);
+                    writer.name("tier_index").value(tier);
+                    writer.endObject();
+                    machines++;
+                }
+                writer.endArray();
+
+                // GT materials
+                List<Material> materialList = new ArrayList<>(GTCEuAPI.materialManager.getRegisteredMaterials());
+                materialList.sort(Comparator.comparing(material -> material.getResourceLocation().toString()));
+                writer.name("materials").beginArray();
+                for (Material material : materialList) {
+                    writer.beginObject();
+                    writer.name("id").value(material.getResourceLocation().toString());
+                    String key = material.getUnlocalizedName();
+                    writer.name("key").value(key);
+                    String en = lookup(enLang, key, stripFormatting(material.getDefaultTranslation()));
+                    writer.name("en").value(en);
+                    writer.name("zh").value(lookup(zhLang, key, en));
+                    writer.endObject();
+                    materials++;
+                }
+                writer.endArray();
+
+                // all blocks
+                List<Block> blockList = new ArrayList<>(ForgeRegistries.BLOCKS.getValues());
+                blockList.sort(Comparator.comparing(block -> String.valueOf(ForgeRegistries.BLOCKS.getKey(block))));
+                writer.name("blocks").beginArray();
+                for (Block block : blockList) {
+                    ResourceLocation id = ForgeRegistries.BLOCKS.getKey(block);
+                    if (id == null) continue;
+                    String key = block.getDescriptionId();
+                    String[] names = resolveNames(enLang, zhLang, key, materialOf(block.asItem()), key);
+                    writer.beginObject();
+                    writer.name("id").value(id.toString());
+                    writer.name("key").value(key);
+                    writer.name("en").value(names[0]);
+                    writer.name("zh").value(names[1]);
+                    writer.endObject();
+                    blocks++;
+                }
+                writer.endArray();
+
+                // all items
+                List<Item> itemList = new ArrayList<>(ForgeRegistries.ITEMS.getValues());
+                itemList.sort(Comparator.comparing(item -> String.valueOf(ForgeRegistries.ITEMS.getKey(item))));
+                writer.name("items").beginArray();
+                for (Item item : itemList) {
+                    ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+                    if (id == null) continue;
+                    String key = item.getDescriptionId();
+                    String[] names = resolveNames(enLang, zhLang, key, materialOf(item),
+                            displayName(new ItemStack(item)));
+                    writer.beginObject();
+                    writer.name("id").value(id.toString());
+                    writer.name("key").value(key);
+                    writer.name("en").value(names[0]);
+                    writer.name("zh").value(names[1]);
+                    writer.endObject();
+                    items++;
+                }
+                writer.endArray();
+
+                // all fluids
+                List<Fluid> fluidList = new ArrayList<>(ForgeRegistries.FLUIDS.getValues());
+                fluidList.sort(Comparator.comparing(fluid -> String.valueOf(ForgeRegistries.FLUIDS.getKey(fluid))));
+                writer.name("fluids").beginArray();
+                for (Fluid fluid : fluidList) {
+                    ResourceLocation id = ForgeRegistries.FLUIDS.getKey(fluid);
+                    if (id == null) continue;
+                    String key = fluid.getFluidType().getDescriptionId();
+                    writer.beginObject();
+                    writer.name("id").value(id.toString());
+                    writer.name("key").value(key);
+                    String en = lookup(enLang, key, displayName(new FluidStack(fluid, 1)));
+                    writer.name("en").value(en);
+                    writer.name("zh").value(lookup(zhLang, key, en));
+                    writer.endObject();
+                    fluids++;
+                }
+                writer.endArray();
+                writer.endObject();
+            }
+            Files.move(tmp, target, StandardCopyOption.REPLACE_EXISTING);
+            LOGGER.info("[jei-export] wrote {} machines, {} materials, {} blocks, {} items, {} fluids to {} ({} ms)",
+                    machines, materials, blocks, items, fluids, target, (System.nanoTime() - start) / 1_000_000);
+        } catch (Throwable t) {
+            LOGGER.error("[jei-export] failed to export name lookup", t);
+        }
+    }
+
+    private static String displayName(ItemStack stack) {
+        try {
+            return stripFormatting(stack.getHoverName().getString());
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    private static String displayName(FluidStack stack) {
+        try {
+            return stripFormatting(stack.getDisplayName().getString());
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    private static String machineName(MachineDefinition machine) {
+        String langValue = machine.getLangValue();
+        if (langValue != null && !langValue.isBlank()) {
+            return langValue;
+        }
+        String key = machine.getDescriptionId();
+        try {
+            String localized = Component.translatable(key).getString();
+            if (!localized.isEmpty() && !localized.equals(key)) {
+                return localized;
+            }
+        } catch (Throwable ignored) {}
+        return machine.getId().toString();
+    }
+
+    /**
+     * Loads a language file (en_us / zh_cn) from all resource packs, so both names can be exported
+     * regardless of the client's selected locale. JSON first, then legacy {@code .lang}.
+     */
+    private static Map<String, String> loadLanguageMap(String code) {
+        Map<String, String> map = new HashMap<>(1 << 16);
+        try {
+            ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+            for (String namespace : resourceManager.getNamespaces()) {
+                ResourceLocation jsonLocation = ResourceLocation.tryBuild(namespace, "lang/" + code + ".json");
+                if (jsonLocation != null) {
+                    for (Resource resource : resourceManager.getResourceStack(jsonLocation)) {
+                        try (BufferedReader reader = resource.openAsReader()) {
+                            JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
+                            for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+                                if (entry.getValue().isJsonPrimitive()) {
+                                    map.putIfAbsent(entry.getKey(), entry.getValue().getAsString());
+                                }
+                            }
+                        } catch (Throwable ignored) {}
+                    }
+                }
+                ResourceLocation langLocation = ResourceLocation.tryBuild(namespace, "lang/" + code + ".lang");
+                if (langLocation != null) {
+                    for (Resource resource : resourceManager.getResourceStack(langLocation)) {
+                        try (BufferedReader reader = resource.openAsReader()) {
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                line = line.trim();
+                                if (line.isEmpty() || line.startsWith("#")) continue;
+                                int separator = line.indexOf('=');
+                                if (separator <= 0) continue;
+                                map.putIfAbsent(line.substring(0, separator).trim(),
+                                        line.substring(separator + 1).trim());
+                            }
+                        } catch (Throwable ignored) {}
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            LOGGER.warn("[jei-export] failed to load language map {}", code, t);
+        }
+        return map;
+    }
+
+    /**
+     * Resolves en/zh for an item or block key. GTCEu names material items through templates like
+     * {@code "%s Dust"} / {@code "%s粉"} and tool items through {@code "%s Wrench"}; those are
+     * composed with the material's localized name.
+     */
+    private static String[] resolveNames(Map<String, String> enLang, Map<String, String> zhLang,
+                                         String key, Material material, String fallback) {
+        String enValue = key != null ? enLang.get(key) : null;
+        String zhValue = key != null ? zhLang.get(key) : null;
+        if (material != null && (isTemplate(enValue) || isTemplate(zhValue) || enValue == null || zhValue == null)) {
+            String enMaterial = stripFormatting(material.getDefaultTranslation());
+            String zhMaterial = lookup(zhLang, material.getUnlocalizedName(), enMaterial);
+            if (isTemplate(enValue)) {
+                enValue = composeMaterialName(enValue, enMaterial);
+            }
+            if (isTemplate(zhValue)) {
+                zhValue = composeMaterialName(zhValue, zhMaterial);
+            }
+        }
+        String en = enValue != null && !enValue.isEmpty() ? stripFormatting(enValue)
+                : (fallback != null ? fallback : (key == null ? "" : key));
+        String zh = zhValue != null && !zhValue.isEmpty() ? stripFormatting(zhValue) : en;
+        return new String[] { en, zh };
+    }
+
+    private static boolean isTemplate(String value) {
+        return value != null && value.contains("%s");
+    }
+
+    private static String composeMaterialName(String template, String materialName) {
+        try {
+            return String.format(template, materialName);
+        } catch (Throwable t) {
+            return template;
+        }
+    }
+
+    /** Material behind a GT item (tools included), or null for non-material items. */
+    private static Material materialOf(Item item) {
+        if (item == null || item == net.minecraft.world.item.Items.AIR) {
+            return null;
+        }
+        if (item instanceof IGTTool tool) {
+            try {
+                return tool.getMaterial();
+            } catch (Throwable ignored) {}
+        }
+        try {
+            MaterialStack stack = ChemicalHelper.getMaterialStack(new ItemStack(item));
+            if (stack != null && !stack.isEmpty()) {
+                return stack.material();
+            }
+        } catch (Throwable ignored) {}
+        return null;
+    }
+
+    private static String lookup(Map<String, String> language, String key, String fallback) {
+        if (key != null) {
+            String value = language.get(key);
+            if (value != null && !value.isEmpty()) {
+                return stripFormatting(value);
+            }
+        }
+        return fallback == null ? (key == null ? "" : key) : fallback;
+    }
+
+    /** Removes vanilla formatting codes (e.g. the trailing {@code §r} GT adds to machine names). */
+    private static String stripFormatting(String value) {
+        if (value == null || value.indexOf('\u00a7') < 0) {
+            return value;
+        }
+        StringBuilder builder = new StringBuilder(value.length());
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (c == '\u00a7') {
+                i++;
+                continue;
+            }
+            builder.append(c);
+        }
+        return builder.toString().trim();
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -238,12 +563,39 @@ public final class JeiRecipeExporter {
             writer.name("id").value(id != null ? id.toString() : type.uid + "#" + index);
             writeSlotGroup(writer, "inputs", builder.slots, RecipeIngredientRole.INPUT);
             writeSlotGroup(writer, "outputs", builder.slots, RecipeIngredientRole.OUTPUT);
+            if (recipe instanceof GTRecipe gtRecipe) {
+                writeGtRequirements(writer, gtRecipe);
+            }
             writer.endObject();
             index++;
         }
         writer.endArray();
         writer.endObject();
         return recipes.size();
+    }
+
+    /** GT recipe requirements (EU/t, minimum voltage tier, duration, ...) via the GTCEu API. */
+    private static void writeGtRequirements(JsonWriter writer, GTRecipe recipe) throws IOException {
+        writer.name("gt").beginObject();
+        writer.name("recipe_type").value(recipe.recipeType.registryName.toString());
+        writer.name("duration").value(recipe.duration);
+        writer.name("parallels").value(recipe.parallels);
+        writer.name("oc_level").value(recipe.ocLevel);
+
+        EnergyStack.WithIO realEUt = RecipeHelper.getRealEUtWithIO(recipe);
+        EnergyStack energy = realEUt.stack();
+        if (!energy.isEmpty()) {
+            int tier = Math.max(0, Math.min(RecipeHelper.getRecipeEUtTier(recipe), GTValues.VN.length - 1));
+            writer.name("eut").value(energy.voltage());
+            writer.name("amperage").value(energy.amperage());
+            writer.name("energy_io").value(realEUt.io() == IO.IN ? "in" : "out");
+            writer.name("tier").value(GTValues.VN[tier]);
+            writer.name("tier_index").value(tier);
+            writer.name("voltage").value(GTValues.V[tier]);
+            writer.name("total_eu_t").value(energy.getTotalEU());
+            writer.name("total_eu").value(energy.getTotalEU() * Math.max(0, recipe.duration));
+        }
+        writer.endObject();
     }
 
     @SuppressWarnings("rawtypes")

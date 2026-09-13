@@ -77,6 +77,10 @@ public class GTMFOConfigHolder {
         public String jeiRecipeExportPath = "gtmfo/jei_recipes.json";
 
         @Configurable
+        @Configurable.Comment("Name/language-key export path (machines, materials, items, fluids). Same path rules as jeiRecipeExportPath.")
+        public String jeiNameExportPath = "gtmfo/jei_names.json";
+
+        @Configurable
         @Configurable.Comment("Also export recipes that JEI hides by default.")
         public boolean jeiExportHiddenRecipes = false;
     }
