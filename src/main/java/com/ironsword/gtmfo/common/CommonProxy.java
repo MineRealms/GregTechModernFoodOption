@@ -43,9 +43,9 @@ public class CommonProxy {
         GTMFOItems.init();
         GTMFOCrops.init();
         GTMFOTrees.init();
-        GTMFOTools.init();
-        GTMFOCovers.init();
-        GTMFOLacing.init();
+        // NOTE: GTMFOTools / GTMFOCovers touch GTCEu's gated registries (GTSoundEntries via GTToolType,
+        // GTRegistries.COVERS); they are initialised in GTMFOAddon.initializeAddon() instead, which GTCEu
+        // calls at the end of its own construction.
         com.ironsword.gtmfo.common.machine.farmer.FarmerModeRegistry.registerDefaultModes();
         GTMFOEntities.init(bus);
         com.ironsword.gtmfo.common.worldgen.GTMFOBiomeModifiers.init(bus);
@@ -98,5 +98,7 @@ public class CommonProxy {
     public static void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event){
         event.enqueueWork(GTMFOCreativeModeTabs::assignTabs);
         event.enqueueWork(GTFODungeonLoot::init);
+        // registry objects (effects) are only available after the registry events, so lacing entries are built here
+        event.enqueueWork(GTMFOLacing::init);
     }
 }

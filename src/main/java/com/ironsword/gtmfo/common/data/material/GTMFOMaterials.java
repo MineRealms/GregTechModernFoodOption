@@ -43,8 +43,7 @@ public class GTMFOMaterials {
     public static Material LaminatedDough = simpleDust("laminated_dough", 0xc6b4bb, "Laminated Dough", "起酥面团");
     public static Material SodiumSulfate = chemicalDust("sodium_sulfate", 0xf0f0f0, MaterialIconSet.DULL,"Sodium Sulfate","硫酸钠",
             GTMaterials.Sodium, 2, GTMaterials.Sulfur, 1, GTMaterials.Oxygen, 4);
-    public static Material Paracetamol = chemicalDust("paracetamol", 0x0045A0, MaterialIconSet.SHINY,"Paracetamol","对乙酰氨基酚",
-            GTMaterials.Carbon, 8, GTMaterials.Hydrogen, 9, GTMaterials.Nitrogen, 1, GTMaterials.Oxygen, 2);
+    public static Material Paracetamol = GTMaterials.Paracetamol;
     public static Material Promethazine = chemicalDust("promethazine", 0xf8fade, MaterialIconSet.DULL,"Promethazine","异丙嗪",
             GTMaterials.Carbon, 17, GTMaterials.Hydrogen, 20, GTMaterials.Nitrogen, 2, GTMaterials.Sulfur, 1);
     public static Material Codeine = chemicalDust("codeine", 0xfadef2, MaterialIconSet.DULL,"Codeine","可待因",
@@ -69,8 +68,9 @@ public class GTMFOMaterials {
             GTMaterials.Carbon, 8, GTMaterials.Hydrogen, 8, GTMaterials.Oxygen, 3);
     public static Material CupricHydrogenArsenite = chemicalDust("cupric_hydrogen_arsenite", 0x0fff00, MaterialIconSet.SHINY,"Cupric Hydrogen Arsenite","亚砷酸氢铜",
             GTMaterials.Copper, 1, GTMaterials.Hydrogen, 1, GTMaterials.Arsenic, 1, GTMaterials.Oxygen, 3);
-    public static Material Aminophenol = chemicalDust("aminophenol", 0xffffff, MaterialIconSet.SHINY,"Aminophenol","氨基苯酚",
-            GTMaterials.Carbon, 6, GTMaterials.Hydrogen, 7, GTMaterials.Nitrogen, 1, GTMaterials.Oxygen, 1);
+    // GTCEu already registers "aminophenol" (as a fluid) and "paracetamol" (dust); alias them and
+    // adjust the properties to the original GTFO values in init() (a duplicate id would crash the registry).
+    public static Material Aminophenol = GTMaterials.AminoPhenol;
     public static Material IVNitrophenol = chemicalDust("iv_nitrophenol", 0xffffe0, MaterialIconSet.SHINY,"4-Nitrophenol","4-硝基苯酚",
             GTMaterials.Carbon, 6, GTMaterials.Hydrogen, 5, GTMaterials.Nitrogen, 1, GTMaterials.Oxygen, 3);
     public static Material IINitrophenol = chemicalDust("ii_nitrophenol", 0xffff00, MaterialIconSet.SHINY,"2-Nitrophenol","2-硝基苯酚",
@@ -120,6 +120,13 @@ public class GTMFOMaterials {
         GTMaterials.Titanium.addFlags(MaterialFlags.GENERATE_DENSE);
         GTMaterials.DistilledWater.setProperty(CleanerProperty.CLEANER, new CleanerProperty(2));
         GTMFOFluids.SodiumStearate.setProperty(CleanerProperty.CLEANER, new CleanerProperty(16));
+        // original Paracetamol/Aminophenol properties (GTCEu ships the ids with different properties)
+        GTMaterials.Paracetamol.setMaterialARGB(0x0045A0);
+        GTMaterials.Paracetamol.setMaterialIconSet(MaterialIconSet.SHINY);
+        GTMaterials.AminoPhenol.setProperty(com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.DUST,
+                new com.gregtechceu.gtceu.api.data.chemical.material.properties.DustProperty());
+        GTMaterials.AminoPhenol.setMaterialARGB(0xffffff);
+        GTMaterials.AminoPhenol.setMaterialIconSet(MaterialIconSet.SHINY);
     }
 
     public static void initENLang(RegistrateLangProvider provider){

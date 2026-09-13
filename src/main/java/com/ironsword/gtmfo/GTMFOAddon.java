@@ -21,7 +21,15 @@ public class GTMFOAddon implements IGTAddon {
 
     @Override
     public void initializeAddon() {
+        // Initialised here (not in the mod constructor) because GTToolType needs GTSoundEntries,
+        // which GTCEu only sets up during its own construction.
+        com.ironsword.gtmfo.common.data.GTMFOTools.init();
+    }
 
+    @Override
+    public void registerCovers() {
+        // GTCEu calls this inside GTCovers.init(), right before the cover registry is frozen.
+        com.ironsword.gtmfo.common.data.GTMFOCovers.init();
     }
 
     @Override

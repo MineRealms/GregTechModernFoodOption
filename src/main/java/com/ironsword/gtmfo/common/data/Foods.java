@@ -57,7 +57,7 @@ public class Foods {
     public static final GTMFOFoodStats CAPLET_GEL            = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).build();
     public static final GTMFOFoodStats CAPLET_PARACETAMOL    = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(MobEffects.REGENERATION,400,0,1f).build();
     public static final GTMFOFoodStats CAPLET_PLUTONIUM_241  = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(MobEffects.POISON,7000,0,1f).build();
-    public static final GTMFOFoodStats CAPLET_CHORUS         = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(GTMFOEffects.CHORUS.get(),300,0,1f).build();
+    public static final GTMFOFoodStats CAPLET_CHORUS         = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(()->new MobEffectInstance(GTMFOEffects.CHORUS.get(),300,0),1f).build();
     public static final GTMFOFoodStats CAPLET_VIBRANT        = builder( 0    , 1f    , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(1).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),600,0),0.6f).effect(MobEffects.POISON,600,2,0.9f).build();
 
     //cheese
@@ -224,13 +224,13 @@ public class Foods {
     public static final GTMFOFoodStats ANTAF                 = builder( 5    , 0.5f  , 0     , 0.5f  , 0     , 0     , 0     ).drink().alwaysEat().item(GTMFOItems.PLASTIC_BOTTLE::asStack).build();
     public static final GTMFOFoodStats SORBET_PLAIN          = builder( 0    , 0     , 0     , 0     , 0     , 0     , 0     ).alwaysEat().eatDuration(12).build();
     public static final GTMFOFoodStats SORBET_FRUIT          = builder( 4    , 0.5f  , 0     , 1f    , 0     , 0     , 0     ).eatDuration(12).build();
-    public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).eatDuration(12).effect(GTMFOEffects.CHORUS.get(),600,0,0.8f).build();
-    public static final GTMFOFoodStats SORBET_VIBRANT        = builder( 0    , 0     , 0     , 2f    , 0     , 0     , 2f    ).eatDuration(12).effect(GTMFOEffects.FLY.get(),1200,0,0.8f).effect(MobEffects.POISON,1200,2,1f).effect(MobEffects.CONFUSION,1200,1,0.4f).build();
-    public static final GTMFOFoodStats FERMENTED_CHORUS      =    builder( 2    , 0.5f  , 0     , 0     , 0     , 0     , 2f    ).eatDuration(60).alwaysEat().effect(GTMFOEffects.CHORUS.get(),300,0,0.8f).build();
-    public static final GTMFOFoodStats FERMENTED_CHORUS_PIE  =    builder( 6    , 1f    , 0     , 0     , 2f    , 0     , 2f    ).alwaysEat().effect(GTMFOEffects.CHORUS.get(),1200,0,1f).build();
+    public static final GTMFOFoodStats SORBET_CHORUS         = builder( 4    , 0.5f  , 0     , 0     , 0     , 0     , 1f    ).eatDuration(12).effect(()->new MobEffectInstance(GTMFOEffects.CHORUS.get(),600,0),0.8f).build();
+    public static final GTMFOFoodStats SORBET_VIBRANT        = builder( 0    , 0     , 0     , 2f    , 0     , 0     , 2f    ).eatDuration(12).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),1200,0),0.8f).effect(MobEffects.POISON,1200,2,1f).effect(MobEffects.CONFUSION,1200,1,0.4f).build();
+    public static final GTMFOFoodStats FERMENTED_CHORUS      =    builder( 2    , 0.5f  , 0     , 0     , 0     , 0     , 2f    ).eatDuration(60).alwaysEat().effect(()->new MobEffectInstance(GTMFOEffects.CHORUS.get(),300,0),0.8f).build();
+    public static final GTMFOFoodStats FERMENTED_CHORUS_PIE  =    builder( 6    , 1f    , 0     , 0     , 2f    , 0     , 2f    ).alwaysEat().effect(()->new MobEffectInstance(GTMFOEffects.CHORUS.get(),1200,0),1f).build();
 
 
-    public static final GTMFOFoodStats SANDWICH_VIBRANT      = builder( 7    , 0.8f  , 0     , 1f    , 1f    , 1f    , 0     ).eatDuration(40).effect(GTMFOEffects.FLY.get(),1200,0,0.8f).effect(MobEffects.POISON,1200,2,1f).build();
+    public static final GTMFOFoodStats SANDWICH_VIBRANT      = builder( 7    , 0.8f  , 0     , 1f    , 1f    , 1f    , 0     ).eatDuration(40).effect(()->new MobEffectInstance(GTMFOEffects.FLY.get(),1200,0),0.8f).effect(MobEffects.POISON,1200,2,1f).build();
 
 
 
