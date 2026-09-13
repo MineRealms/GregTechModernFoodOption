@@ -22,7 +22,8 @@ public class GTMFOClientForgeEvents {
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         var localPlayer = Minecraft.getInstance().player;
         if (localPlayer == null || event.getEntity() == localPlayer) return;
-        if (localPlayer.hasEffect(com.ironsword.gtmfo.common.data.GTMFOEffects.ANTISCHIZO.get())) {
+        if (com.ironsword.gtmfo.common.data.GTMFOEffects.ANTISCHIZO.isPresent()
+                && localPlayer.hasEffect(com.ironsword.gtmfo.common.data.GTMFOEffects.ANTISCHIZO.get())) {
             event.setCanceled(true);
         }
     }

@@ -21,19 +21,15 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod.EventBusSubscriber(modid = GregTechModernFoodOption.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonProxy {
 
-    public CommonProxy(){
-        init();
+    public CommonProxy(IEventBus bus){
+        init(bus);
     }
 
-    public static void init(){
-        @SuppressWarnings("removal")
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
+    public static void init(IEventBus bus){
         GTMFOProviderTypes.init();
 
         GTMFOConfigHolder.init();

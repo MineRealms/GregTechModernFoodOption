@@ -67,7 +67,7 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void onLivingEntityFall(LivingFallEvent event){
         LivingEntity entity = event.getEntity();
-        if (entity.hasEffect(GTMFOEffects.FLY.get())){
+        if (GTMFOEffects.FLY.isPresent() && entity.hasEffect(GTMFOEffects.FLY.get())){
             event.setDamageMultiplier(0);
         }
     }
@@ -112,6 +112,7 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void onEffectApplicable(net.minecraftforge.event.entity.living.MobEffectEvent.Applicable event){
         if (BOOSTING.get()) return;
+        if (!GTMFOEffects.AMPLIFIER.isPresent() || !GTMFOEffects.LENGTHENER.isPresent()) return;
         var effect = event.getEffectInstance();
         if (effect == null) return;
         if (effect.getEffect() == GTMFOEffects.AMPLIFIER.get() || effect.getEffect() == GTMFOEffects.LENGTHENER.get()) {

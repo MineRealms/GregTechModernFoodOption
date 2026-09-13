@@ -4,6 +4,7 @@ import com.ironsword.gtmfo.client.ClientProxy;
 import com.ironsword.gtmfo.common.CommonProxy;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -16,11 +17,10 @@ public class GregTechModernFoodOption {
 
     public GregTechModernFoodOption(FMLJavaModLoadingContext context)
     {
-        @SuppressWarnings("removal")
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus bus = context.getModEventBus();
         bus.register(this);
 
-        DistExecutor.unsafeRunForDist(()-> ClientProxy::new,()->CommonProxy::new);
+        DistExecutor.unsafeRunForDist(() -> () -> new ClientProxy(bus), () -> () -> new CommonProxy(bus));
     }
 
     public static ResourceLocation id(String path){
