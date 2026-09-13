@@ -2,11 +2,13 @@ package com.ironsword.gtmfo.integration.jei;
 
 import com.ironsword.gtmfo.GregTechModernFoodOption;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.ironsword.gtmfo.integration.jei.export.JeiRecipeExporter;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -43,5 +45,11 @@ public class GTMFOJEIPlugin implements IModPlugin {
                 registration.addRecipeCatalyst(canner.asStack(), LacingCategory.TYPE);
             }
         }
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+        // optional debug feature: dump every JEI-visible recipe to JSON (config gated)
+        JeiRecipeExporter.onRuntimeAvailable(jeiRuntime);
     }
 }

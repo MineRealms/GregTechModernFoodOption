@@ -103,7 +103,8 @@ public class GTMFOCreativeModeTabs {
     }
 
     private static boolean isTool(String path) {
-        return path.startsWith("rolling_pin") || path.startsWith("butchery_knife");
+        // GT tool ids are "<material>_<tooltype>" (GTToolType.Builder: idFormat = "%s_" + name)
+        return path.endsWith("_rolling_pin") || path.endsWith("_butchery_knife");
     }
 
     private static boolean isFood(Item item) {
@@ -127,6 +128,16 @@ public class GTMFOCreativeModeTabs {
             RegistryEntry<CreativeModeTab> target = categorize(item, path);
             if (target != null && target != MAIN_TAB) {
                 REGISTRATE.setCreativeTab(entry, target);
+            }
+        }
+        // block items are displayed through their BLOCK entry (GTCEu's RegistrateDisplayItemsGenerator
+        // iterates block entries first), so the block entry's tab must be reassigned as well
+        for (RegistryEntry<net.minecraft.world.level.block.Block> entry : REGISTRATE.getAll(Registries.BLOCK)) {
+            if (!REGISTRATE.isInCreativeTab(entry, MAIN_TAB)) continue;
+            Item item = entry.get().asItem();
+            if (item == net.minecraft.world.item.Items.AIR) continue;
+            if (item instanceof BlockItem && !(item instanceof MetaMachineItem)) {
+                REGISTRATE.setCreativeTab(entry, BLOCKS_TAB);
             }
         }
     }

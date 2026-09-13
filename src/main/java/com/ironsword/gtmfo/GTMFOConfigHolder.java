@@ -67,6 +67,18 @@ public class GTMFOConfigHolder {
         @Configurable
         @Configurable.Comment("Enable the nutrient (dairy/fruit/grain/protein/vegetable) system.")
         public boolean nutrientMode = false;
+
+        @Configurable
+        @Configurable.Comment("Export every recipe JEI can display to a JSON file after the recipe set is loaded (client-side, for external recipe graph tooling).")
+        public boolean exportJeiRecipes = false;
+
+        @Configurable
+        @Configurable.Comment("Export path. Relative paths resolve against the game directory; absolute paths (e.g. H:/tools/jei_recipes.json) are used as-is.")
+        public String jeiRecipeExportPath = "gtmfo/jei_recipes.json";
+
+        @Configurable
+        @Configurable.Comment("Also export recipes that JEI hides by default.")
+        public boolean jeiExportHiddenRecipes = false;
     }
 
     public static class GTFOChainsConfig {

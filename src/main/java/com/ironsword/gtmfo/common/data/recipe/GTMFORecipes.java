@@ -86,6 +86,13 @@ public class GTMFORecipes {
         for (String meat : new String[] { "steak", "chicken", "mutton", "pork_chop", "rabbit" }) {
             consumer.accept(com.gregtechceu.gtceu.GTCEu.id("macerator/macerate_" + meat));
         }
+        // GTCEu ships a simplified paracetamol chain (Phenol + NitrationMixture -> aminophenol
+        // fluid). The original GTFO chain (CapletChain: nitrophenols -> separation -> hydrogenation)
+        // replaces it; chemical reactor recipes are auto-copied to the large chemical reactor.
+        for (String chemical : new String[] { "aminophenol", "paracetamol" }) {
+            consumer.accept(com.gregtechceu.gtceu.GTCEu.id("chemical_reactor/" + chemical));
+            consumer.accept(com.gregtechceu.gtceu.GTCEu.id("large_chemical_reactor/" + chemical));
+        }
     }
 
     private static void vanillaOverrides(Consumer<ResourceLocation> consumer){
