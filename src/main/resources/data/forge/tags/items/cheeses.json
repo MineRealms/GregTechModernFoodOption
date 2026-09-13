@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:mozzarella_ball",
+    "gtmfo:mozzarella_slice",
+    "gtmfo:cheddar_slice",
+    "gtmfo:cheddar_block",
+    "gtmfo:gorgonzola_triangular_slice",
+    "gtmfo:gorgonzola_wheel",
+    "gtmfo:gorgonzola_wheel_fully_cured",
+    "gtmfo:parmigiano_aged_roll",
+    "gtmfo:parmigiano_brined_roll",
+    "gtmfo:ricotta_piece"
+  ]
+}

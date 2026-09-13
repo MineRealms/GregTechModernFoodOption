@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:seed_bean",
+    "gtmfo:seed_grape",
+    "gtmfo:seed_horseradish",
+    "gtmfo:seed_onion",
+    "gtmfo:seed_white_grape",
+    "gtmfo:black_currant",
+    "gtmfo:black_pepper",
+    "gtmfo:corn_ear",
+    "gtmfo:cranberry",
+    "gtmfo:elderberry",
+    "gtmfo:eggplant",
+    "gtmfo:grapes",
+    "gtmfo:horseradish",
+    "gtmfo:lingonberry",
+    "gtmfo:onion",
+    "gtmfo:red_currant",
+    "gtmfo:rice",
+    "gtmfo:tomato",
+    "gtmfo:white_currant",
+    "gtmfo:white_grapes"
+  ]
+}

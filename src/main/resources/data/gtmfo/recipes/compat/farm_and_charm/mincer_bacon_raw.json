@@ -1,0 +1,17 @@
+{
+  "type": "farm_and_charm:mincer",
+  "ingredient": {
+    "item": "gtmfo:bacon_raw"
+  },
+  "recipe_type": "MEAT",
+  "result": {
+    "item": "gtceu:meat_dust",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farm_and_charm"
+    }
+  ]
+}

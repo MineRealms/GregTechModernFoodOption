@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:dough",
+    "gtmfo:flat_dough",
+    "gtmfo:sugary_dough",
+    "gtmfo:pasta_dough",
+    "gtmfo:pasta_dough_egg",
+    "gtmfo:pasta_dough_premixed",
+    "gtmfo:graham_cracker_dough",
+    "gtmfo:bread_unbaked",
+    "gtmfo:baguette_unbaked",
+    "gtmfo:bun_unbaked"
+  ]
+}

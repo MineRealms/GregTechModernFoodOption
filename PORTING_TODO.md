@@ -1009,6 +1009,29 @@
      （`%s Dust`、`%s Wrench`）用材料 API 合成；支持绝对路径；
    - 格式说明：`docs/JEI_EXPORT_FORMAT.md`。
 
+## 16.11 跨模组兼容层（2026-09-14）：季节系统 + 标准标签 + 条件兼容配方
+
+> 目标：不添加任何新物品，把 GTMFO 内容接入通用生态（SereneSeasons / Farmer's Delight /
+> Farm & Charm 等），全部"当 xx 模组启用时"才生效。注册表级审计见 `docs/REGISTRY_AUDIT.md`。
+
+1. **SereneSeasons 季节系统**（机制 + 提示，无硬依赖）：
+   - 数据包标签（47 个 JSON 中的一部分）：`data/sereneseasons/tags/{items,blocks}/{spring,summer,autumn,winter}_crops.json`
+     —— 19 种作物方块 + 对应种子/产物按真实农时分配季节；`greenhouse_glass.json` 加入
+     `gtmfo:greenhouse_glass`（使本模组温室玻璃被 SereneSeasons 识别为温室玻璃，全年可种）；
+   - `compat/SereneSeasonsCompat`（客户端，FORGE 总线，`ModList.isLoaded` 守卫）：
+     移植原版 `GTFOSSTooltipHandler`，为 GTMFO 种子/产物显示"适宜季节"提示
+     （Spring 绿 / Summer 黄 / Autumn 金 / Winter 青 / 全年 淡紫）。
+2. **forge 标准标签**（跨模组配方自动兼容的基础）：
+   `forge:seeds`、`forge:crops(+子标签 ×19)`、`forge:vegetables(+子标签 ×8)`、`forge:fruits`、
+   `forge:berries`、`forge:raw_meat`、`forge:cooked_meat`、`forge:dough`、`forge:cheeses`、
+   `c:cheeses`、`farmersdelight:sweets` —— 使 FD/Create/F&C 等使用这些标签的配方自动接受 GTMFO 物品。
+3. **条件兼容配方**（`data/gtmfo/recipes/compat/`，带 `forge:mod_loaded` 条件，16 条）：
+   - Farmer's Delight 切菜板 ×10：番茄/洋葱/黄瓜/茄子/苹果/胡萝卜/意式烤猪肉 → 对应切片；
+     3 种披萨方块 → 4 片披萨切片（与包内 KubeJS 配方不重复）；
+   - Farm & Charm 绞肉机 ×6：GTMFO 生肉（beef_slice/seasoned_pork/bacon_raw/sausage_raw/
+     scrap_meat/barg_meat）→ `gtceu:meat_dust`（MEAT 类型）。
+4. **构建**：版本 0.0.5 → **0.0.6**；`compileJava` 通过（仅 JEI 导出工具既有弃用告警）。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异

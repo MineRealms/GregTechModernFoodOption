@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:seed_artichoke",
+    "gtmfo:seed_basil",
+    "gtmfo:seed_bean",
+    "gtmfo:seed_coffee",
+    "gtmfo:seed_cotton",
+    "gtmfo:seed_cucumber",
+    "gtmfo:seed_eggplant",
+    "gtmfo:seed_garlic_purple",
+    "gtmfo:seed_garlic_white",
+    "gtmfo:seed_grape",
+    "gtmfo:seed_horseradish",
+    "gtmfo:seed_onion",
+    "gtmfo:seed_oregano",
+    "gtmfo:seed_pea",
+    "gtmfo:seed_soy",
+    "gtmfo:seed_tomato",
+    "gtmfo:seed_white_grape",
+    "gtmfo:corn_kernel"
+  ]
+}

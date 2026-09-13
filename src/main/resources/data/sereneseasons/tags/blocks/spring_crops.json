@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:crop_artichoke",
+    "gtmfo:crop_basil",
+    "gtmfo:crop_bean",
+    "gtmfo:crop_cucumber",
+    "gtmfo:crop_garlic",
+    "gtmfo:crop_horseradish",
+    "gtmfo:crop_onion",
+    "gtmfo:crop_oregano",
+    "gtmfo:crop_pea",
+    "gtmfo:crop_soy",
+    "gtmfo:crop_strawberry"
+  ]
+}

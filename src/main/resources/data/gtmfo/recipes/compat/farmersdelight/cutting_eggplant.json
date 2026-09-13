@@ -1,0 +1,25 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "gtmfo:eggplant"
+    }
+  ],
+  "result": [
+    {
+      "item": "gtmfo:eggplant_slice",
+      "count": 2
+    }
+  ],
+  "tool": [
+    {
+      "tag": "forge:tools/knives"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "gtmfo:crop_aubergine",
+    "gtmfo:crop_bean",
+    "gtmfo:crop_black_currant",
+    "gtmfo:crop_black_pepper",
+    "gtmfo:crop_corn",
+    "gtmfo:crop_cranberry",
+    "gtmfo:crop_elderberry",
+    "gtmfo:crop_grape",
+    "gtmfo:crop_horseradish",
+    "gtmfo:crop_lingonberry",
+    "gtmfo:crop_onion",
+    "gtmfo:crop_red_currant",
+    "gtmfo:crop_rice",
+    "gtmfo:crop_tomato",
+    "gtmfo:crop_white_currant",
+    "gtmfo:crop_white_grape"
+  ]
+}

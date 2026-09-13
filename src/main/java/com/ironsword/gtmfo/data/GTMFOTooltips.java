@@ -128,6 +128,14 @@ public class GTMFOTooltips {
         add("item.gtmfo.tomato.tooltip", "No Not the Mr Tomato!!", "不！番茄先生！");
         add("item.gtmfo.vodka.tooltip", "Distilled Russia", "蒸馏浓缩的俄罗斯");
         add("item.gtmfo.white_grapes.tooltip", "They did surgery on white Grapes (shocking)", "震惊！他们在白葡萄上做了个手术！");
+
+        // SereneSeasons 软兼容：适宜季节提示（见 compat/SereneSeasonsCompat）
+        add("gtmfo.tooltip.fertile_seasons", "Fertile Seasons:", "适宜季节：");
+        add("gtmfo.tooltip.fertile_seasons.year_round", "Year-Round", "全年");
+        add("gtmfo.tooltip.fertile_seasons.spring", "Spring", "春季");
+        add("gtmfo.tooltip.fertile_seasons.summer", "Summer", "夏季");
+        add("gtmfo.tooltip.fertile_seasons.autumn", "Autumn", "秋季");
+        add("gtmfo.tooltip.fertile_seasons.winter", "Winter", "冬季");
     }
 
     public static void initENLang(RegistrateLangProvider provider) {
