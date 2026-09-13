@@ -889,6 +889,30 @@
 3. **洒水器耗液**：原版 `drain(1, true)` 仅模拟不实际消耗（疑似 bug），移植版实际消耗 1mB。
 4. **咖啡/矿泉水的 Creativity 效果**：移植版以原版 FLY 效果近似（1.20.1 无「允许飞行」药水属性）。
 
+## 16.7 实机测试修复记录（2026-09-13 客户端实测）
+> 首次成功启动客户端后进行世界创建测试，修复以下崩溃/加载问题：
+
+1. **mixin 修复后首次实机启动**：发现食物效果在 `Foods` 静态初始化时急切调用
+   `GTMFOEffects.X.get()`（RegistryObject 尚未填充）→ 全部改为惰性 `Supplier` 形式；
+   `GTMFOLacing.init()` 移至 `FMLCommonSetupEvent`（效果注册完成后）。
+2. **GTCEu 注册表时序**（并行 mod 构造竞态）：
+   - `GTMFOTools` 触发 `GTToolType.<clinit>` → `GTSoundEntries.<clinit>`，
+     但非 GTCEu 模组构造期间 `GTRegistries.SOUNDS.unfreeze()` 被门控跳过 → 注册表冻结崩溃。
+     修复：工具初始化移入 `IGTAddon.initializeAddon()`（GTCEu 构造末尾，声音已就绪）。
+   - `GTMFOCovers` 同理移入 `IGTAddon.registerCovers()`（`GTCovers.init()` 内、冻结之前）。
+3. **材料 ID 冲突**：GTCEu 自带 `gtceu:paracetamol`（粉）与 `gtceu:aminophenol`（流体）；
+   移植版原样注册同名材料导致 "contains key ... already"。
+   修复：改为引用 `GTMaterials.Paracetamol` / `GTMaterials.AminoPhenol`，
+   并在 `GTMFOMaterials.init()` 按原版调整（颜色 0x0045A0/0xFFFFFF、SHINY 图标、
+   给氨基苯酚补 DUST 属性）。
+4. **树木 configured_feature 缺 `decorators` 字段**：1.20.1 `minecraft:tree` 编解码器
+   要求该字段（原移植版 JSON 未写）→ 全部 10 种树解析失败导致
+   "Failed to load registries"（创建世界崩溃）。修复：补 `"decorators": []`
+   （果实掉落由树叶 `getDrops` 实现，无需装饰器）。
+5. 附带：`GTMFODataGen` 注册伤害类型语言；资源/语言审计见 14 章。
+
+> 世界生成 JSON 已用脚本校验：30 configured + 30 placed + 38 生物群系标签引用一致（0 问题）。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异
