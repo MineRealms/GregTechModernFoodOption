@@ -578,60 +578,69 @@
 
 ---
 
-## 14. 资源文件（原始资源已复制完成 ✅）
+## 14. 资源文件（已完成 ✅）
+> 本章已于 2026-09-13 用脚本全面审计（blockstate→模型→纹理引用链）。
 
-### 14.1 纹理（已完成复制，剩余为引用接线）
-- [x] 作物纹理（各生长阶段）已复制 → `gtmfo:textures/crop/`
-- [x] 树木纹理（树苗/木板/原木/树叶）已复制 → `gtmfo:textures/block/`
-- [x] 实体纹理已复制 → `gtmfo:textures/entity/`
-- [x] GUI 纹理已复制（药水图标 `gui/potions.png`、GTFO logo 系列、按钮）→ `gtceu:textures/gui/`
-- [x] 机器 GUI 覆盖层已复制（SEED/CROP 槽位覆盖、机器 overlay）
-- [x] 覆盖板纹理（洒水器）已复制 → `gtceu:textures/block/cover/`
-- [x] 机器覆盖纹理（农场机/生物机器/微波炉等）已复制 → `gtceu:textures/block/machines/`
-- [x] CTM 连接纹理（温室玻璃/铋青铜外壳）已复制
-- [ ] 实现功能时接线纹理引用（datagen 或模型 JSON）
+### 14.1 纹理
+- [x] 作物纹理（各生长阶段）→ `gtmfo:textures/crop/`
+- [x] 树木纹理（树苗/木板/原木/树叶）→ `gtmfo:textures/block/`
+- [x] 实体纹理 → `gtmfo:textures/entity/`
+- [x] GUI 纹理（药水图标 `gui/potions.png`、GTFO logo 系列、按钮）→ `gtceu:textures/gui/`
+- [x] 机器 GUI 覆盖层（SEED/CROP 槽位覆盖、机器 overlay）
+- [x] 覆盖板纹理（洒水器）→ `gtceu:textures/block/cover/`
+- [x] 机器覆盖纹理（农场机/生物机器/微波炉等）→ `gtceu:textures/block/machines/`
+- [x] CTM 连接纹理已复制（1.20.1 无 sussypatches，未接线，纯视觉差异）
+- [x] **纹理引用接线**：脚本审计 806 个模型 → 0 个缺失父级；
+      本轮修复 **19 个手写物品模型的错误纹理路径**（animal_fat/scrap_meat/香肠系列/
+      热汤系列/结构纤维等缺少 `item/` 前缀，此前游戏内显示为紫黑格）
 
-### 14.2 模型（旧格式已存至 legacy-resources，需转换/重新生成）
-- [ ] 作物模型（`crop_cross.json` 需转换：forge_marker → 1.20.1 格式）
-- [ ] 树苗/木板/原木模型（`legacy-resources/assets/gtmfo/models/`）
-- [ ] 浆果丛模型（`small_berry_bush.json` / `large_berry_bush.json`）
-- [x] 披萨盒（GTFOPizzaBox）：3 种方块 + 右键变披萨 + 打包机配方（原版 id）—— 已完成
-- [ ] 多方块结构模型（由 GTCEu 系统处理）
-- [ ] 机器模型（Farmer/Mob 机器，由 GTCEu workable 系统处理）
+### 14.2 模型
+- [x] 作物模型（1.20.1 `crop_cross` 父级，20 作物 × 6 阶段全部生成/手写）
+- [x] 树苗/木板/原木/树叶模型（10 树，全部 datagen 生成）
+- [x] 浆果丛模型（small/large/ripe，10 种浆果）
+- [x] 披萨盒（3 种方块 + 右键变披萨 + 打包机配方）
+- [x] 多方块结构模型（GTCEu workable casing 系统处理）
+- [x] 机器模型（GTCEu workable 系统处理）
+- 说明：未引用的遗留模型（hops/popcorn 作物、artichoke stage6-7、`gtfo_sapling_*`）为
+  原版 WIP/未注册内容，无害
 
-### 14.3 语言文件（旧 .lang 已存至 legacy，需转换 + 映射）
-- [x] 英文/中文 lang 由 datagen 生成（现有物品）
-- [ ] 新物品/方块/机器的 EN/CN lang 补全（随功能实现）
-- [ ] 机器工具提示 lang
-- [ ] 药水效果 lang（4 个已有占位）
-- [ ] 覆盖板 lang
-- [ ] 参考 `legacy-resources/assets/gtmfo/lang/` 的 12 个语言文件补充其他语言翻译
+### 14.3 语言文件
+- [x] 英文/中文 lang 由 datagen 生成（物品/方块/机器/效果/实体/创造页）
+- [x] 新物品/方块/机器 EN/CN lang（本轮补 472 条缺失 + 修复陈旧条目）
+- [x] 机器工具提示 lang（温室/厨房/烤炉 + 每级风味提示）
+- [x] 药水效果 lang — 本轮修复：补全 10 个效果（此前生成文件仅 4 个且数值陈旧，
+      如 fly 显示 "Fly" 而非 "Creativity"）
+- [x] 覆盖板 lang（洒水器）
+- [x] **其他 10 种语言**（本轮生成）：de_de / en_gb / es_es / fr_fr / it_it / ja_jp /
+      ko_kr / pt_br / ru_ru / zh_tw — 按英文名映射 legacy 翻译，各 641/784 条
+      （其余为移植版新增内容，legacy 无对应翻译）
 
-### 14.4 音效（已复制 ✅）
+### 14.4 音效
 - [x] `microwave.finish` 微波炉完成音效
 - [x] `farmer.laser` 农场激光音效
 - [x] `amogus.vent` Smogus 排气音效
-- [x] `sounds.json` 已修正命名空间为 `gtmfo:`
-- [ ] 代码中注册 SoundEvent 并在机器中调用
+- [x] `sounds.json` 命名空间为 `gtmfo:`
+- [x] SoundEvent 已注册（`GTMFOSounds`）并在机器/效果中调用
+      （微波炉/农夫/排气效果）
 
----
+### 14.5 资源完整性审计（2026-09-13）
+- [x] 修复缺失方块状态/模型：土坯砖系列、磁砖系列、温室玻璃
+- [x] 修复缺失树叶模型：原版仅有 banana/rainbowwood 纹理，其余 8 种树用 plain 纹理
+- [x] 修复错误父级：minecraft:block/block/leaves → minecraft:block/leaves
+- [x] 生成 59 个缺失物品模型 + 19 个错误纹理路径修复
+- [x] 审计结果：0 个 blockstate 引用缺失模型，0 个模型引用缺失纹理（除未注册 WIP）
 
-### 14.5 资源完整性审计（脚本扫描，2026-09-13）
-- 修复缺失方块状态/模型：土坯砖系列、磁砖系列、温室玻璃（datagen 外手写）
-- 修复缺失树叶模型：原版仅有 banana/rainbowwood 纹理，其余 8 种树用 plain 纹理
-- 修复错误父级：minecraft:block/block/leaves → minecraft:block/leaves
-- 生成 59 个缺失物品模型（10 种树×4 + 新增物品 + 洒水器覆盖板）
-- 审计结果：0 个 blockstate 引用缺失模型，0 个物品模型引用缺失纹理
-- 剩余未引用模型（hops/popcorn 作物、artichoke stage6-7）为原版 WIP/未注册内容，无害
+## 15. 数据生成（已完成 ✅）
 
-## 15. 数据生成
-
-- [ ] 核对 `GTMFODataGen` 覆盖的 provider 类型
-- [ ] 方块状态生成（作物/树/机器）
-- [ ] 物品模型生成
-- [ ] 战利品表生成（作物掉落/树掉落）
-- [ ] 方块标签生成（可挖掘工具等）
-- [ ] 世界生成 JSON 生成（生物群系修改器）
+- [x] `GTMFODataGen` provider 类型：Registrate LANG + 自定义 CNLANG（中文本地化）、
+      Registrate 默认的 blockstate/item model/tag/loot 生成器
+- [x] 方块状态生成（作物/树/机器，62 个生成 + 82 个手写）
+- [x] 物品模型生成（419 个生成 + 86 个手写）
+- [x] 战利品表：披萨/Smogus/外壳等 8 个方块用生成表；作物/树叶掉落由代码
+      `getDrops` 实现（1.20.1 等价，含时运/果实掉落）
+- [x] 方块标签生成（`gtceu:mineable/pickaxe_or_wrench` 等）
+- [x] 世界生成 JSON：放置特征/生物群系标签手写于 `src/main/resources`
+      （数据驱动，无需 datagen；生物群系修饰器为自定义 `gtmfo:config_gated_features`）
 
 ---
 

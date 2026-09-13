@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:mushy_peas"
+    "layer0": "gtmfo:item/mushy_peas"
   }
 }

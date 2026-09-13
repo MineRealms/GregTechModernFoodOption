@@ -1,0 +1,20 @@
+{
+  "block.gtmfo.crop_corn": "Maize",
+  "item.gtmfo.bacon": "Rasher of Bacon",
+  "item.gtmfo.bacon_raw": "Uncooked Rasher of Bacon",
+  "item.gtmfo.chips_bag": "Bag O' Crisps",
+  "item.gtmfo.chips_kettle": "Kettle Crisps",
+  "item.gtmfo.chips_reduced_fat": "Bay Salmon Reduced Fat Crisps",
+  "item.gtmfo.coffee_energized": "Energised Coffee Cup",
+  "item.gtmfo.corn_cob": "Maize Cob",
+  "item.gtmfo.corn_ear": "Maize Ear",
+  "item.gtmfo.corn_kernel": "Maize Kernel",
+  "item.gtmfo.cucumber.tooltip": "Not a Gherkin (yet).",
+  "item.gtmfo.flavored_flake": "Flavoured Popcorn Flake",
+  "item.gtmfo.ice_cream_chip": "Potato Crisp Ice Cream",
+  "item.gtmfo.ice_cream_chip.tooltip": "https://tenor.com/view/cat-swim-in-milk-cat-kitty-milk-milk-cat-gif-23473453",
+  "item.gtmfo.lasagna_pesto.tooltip": "Italians only capitalise the first letter of the first word/proper nouns of titles",
+  "item.gtmfo.potato_slice_reduced_fat": "Reduced Fat Potato Crisps",
+  "item.gtmfo.sandwich_bacon": "Rasher Sandwich",
+  "item.gtmfo.sandwich_bacon_large": "Large Rasher Sandwich"
+}

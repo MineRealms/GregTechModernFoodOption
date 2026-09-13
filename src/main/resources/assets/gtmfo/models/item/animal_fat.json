@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:animal_fat"
+    "layer0": "gtmfo:item/animal_fat"
   }
 }

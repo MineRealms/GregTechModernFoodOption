@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:sausage_roll_raw"
+    "layer0": "gtmfo:item/sausage_roll_raw"
   }
 }

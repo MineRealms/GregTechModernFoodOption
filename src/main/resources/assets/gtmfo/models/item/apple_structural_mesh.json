@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:structural_mesh/apple"
+    "layer0": "gtmfo:item/structural_mesh/apple"
   }
 }

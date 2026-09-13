@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:hot_mushroom_stew"
+    "layer0": "gtmfo:item/hot_mushroom_stew"
   }
 }

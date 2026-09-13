@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtmfo:kubide_meat"
+    "layer0": "gtmfo:item/kubide_meat"
   }
 }
