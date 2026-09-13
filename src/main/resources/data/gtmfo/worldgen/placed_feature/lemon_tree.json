@@ -2,15 +2,29 @@
   "feature": "gtmfo:lemon_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 90
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 4,
+      "conditions": [
+        {
+          "biomes": "#gtmfo:feature/lemon_tree/0",
+          "max_amount": 3,
+          "cutoff": 0.4
+        },
+        {
+          "biomes": "#gtmfo:feature/lemon_tree/1",
+          "max_amount": 1,
+          "cutoff": 0.65
+        },
+        {
+          "temp_rain": {
+            "optimal_temp": 0.7,
+            "optimal_rain": 0.7,
+            "range": 0.3,
+            "commonality": 1.2
+          },
+          "max_amount": 5
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

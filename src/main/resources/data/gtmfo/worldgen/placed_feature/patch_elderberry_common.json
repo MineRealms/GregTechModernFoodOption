@@ -1,16 +1,20 @@
 {
-  "feature": "gtmfo:patch_elderberry_common",
+  "feature": "gtmfo:patch_elderberry_bush",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 2
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "WORLD_SURFACE_WG"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 1008,
+      "conditions": [
+        {
+          "temp_rain": {
+            "optimal_temp": 0.2,
+            "optimal_rain": 0.4,
+            "range": 0.6,
+            "commonality": 0.9
+          },
+          "max_amount": 3
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

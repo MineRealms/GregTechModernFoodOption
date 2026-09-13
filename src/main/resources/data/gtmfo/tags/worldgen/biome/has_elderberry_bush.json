@@ -1,6 +1,16 @@
 {
   "values": [
-    "minecraft:forest",
-    "minecraft:swamp"
+    "minecraft:birch_forest",
+    "minecraft:cherry_grove",
+    "minecraft:meadow",
+    "minecraft:old_growth_birch_forest",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "minecraft:river",
+    "minecraft:snowy_beach",
+    "minecraft:snowy_plains",
+    "minecraft:stony_shore",
+    "minecraft:taiga",
+    "minecraft:windswept_hills"
   ]
 }

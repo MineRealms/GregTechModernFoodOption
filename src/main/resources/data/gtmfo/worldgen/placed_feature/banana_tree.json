@@ -2,15 +2,44 @@
   "feature": "gtmfo:banana_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 80
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 0,
+      "conditions": [
+        {
+          "biomes": "#gtmfo:feature/banana_tree/0",
+          "max_amount": 5,
+          "cutoff": 0.35
+        },
+        {
+          "biomes": "#gtmfo:feature/banana_tree/1",
+          "max_amount": 5,
+          "cutoff": 0.3
+        },
+        {
+          "biomes": "#gtmfo:feature/banana_tree/2",
+          "max_amount": 5,
+          "cutoff": 0.35
+        },
+        {
+          "biomes": "#gtmfo:feature/banana_tree/3",
+          "max_amount": 5,
+          "cutoff": 0.3
+        },
+        {
+          "biomes": "#gtmfo:feature/banana_tree/4",
+          "max_amount": 5,
+          "cutoff": 0.15
+        },
+        {
+          "temp_rain": {
+            "optimal_temp": 0.8,
+            "optimal_rain": 0.8,
+            "range": 0.4,
+            "commonality": 1.5
+          },
+          "max_amount": 5
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

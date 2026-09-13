@@ -2,15 +2,29 @@
   "feature": "gtmfo:orange_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 90
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 1,
+      "conditions": [
+        {
+          "biomes": "#gtmfo:feature/orange_tree/0",
+          "max_amount": 6,
+          "cutoff": 0.25
+        },
+        {
+          "biomes": "#gtmfo:feature/orange_tree/1",
+          "max_amount": 3,
+          "cutoff": 0.45
+        },
+        {
+          "temp_rain": {
+            "optimal_temp": 1.15,
+            "optimal_rain": 0.0,
+            "range": 0.2,
+            "commonality": 1.2
+          },
+          "max_amount": 3
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

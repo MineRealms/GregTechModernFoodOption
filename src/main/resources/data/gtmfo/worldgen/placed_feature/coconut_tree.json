@@ -2,15 +2,19 @@
   "feature": "gtmfo:coconut_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 60
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 9,
+      "conditions": [
+        {
+          "temp_rain": {
+            "optimal_temp": 0.8,
+            "optimal_rain": 0.9,
+            "range": 0.5,
+            "commonality": 1.5
+          },
+          "max_amount": 5
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

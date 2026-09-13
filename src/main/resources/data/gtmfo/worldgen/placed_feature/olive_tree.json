@@ -2,15 +2,34 @@
   "feature": "gtmfo:olive_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 100
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 6,
+      "conditions": [
+        {
+          "biomes": "#gtmfo:feature/olive_tree/0",
+          "max_amount": 5,
+          "cutoff": 0.55
+        },
+        {
+          "biomes": "#gtmfo:feature/olive_tree/1",
+          "max_amount": 2,
+          "cutoff": 0.65
+        },
+        {
+          "biomes": "#gtmfo:feature/olive_tree/2",
+          "max_amount": 1,
+          "cutoff": 0.88
+        },
+        {
+          "temp_rain": {
+            "optimal_temp": 0.6,
+            "optimal_rain": 0.6,
+            "range": 0.3,
+            "commonality": 1.5
+          },
+          "max_amount": 3
+        }
+      ]
     },
     {
       "type": "minecraft:biome"

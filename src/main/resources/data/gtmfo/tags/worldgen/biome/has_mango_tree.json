@@ -1,6 +1,13 @@
 {
   "values": [
+    "minecraft:bamboo_jungle",
+    "minecraft:dark_forest",
+    "minecraft:flower_forest",
+    "minecraft:forest",
+    "minecraft:jungle",
+    "minecraft:mangrove_swamp",
+    "minecraft:mushroom_fields",
     "minecraft:sparse_jungle",
-    "minecraft:jungle"
+    "minecraft:swamp"
   ]
 }

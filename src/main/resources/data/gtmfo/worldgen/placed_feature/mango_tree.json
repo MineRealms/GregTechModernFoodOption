@@ -2,15 +2,24 @@
   "feature": "gtmfo:mango_tree",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 90
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "type": "gtmfo:gtfo_feature",
+      "feature_seed": 2,
+      "conditions": [
+        {
+          "biomes": "#gtmfo:feature/mango_tree/0",
+          "max_amount": 4,
+          "cutoff": 0.2
+        },
+        {
+          "temp_rain": {
+            "optimal_temp": 0.9,
+            "optimal_rain": 0.9,
+            "range": 0.3,
+            "commonality": 1.5
+          },
+          "max_amount": 2
+        }
+      ]
     },
     {
       "type": "minecraft:biome"
