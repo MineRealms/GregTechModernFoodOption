@@ -40,13 +40,21 @@ LGPL-3.0 并提供对应源代码。
 
 ## Status / 进度
 
-- Ported content: materials & fluids, crops/trees & worldgen, food items & recipe chains,
-  machines (slicer/microwave/multicooker/mob machines/farmer), multiblocks
-  (baking ovens/greenhouse/kitchen), potion effects & lacing, covers, entities,
-  JEI integration, lang & tooltips.
-- Known gaps and simplifications are tracked in [`PORTING_TODO.md`](PORTING_TODO.md)
-  (see sections 16.6.1 / 16.6.2).
+- **Feature-complete port, client-tested**: materials & fluids, crops/trees & worldgen,
+  food items & all 32 recipe chains, machines (slicer/microwave/multicooker/mob
+  machines/farmer), multiblocks (baking ovens/greenhouse/kitchen), potion effects &
+  lacing, covers, entities, JEI integration, lang & tooltips.
+- Only known remaining issue: a harmless Forge performance note from Registrate's
+  one-time listener cleanup (`Mod 'gtmfo' took ~2.5s to run a deferred task`).
+- Other-mod compatibility (AppleSkin/TOP/Nutrition/TFC/…) is intentionally out of scope.
 - Requires **GTCEu Modern 7.5.2** for Minecraft 1.20.1 Forge.
+
+## Documentation / 文档
+
+- [`PORTING_TODO.md`](PORTING_TODO.md) — full porting progress, audit notes, fix log
+  and known simplifications.
+- [`docs/JEI_EXPORT_FORMAT.md`](docs/JEI_EXPORT_FORMAT.md) — format spec for the optional
+  JEI recipe/name JSON export (dev tool, disabled by default; see `devConfigs.exportJeiRecipes`).
 
 ## Building / 构建
 
