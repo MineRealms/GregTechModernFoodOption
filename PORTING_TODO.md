@@ -940,6 +940,34 @@
 9. 审计确认：0 个 blockstate 引用缺失模型；剩余 14 个缺失纹理均为未注册 WIP
    （hops/popcorn 作物、artichoke stage6-7、旧 sapling 模型）。
 
+## 16.9 客户端警告清理第三轮：贴图 + 配方冲突 + 温室预览（2026-09-13 下午）
+> 对照 `runclient7.log`（用户实测会话）逐条修复：
+
+1. **擀面杖紫黑块**：GT 工具的物品模型由 `ToolItemRenderer` 动态生成，
+   parent 指向 `toolType.modelLocation`（默认 `gtceu:item/tools/<name>`）。
+   原版 1.12 把贴图写进 `gregtech` 命名空间，移植版照做：
+   - `assets/gtceu/models/item/tools/rolling_pin.json`（layer0=void，layer1=rolling_pin）
+   - `assets/gtceu/textures/item/tools/rolling_pin.png`（16x16 灰度，材质染色）
+   （`butchery_knife` 模型 GTCEu 自带，无需处理）
+2. **作物贴图缺失 ×118**：图集配置必须放 `assets/minecraft/atlases/blocks.json`
+   （游戏只查找 `minecraft:blocks` 配置位置；`assets/gtmfo/atlases/` 不会被读取）。
+3. **配方冲突（GTCEu RecipeDB 只保留首个同输入配方）**：
+   - 肉末/脂肪：原版 `FatChain` 在添加动物脂肪配方前会**删除**冲突的基础研磨配方，
+     移植版补上（删除 `gtceu:macerator/macerate_steak/chicken/mutton/pork_chop/rabbit`）；
+     同时删除自创的 `MINCE_MEAT` 物品与 `mince_meat_*` 研磨配方（原版没有该物品，
+     "生肉末"就是 GT 的 Meat dust）：烘烤炉 `Meat dust → Cooked Mince Meat`、
+     肉末披萨 `Meat dust x10`，`pizza_meat_raw` 补上原版提示
+   - 苹果汁：删除 `AppleRecipes` 里 250mB 的重复版本，保留 `CoreChain` 的原版 100mB 版本
+   - 可可脂：删除自创的 `nibs → 熔融巧克力`（保留原版的 `可可粉 → 熔融巧克力`），
+     `nibs → 可可脂` 作为简化链保留（原版为压榨巧克力液；简化已记录）
+   - `distill_creosote`：GTCEu 生成配方的 id 带配方类型前缀，删除 id 修正为
+     `gtceu:distillation_tower/distill_creosote`
+4. **温室 JEI 预览报 "Pattern formed checking failed"**：`soilPredicate()` 的候选方块
+   列表为空，预览无法放置土壤层 → 现提供 dirt/grass + 配置中解析出的方块状态。
+5. 剩余唯一警告：`Mod 'gtmfo' took 2.5s to run a deferred task` —— Registrate 的全局
+   一次性监听器清理任务（`OneTimeEventReceiver`，静态列表包含 GTCEu 的数百个物品颜色
+   监听器），归因取决于模组构造顺序，无法从本模组侧消除，无功能影响。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异

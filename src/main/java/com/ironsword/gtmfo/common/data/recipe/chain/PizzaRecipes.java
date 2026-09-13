@@ -1,5 +1,8 @@
 package com.ironsword.gtmfo.common.data.recipe.chain;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.ironsword.gtmfo.common.data.recipe.GTMFOBakingOvenRecipes;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -71,7 +74,7 @@ public class PizzaRecipes {
                 .inputItems(
                         GTMFOItems.DOUGH_FLAT.asStack(),
                         GTMFOItems.MOZZARELLA_SLICE.asStack(4),
-                        GTMFOItems.MINCE_MEAT.asStack(10))
+                        ChemicalHelper.get(TagPrefix.dust, GTMaterials.Meat, 10))
                 .circuitMeta(3)
                 .inputFluids(GTMFOFluids.TomatoSauce.getFluid(450))
                 .outputItems(GTMFOItems.PIZZA_MEAT_RAW.asStack())

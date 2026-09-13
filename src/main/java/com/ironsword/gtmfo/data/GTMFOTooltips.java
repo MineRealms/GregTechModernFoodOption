@@ -85,7 +85,7 @@ public class GTMFOTooltips {
         add("item.gtmfo.leninade.tooltip", "Let the Communism flow through you!", "让共产主义在你的血液中流淌！");
         add("item.gtmfo.lingonberry.tooltip", "Sponsored by IKEA", "由宜家赞助");
         add("item.gtmfo.mango.tooltip", "Persongo", "男果（Mango）不是人果（Persongo）");
-        add("item.gtmfo.mince_meat.tooltip", "Time to yeet it in the oven!", "是时候把它丢进烤炉了！");
+        add("item.gtmfo.pizza_meat_raw.tooltip", "Time to yeet it in the oven!", "是时候把它丢进烤炉了！");
         add("item.gtmfo.mineral_water.tooltip", "Checkmate, atheists.", "认输吧，无神论者。");
         add("item.gtmfo.mozzarella_ball.tooltip", "Regian can't keep holding it in much longer!", "Regian再也没法私藏它了！");
         add("item.gtmfo.mozzarella_slice.tooltip", "For putting on pizzas, not eating!", "不是直接吃的！是做披萨用的！");

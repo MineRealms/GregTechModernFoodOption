@@ -611,7 +611,6 @@ public class GTMFOItems {
     public static final ItemEntry<ExComponentItem> MARSHMALLOW               =  foodItem("marshmallow", "Marshmallow", "棉花软糖", Foods.MARSHMALLOW);
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK         = item("marshmallow_stick"        ,"Marshmallow on a Stick","棉花软糖串");
 //    public static final ItemEntry<Item> MARSHMALLOW_STICK_ROASTED = item("marshmallow_stick_roasted","Roasted Marshmallow"   ,"烤棉花软糖");
-    public static final ItemEntry<Item> MINCE_MEAT        = item("mince_meat"       ,"Mince Meat"       ,"肉末"  );
     public static final ItemEntry<Item> MINCE_MEAT_COOKED = item("mince_meat_cooked","Cooked Mince Meat","熟肉末");
     public static final ItemEntry<Item> MEAT_INGOT        = item("meat_ingot"       ,"Meat Ingot"       ,"肉锭"  );
     public static final ItemEntry<Item> MEAT_INGOT_COOKED = item("meat_ingot_cooked","Cooked Meat Ingot","熟肉锭");

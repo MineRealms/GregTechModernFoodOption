@@ -78,8 +78,14 @@ public class GTMFORecipes {
             consumer.accept(ResourceLocation.tryBuild("minecraft", "bread"));
         }
         vanillaOverrides(consumer);
-        // replaced by GTMFO's guaiacol-yielding version (VanillinRecipes)
-        consumer.accept(com.gregtechceu.gtceu.GTCEu.id("distill_creosote"));
+        // replaced by GTMFO's guaiacol-yielding version (VanillinRecipes);
+        // generated GT recipe ids are prefixed with the recipe type path
+        consumer.accept(com.gregtechceu.gtceu.GTCEu.id("distillation_tower/distill_creosote"));
+        // original FatChain removes the conflicting macerator recipe before adding its own
+        // (meat -> meat dust + bone + animal fat)
+        for (String meat : new String[] { "steak", "chicken", "mutton", "pork_chop", "rabbit" }) {
+            consumer.accept(com.gregtechceu.gtceu.GTCEu.id("macerator/macerate_" + meat));
+        }
     }
 
     private static void vanillaOverrides(Consumer<ResourceLocation> consumer){

@@ -74,17 +74,7 @@ public class AppleRecipes {
                 .outputItems(GTMFOItems.APPLE_CANDY_CRUSHED.asStack(2))
                 .EUt(480).duration(200).save(provider);
 
-        //juice
-        GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("apple_extract_from_juice"))
-                .inputItems(GTMFOItems.JUICE_APPLE.asStack())
-                .outputItems(Items.GLASS_BOTTLE)
-                .outputFluids(GTMFOFluids.AppleExtract.getFluid(250))
-                .EUt(12).duration(30).save(provider);
-        GTRecipeTypes.CANNER_RECIPES.recipeBuilder(id("apple_juice"))
-                .inputItems(Items.GLASS_BOTTLE)
-                .inputFluids(GTMFOFluids.AppleExtract.getFluid(250))
-                .outputItems(GTMFOItems.JUICE_APPLE.asStack())
-                .EUt(12).duration(30).save(provider);
+        //juice: the faithful 100 mB canner recipes live in CoreChain (original CoreChain.liquidFoodExtracts)
 
         //tungstensteel_apple
         GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(id("tungstensteel_apple"))

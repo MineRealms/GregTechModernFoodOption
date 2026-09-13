@@ -43,14 +43,9 @@ public class ChocolateRecipes {
                 .outputItems(TagPrefix.dustSmall, GTMaterials.Wood, 2)
                 .EUt(8).duration(15).save(provider);
 
-        // nibs -> molten chocolate + cocoa butter (combines the original press + extract steps)
-        GTRecipeTypes.EXTRACTOR_RECIPES.recipeBuilder(id("molten_unsweetened_chocolate"))
-                .inputItems(GTMFOItems.COCOA_NIBS.asStack(2))
-                .outputFluids(GTMFOFluids.MoltenUnsweetenedChocolate.getFluid(288))
-                .EUt(270).duration(40).save(provider);
-
-        // original SmogusChain: cocoa butter is extracted from pressed chocolate liquor;
-        // here the nibs also yield it (kept as a separate recipe because the extractor has 1 fluid output)
+        // original SmogusChain: cocoa butter comes from pressed chocolate liquor
+        // (the liquor/dutching/press-cake stages are simplified away; see PORTING_TODO),
+        // molten chocolate comes from cocoa dust below
         GTRecipeTypes.EXTRACTOR_RECIPES.recipeBuilder(id("cocoa_butter_from_nibs"))
                 .inputItems(GTMFOItems.COCOA_NIBS.asStack(2))
                 .outputFluids(GTMFOFluids.CocoaButter.getFluid(72))

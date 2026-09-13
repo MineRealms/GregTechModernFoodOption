@@ -470,17 +470,8 @@ public class CoreChain {
                 .outputItems(GTMFOItems.POTATO_MASHED.asStack())
                 .EUt(4).duration(40).save(provider);
 
-        net.minecraft.world.item.Item[] minceMeats = { Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP,
-                Items.RABBIT };
-        String[] minceNames = { "beef", "chicken", "mutton", "porkchop", "rabbit" };
-        for (int i = 0; i < minceMeats.length; i++) {
-            GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(id("mince_meat_" + minceNames[i]))
-                    .inputItems(minceMeats[i])
-                    .outputItems(GTMFOItems.MINCE_MEAT.asStack())
-                    .EUt(8).duration(80).save(provider);
-        }
-
-        GTMFOBakingOvenRecipes.add(provider, "mince_meat_cooked", GTMFOItems.MINCE_MEAT.asStack(),
+        // original CoreChain: the baking oven cooks GT Meat dust into cooked mince meat
+        GTMFOBakingOvenRecipes.add(provider, "mince_meat_cooked", ChemicalHelper.get(TagPrefix.dust, GTMaterials.Meat),
                 GTMFOItems.MINCE_MEAT_COOKED.asStack(), 200, 400, 1);
 
         GTRecipeTypes.EXTRUDER_RECIPES.recipeBuilder(id("meat_ingot"))

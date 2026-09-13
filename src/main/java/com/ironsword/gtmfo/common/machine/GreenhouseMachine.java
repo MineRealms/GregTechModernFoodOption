@@ -74,20 +74,40 @@ public class GreenhouseMachine extends WorkableElectricMultiblockMachine {
         }
     }
 
-    /** Soil predicate accepting dirt/grass plus the configured blocks. */
+    /**
+     * Soil predicate accepting dirt/grass plus the configured blocks.
+     * <p>
+     * The candidates are needed for the JEI pattern preview: without them the preview cannot
+     * place the soil layer and logs "Pattern formed checking failed".
+     */
     public static TraceabilityPredicate soilPredicate() {
         return new TraceabilityPredicate(state -> {
             BlockState blockState = state.getBlockState();
             if (blockState.is(Blocks.DIRT) || blockState.is(Blocks.GRASS_BLOCK)) return true;
             for (String config : GTMFOConfigHolder.INSTANCE.gtfoMiscConfig.greenhouseDirts) {
-                if (matchesConfig(blockState, config)) return true;
+                BlockState parsed = parseConfig(config);
+                if (parsed != null && parsed.equals(blockState)) return true;
             }
             return false;
-        }, () -> new com.lowdragmc.lowdraglib.utils.BlockInfo[0]);
+        }, GreenhouseMachine::soilCandidates);
     }
 
+    private static com.lowdragmc.lowdraglib.utils.BlockInfo[] soilCandidates() {
+        java.util.List<com.lowdragmc.lowdraglib.utils.BlockInfo> candidates = new java.util.ArrayList<>();
+        candidates.add(com.lowdragmc.lowdraglib.utils.BlockInfo.fromBlockState(Blocks.DIRT.defaultBlockState()));
+        candidates.add(com.lowdragmc.lowdraglib.utils.BlockInfo.fromBlockState(Blocks.GRASS_BLOCK.defaultBlockState()));
+        for (String config : GTMFOConfigHolder.INSTANCE.gtfoMiscConfig.greenhouseDirts) {
+            BlockState parsed = parseConfig(config);
+            if (parsed != null) {
+                candidates.add(com.lowdragmc.lowdraglib.utils.BlockInfo.fromBlockState(parsed));
+            }
+        }
+        return candidates.toArray(new com.lowdragmc.lowdraglib.utils.BlockInfo[0]);
+    }
+
+    /** Parses {@code namespace:block} or {@code namespace:block[prop=value,...]} into a block state. */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static boolean matchesConfig(BlockState state, String config) {
+    private static BlockState parseConfig(String config) {
         String idPart = config;
         String propsPart = null;
         int bracket = config.indexOf('[');
@@ -98,16 +118,18 @@ public class GreenhouseMachine extends WorkableElectricMultiblockMachine {
             }
         }
         ResourceLocation id = ResourceLocation.tryParse(idPart.trim());
-        if (id == null || !BuiltInRegistries.BLOCK.getKey(state.getBlock()).equals(id)) return false;
-        if (propsPart == null || propsPart.isEmpty()) return true;
+        if (id == null || !BuiltInRegistries.BLOCK.containsKey(id)) return null;
+        BlockState state = BuiltInRegistries.BLOCK.get(id).defaultBlockState();
+        if (propsPart == null || propsPart.isEmpty()) return state;
         for (String pair : propsPart.split(",")) {
             String[] kv = pair.split("=");
-            if (kv.length != 2) return false;
+            if (kv.length != 2) return null;
             Property property = state.getBlock().getStateDefinition().getProperty(kv[0].trim());
-            if (property == null) return false;
+            if (property == null) return null;
             var value = property.getValue(kv[1].trim());
-            if (value.isEmpty() || !state.getValue(property).equals(value.get())) return false;
+            if (value.isEmpty()) return null;
+            state = state.setValue(property, (Comparable) value.get());
         }
-        return true;
+        return state;
     }
 }
