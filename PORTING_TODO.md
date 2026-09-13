@@ -363,30 +363,46 @@
 
 ---
 
-## 7. 世界生成（全部缺失）
+## 7. 世界生成（已完成 ✅）
+> 本章已于 2026-09-13 对照原版 `worldgen/` 包复核。原版为 `IWorldGenerator` + Perlin 噪声聚簇系统；
+> 移植版改用 1.20.1 数据驱动（ConfiguredFeature / PlacedFeature / BiomeModifier），
+> 并**移植了原版的 Perlin 聚簇逻辑**（自定义 placement modifier）。
 
 ### 7.1 框架
-- [ ] 移植 `GTFOFeature` 特征系统（Perlin 噪声 + 条件系统）
-- [ ] 移植 `GTFOFeatureGen` 生成器
-- [ ] 移植条件系统：
-  - [ ] `FeatureCondition` 基础条件
-  - [ ] `BiomeCondition` 生物群系条件
-  - [ ] `TemperatureRainfallCondition` 温度/降雨条件
-- [ ] 改用 1.20.1 的 `ConfiguredFeature` / `PlacedFeature` / `BiomeModifier` 系统
+- [x] 特征系统改用 1.20.1 的 `ConfiguredFeature` / `PlacedFeature` / `BiomeModifier`
+- [x] **Perlin 噪声聚簇**（原版 `GTFOFeature.getRandomStrength` + `GTFOFeatureGen.getAmountInChunk`）：
+  - [x] `GTFOSimplexNoise` — 1.12 `NoiseGeneratorSimplex` 的忠实移植（`java.util.Random` 种子，
+        同种子产生相同噪声场）
+  - [x] `GTFOFeaturePlacement` — 自定义 placement modifier `gtmfo:gtfo_feature`：
+        找到第一个满足的条件 → 计算 `(chunkX*0.04, chunkZ*0.04)` 噪声 →
+        噪声 > perlinCutoff 时生成 `ceil(maxAmount - cutoff*maxAmount)` 个特征
+  - [x] `BiomeAccessor` mixin 读取原版私有 `climateSettings`（downfall）
+- [x] 条件系统：
+  - [x] `FeatureCondition` 基础条件（JSON 条件列表，首个满足者生效）
+  - [x] `BiomeCondition` 生物群系条件（每条件独立 biome tag + maxAmount + cutoff）
+  - [x] `TemperatureRainfallCondition` 温度/降雨条件（运行时按生物群系气候计算 habitability）
+- [x] `GTFOWorldGenConfig.enableGTFOTrees/enableGTFOBerries` 实际生效
+      （`GTMFOBiomeModifiers` 自定义 biome modifier，见 1.2）
 
-### 7.2 树木世界生成（10 种）
-- [ ] 香蕉树、橙子树、芒果树、杏子树、柠檬树、酸橙树
-- [ ] 橄榄树、彩虹木、肉桂树、椰子树
-- [ ] 各自的生成条件（温度/降雨/群系）
-- [ ] `GTFOTreeGen` 树木生成器
+### 7.2 树木世界生成（10 种，全部按原版条件）
+- [x] 香蕉（种子 0）/ 橙子（1）/ 芒果（2）/ 杏子（3）/ 柠檬（4）/ 酸橙（5）
+- [x] 橄榄（6）/ 彩虹木（7）/ 肉桂（8）/ 椰子（9）— feature_seed 与原版一致
+- [x] 各自的生成条件（原版 BiomeCondition + TemperatureRainfallCondition 参数逐条写入
+      placed_feature JSON；生物群系集合按原版公式重新计算）
+- [x] 树木生成器（1.20.1 tree feature 等价）
 
-### 7.3 浆果/作物世界生成
-- [ ] `GTFOBerryGen` 浆果丛生成
-- [ ] 各浆果群系条件
+### 7.3 浆果世界生成（10 种）
+- [x] 每种浆果按原版 `TemperatureRainfallCondition` 参数（种子 1000-1009）
+- [x] 生物群系集合按原版温湿度公式重新生成（此前为近似映射）
 
-### 7.4 地牢战利品
-- [ ] `GTFODungeonLootLoader` 地牢战利品注入
-- [ ] 改用 1.20.1 `LootModifier` 系统
+### 7.4 地牢战利品（已完成）
+- [x] `GTFODungeonLoot`（原版 `GTFODungeonLootLoader`）：
+  - [x] 41 种食物 + 权重/数量逐项一致（7 种宝箱表：废弃矿井/丛林神庙/沙漠神殿/
+        地牢/要塞走廊/要塞交叉口/林地府邸）
+  - [x] 掺加（氰化物）变体（权重按原版 /3 /2 规则，`addLacedDungeonFoods` 配置门控）
+  - [x] 稀有物品：矿泉水 / Smogus 之心（丛林神庙 + 林地府邸）
+  - [x] 使用 GTCEu `ChestGenHooks`（1.20.1 等价实现）
+  - [x] `addDungeonFoods` 配置门控
 
 ---
 
