@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "gtmfo:pizza_box_mincemeat"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "gtmfo:blocks/pizza_box_mincemeat"
+}

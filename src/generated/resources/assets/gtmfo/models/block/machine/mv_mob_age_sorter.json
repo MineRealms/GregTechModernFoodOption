@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "gtmfo:mv_mob_age_sorter",
+  "variants": {
+    "recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/mv",
+        "textures": {
+          "overlay_back": "gtceu:block/machines/mob_age_sorter/overlay_back",
+          "overlay_front": "gtceu:block/machines/mob_age_sorter/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/mob_age_sorter/overlay_front_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/mv",
+        "textures": {
+          "overlay_back": "gtceu:block/machines/mob_age_sorter/overlay_back",
+          "overlay_front": "gtceu:block/machines/mob_age_sorter/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/mob_age_sorter/overlay_front_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/mv",
+        "textures": {
+          "overlay_back": "gtceu:block/machines/mob_age_sorter/overlay_back_active",
+          "overlay_front": "gtceu:block/machines/mob_age_sorter/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/mob_age_sorter/overlay_front_active_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/mv",
+        "textures": {
+          "overlay_back": "gtceu:block/machines/mob_age_sorter/overlay_back_active",
+          "overlay_front": "gtceu:block/machines/mob_age_sorter/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/mob_age_sorter/overlay_front_active_emissive"
+        }
+      }
+    }
+  }
+}

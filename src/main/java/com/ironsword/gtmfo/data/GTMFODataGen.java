@@ -42,6 +42,12 @@ public class GTMFODataGen {
                 com.ironsword.gtmfo.common.data.GTMFODamageTypes::initCNLang);
     }
 
+    public static void initTooltipLang(){
+        GTMFOTooltips.init();
+        GTMFORegistries.REGISTRATE.addDataGenerator(ProviderType.LANG, GTMFOTooltips::initENLang);
+        GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, GTMFOTooltips::initCNLang);
+    }
+
     public static void initTabLang(){
         GTMFORegistries.REGISTRATE.addDataGenerator(GTMFOProviderTypes.CNLANG, com.ironsword.gtmfo.common.data.GTMFOCreativeModeTabs::initCNLang);
     }

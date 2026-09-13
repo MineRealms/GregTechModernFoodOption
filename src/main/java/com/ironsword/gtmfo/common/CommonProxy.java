@@ -64,6 +64,7 @@ public class CommonProxy {
         GTMFOLootModifiers.init(bus);
         GTMFODataGen.initEntityLang();
         GTMFODataGen.initDamageTypeLang();
+        GTMFODataGen.initTooltipLang();
         GTMFODataGen.initTabLang();
     }
 

@@ -144,6 +144,15 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 }
 
+// The mixin annotation processor writes the refmap to build/tmp/compileJava; copy it to the runtime
+// resources so dev runs (runClient/runServer) can read it and don't log a "could not be read" warning.
+tasks.register('copyRefmap', Copy) {
+    dependsOn tasks.named('compileJava')
+    from(layout.buildDirectory.file("tmp/compileJava/${mod_id}.refmap.json"))
+    into(layout.buildDirectory.dir('resources/main'))
+}
+tasks.named('classes').configure { finalizedBy 'copyRefmap' }
+
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,

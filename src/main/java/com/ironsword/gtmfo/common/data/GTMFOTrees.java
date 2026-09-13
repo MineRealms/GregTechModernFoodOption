@@ -6,6 +6,7 @@ import com.ironsword.gtmfo.common.block.GTFOBlockLog;
 import com.ironsword.gtmfo.common.block.GTFOBlockPlanks;
 import com.ironsword.gtmfo.common.block.GTFOBlockSapling;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -112,6 +113,7 @@ public class GTMFOTrees {
                     .lang(TREE_LANG.get(name)[0])
                     .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[1]))
                     .tag(BlockTags.LOGS_THAT_BURN, BlockTags.MINEABLE_WITH_AXE)
+                    .blockstate(NonNullBiConsumer.noop())
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/log_" + name))).tag(ItemTags.LOGS_THAT_BURN).build()
                     .register();
@@ -123,6 +125,7 @@ public class GTMFOTrees {
                     .lang(TREE_LANG.get(name)[2])
                     .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[3]))
                     .tag(BlockTags.PLANKS, BlockTags.MINEABLE_WITH_AXE)
+                    .blockstate(NonNullBiConsumer.noop())
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/planks_" + name))).tag(ItemTags.PLANKS).build()
                     .register();
@@ -134,6 +137,7 @@ public class GTMFOTrees {
                     .lang(TREE_LANG.get(name)[4])
                     .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[5]))
                     .tag(BlockTags.SAPLINGS)
+                    .blockstate(NonNullBiConsumer.noop())
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/sapling_" + name))).tag(ItemTags.SAPLINGS).build()
                     .register();
@@ -147,6 +151,7 @@ public class GTMFOTrees {
                     .lang(TREE_LANG.get(name)[6])
                     .setData(GTMFOProviderTypes.CNLANG, (ctx, prov) -> prov.add(ctx.get().getDescriptionId(), TREE_LANG.get(name)[7]))
                     .tag(BlockTags.LEAVES, BlockTags.MINEABLE_WITH_HOE)
+                    .blockstate(NonNullBiConsumer.noop())
                     .item().model((ctx, prov) -> prov.withExistingParent(ctx.getName(),
                             prov.modLoc("block/leaves_" + name))).tag(ItemTags.LEAVES).build()
                     .register();

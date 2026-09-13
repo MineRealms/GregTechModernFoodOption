@@ -28,6 +28,8 @@ public class GTMFOCovers {
             .item("sprinkler_cover", ComponentItem::create)
             .lang("Sprinkler")
             .onRegister(attach(new CoverPlaceBehavior(SPRINKLER)))
+            // model is hand-written in src/main/resources (uses the cover overlay texture)
+            .model(com.tterrag.registrate.util.nullness.NonNullBiConsumer.noop())
             .register();
 
     private static <T extends ComponentItem> NonNullConsumer<T> attach(IItemComponent components) {

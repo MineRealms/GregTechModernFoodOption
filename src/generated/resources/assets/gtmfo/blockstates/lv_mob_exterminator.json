@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gtmfo:block/machine/lv_mob_exterminator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtmfo:block/machine/lv_mob_exterminator"
+    },
+    "facing=south": {
+      "model": "gtmfo:block/machine/lv_mob_exterminator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gtmfo:block/machine/lv_mob_exterminator",
+      "y": 270
+    }
+  }
+}

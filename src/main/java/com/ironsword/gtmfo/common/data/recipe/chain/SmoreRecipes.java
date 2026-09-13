@@ -104,7 +104,6 @@ public class SmoreRecipes {
                 .inputItems(GTMFOItems.GRAHAM_CRACKER_UNGRADED.asStack())
                 .notConsumable(GTItems.SENSOR_LV.asStack())
                 .chancedOutput(GTMFOItems.GRAHAM_CRACKER.asStack(),7500,100)
-                .outputItems(GTMFOItems.GRAHAM_CRACKER.asStack())
                 .EUt(30).duration(40).save(provider);
     }
 

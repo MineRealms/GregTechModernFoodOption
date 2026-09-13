@@ -6,6 +6,7 @@ import com.ironsword.gtmfo.common.block.GTFORootCropBlock;
 import com.ironsword.gtmfo.common.block.GTFOWaterCropBlock;
 import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -46,6 +47,7 @@ public class GTMFOCrops {
         return REGISTRATE.block("crop_" + name, p -> new GTFOCropBlock(p, seed, crop))
                 .initialProperties(() -> Blocks.WHEAT)
                 .lang("Crop: " + name)
+                .blockstate(NonNullBiConsumer.noop())
                 .register();
     }
 
@@ -54,6 +56,7 @@ public class GTMFOCrops {
         return REGISTRATE.block("crop_" + name, p -> new GTFORootCropBlock(p, seed, crop))
                 .initialProperties(() -> Blocks.WHEAT)
                 .lang("Root Crop: " + name)
+                .blockstate(NonNullBiConsumer.noop())
                 .register();
     }
 
@@ -62,6 +65,7 @@ public class GTMFOCrops {
         return REGISTRATE.block("crop_" + name, p -> new GTFOWaterCropBlock(p, seed, crop))
                 .initialProperties(() -> Blocks.WHEAT)
                 .lang("Water Crop: " + name)
+                .blockstate(NonNullBiConsumer.noop())
                 .register();
     }
 
@@ -71,6 +75,7 @@ public class GTMFOCrops {
                 .initialProperties(() -> Blocks.SWEET_BERRY_BUSH)
                 .properties(p -> p.randomTicks().strength(1.0F))
                 .lang("Berry Bush: " + name)
+                .blockstate(NonNullBiConsumer.noop())
                 .register();
     }
 
