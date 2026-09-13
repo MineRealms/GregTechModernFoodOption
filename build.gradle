@@ -144,14 +144,9 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 }
 
-// The mixin annotation processor writes the refmap to build/tmp/compileJava; copy it to the runtime
-// resources so dev runs (runClient/runServer) can read it and don't log a "could not be read" warning.
-tasks.register('copyRefmap', Copy) {
-    dependsOn tasks.named('compileJava')
-    from(layout.buildDirectory.file("tmp/compileJava/${mod_id}.refmap.json"))
-    into(layout.buildDirectory.dir('resources/main'))
-}
-tasks.named('classes').configure { finalizedBy 'copyRefmap' }
+// NOTE: the refmap is already copied to build/resources/main by the MixinGradle plugin
+// (`mixin { add sourceSets.main, "${mod_id}.refmap.json" }` above), so no manual copy task is needed.
+// An extra copy task caused duplicate jar entries (Entry gtmfo.refmap.json is a duplicate).
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
@@ -169,6 +164,9 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 tasks.named('jar', Jar).configure {
+    // the mixin plugin provides the refmap both as a source-set resource and via build/resources/main;
+    // both are identical, so exclude the duplicate entry instead of failing the build
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
