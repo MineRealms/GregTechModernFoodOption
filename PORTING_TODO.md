@@ -913,6 +913,33 @@
 
 > 世界生成 JSON 已用脚本校验：30 configured + 30 placed + 38 生物群系标签引用一致（0 问题）。
 
+## 16.8 客户端 WARN/ERROR 全量清理（2026-09-13 第二轮实测）
+> 对照 `runclient5.log` 逐条修复所有 gtmfo 相关警告/错误：
+
+1. **机器贴图紫黑块（缺失模型）**：farmer/生物三件套/温室/厨房/原始烤炉的 blockstate、
+   方块模型与物品模型从未 datagen 生成（`MachineBuilder.exBlockstate` 为 datagen 路径）。
+   修复：`runData` 成功跑通并生成全部机器资源（167 blockstates / 853 models）。
+2. **datagen 前置修复**（否则 runData 无法完成）：
+   - 作物/树木/浆果丛方块补 `blockstate(noop)`（资源为手写于 `src/main/resources`）
+   - 洒水器覆盖板物品模型补 `model(noop)`（手写模型引用覆盖板纹理）
+   - 删除 13 个与 datagen 输出重复的手写 blockstate/模型
+3. **作物纹理未进方块图集**（"Missing textures" × 数百）：新增
+   `assets/gtmfo/atlases/blocks.json`，把自定义 `textures/crop/` 目录纳入方块图集。
+4. **无效路径错误**：`pasta_all'amogus.png` / `spaghetti_all'assassina.png` 含非法撇号 →
+   重命名去掉撇号。
+5. **自定义流体贴图缺失**：`rainbow_sap` 使用 `customStill()`，贴图名需与材料名一致
+   （原为 `fluid.gtfo_rainbow_sap.png`）→ 复制为 `fluid.rainbow_sap.png`。
+6. **配方警告**：
+   - 切片机 IO 恢复 3 输入（移植版配方使用 `circuitMeta` 区分同输入配方）
+   - `graham_cracker` 仅保留概率产出（原版行为，此前多了一个保底产出）
+   - `molten_unsweetened_chocolate` 拆分为两条单流体产出配方（提取器只有 1 个流体输出槽）
+7. **refmap 警告**：新增 gradle `copyRefmap` 任务，把 mixin 注解处理器生成的 refmap
+   复制到 `build/resources/main`（开发环境运行时可见）。
+8. **语言文件**：物品提示移入语言 provider（`GTMFOTooltips`，datagen 不再清除）；
+   10 种附加语言移至 `src/main/resources`（datagen 会清理 generated 中的非生成文件）。
+9. 审计确认：0 个 blockstate 引用缺失模型；剩余 14 个缺失纹理均为未注册 WIP
+   （hops/popcorn 作物、artichoke stage6-7、旧 sapling 模型）。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异
