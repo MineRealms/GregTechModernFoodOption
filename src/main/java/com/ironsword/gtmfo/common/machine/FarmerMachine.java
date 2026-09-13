@@ -130,6 +130,7 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
         }
 
         if (getLevel() instanceof ServerLevel serverLevel) {
+            if (autoOutput) pushOutput();
             operateServer(serverLevel);
         }
         updateOperationPosition();
@@ -308,7 +309,40 @@ public class FarmerMachine extends TieredEnergyMachine implements IFancyUIMachin
             }
         }
         group.addWidget(new SlotWidget(chargerInventory, 0, 79, 80, true, true));
+        // original MetaTileEntityFarmer: auto output toggle (outputs to the back of the machine)
+        group.addWidget(new com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget(152, 80, 18, 18,
+                com.gregtechceu.gtceu.api.gui.GuiTextures.BUTTON_ITEM_OUTPUT, this::isAutoOutput, this::setAutoOutput)
+                .setTooltipText("gtmfo.machine.farmer.auto_output"));
         return group;
+    }
+
+    /** Original {@code autoOutputItems}: pushes the collected crops to the inventory behind the machine. */
+    @Persisted
+    private boolean autoOutput = false;
+
+    public boolean isAutoOutput() {
+        return autoOutput;
+    }
+
+    public void setAutoOutput(boolean autoOutput) {
+        this.autoOutput = autoOutput;
+        markDirty();
+    }
+
+    private void pushOutput() {
+        if (!(getLevel() instanceof ServerLevel serverLevel)) return;
+        var target = serverLevel.getBlockEntity(getPos().relative(getFrontFacing().getOpposite()));
+        if (target == null) return;
+        var handler = target.getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER,
+                getFrontFacing()).resolve().orElse(null);
+        if (handler == null) return;
+        for (int slot = 0; slot < exportItems.getSlots(); slot++) {
+            ItemStack stack = exportItems.getStackInSlot(slot);
+            if (stack.isEmpty()) continue;
+            ItemStack remaining = net.minecraftforge.items.ItemHandlerHelper.insertItemStacked(handler,
+                    stack.copy(), false);
+            exportItems.setStackInSlot(slot, remaining);
+        }
     }
 
     @Override

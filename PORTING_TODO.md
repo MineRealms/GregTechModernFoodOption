@@ -646,139 +646,91 @@
 
 ## 16. 移植优先级建议
 
-### P0 — 核心体验（进行中 🔄）
-1. **配方链补全**（26 条目标）— ✅ **18 条新链已移植**（剩余 8 条依赖未移植系统）
-   - ✅ `ItalianRecipes` / `KebabRecipes` / `CheeseRecipes` / `IceCreamRecipes`
-   - ✅ `PurpleDrinkRecipes` / `SorbetRecipes` / `ChorusRecipes` / `MicrowaveRecipes`
-   - ✅ `PlateRecipes` / `RussianRecipes` / `VanillinRecipes` / `DyeRecipes`
-   - ✅ `LithiumRecipes` / `ChocolateRecipes` / `AlcoholRecipes` / `SeedsRecipes`
-   - ✅ `BananaRecipes` / `BritishRecipes`
-   - ✅ 修复 `ONION_SLICE` 重复 ID、`mozzarella` 重复配方
+### P0 — 核心体验（已完成 ✅）
+> 本节已于 2026-09-13 对照代码逐项复核。
+
+1. **配方链补全**（原版 32 条链）— ✅ **全部已移植 / 已确认 N/A**
+   - ✅ 已移植：Italian / Kebab / Cheese / IceCream / PurpleDrink / Sorbet / Chorus / Microwave /
+     Plate / Russian / Vanillin / Dye / Lithium / Chocolate / Alcohol / Seeds / Banana / British /
+     Apple / Berry / Breads / Caplet / Coffee（本轮补咖啡作物+种子链）/ Fat / Greenhouse / IVBag /
+     MobExtraction / VanillaOverride / Smore / Core / Potato / Pizza / AdobeBrick / Tree / Tool
+   - N/A（原版即为整段注释的死代码）：`PopcornChain` / `MineralWaterChain`
+   - ✅ 修复 `ONION_SLICE` 重复 ID、`mozzarella` 重复配方、咖啡种子缺失
    - ✅ 新增物品：`SEASONED_PORK`/`ANIMAL_FAT`/`KUBIDE_MEAT`/`BARG_MEAT`/热炖菜×3/`MUSHY_PEAS`/香肠×4/`SHEPHERDS_PIE`
    - ✅ 新增材料：凝乳×10 / 骨瓷×5 / 药物化学系列 / `LaminatedDough`
-   - ⏳ 剩余 8 条：Coffee（需重构）/ Fat / Greenhouse（需多方块）/ IVBag / MineralWater / MobExtraction（需机器）/ Popcorn（原版 WIP）/ VanillaOverride
-2. **材料/流体补全** — ✅ 已完成（~85 流体 + ~55 粉末材料）
-3. **微波炉特殊行为 + GTFO GUI 标志** — 🔄 部分完成
-   - ✅ 微波炉爆炸 + 完成音效（`MicrowaveMachine`）
-   - ✅ 音效注册系统（`GTMFOSounds`）
-   - [ ] GTFO GUI 标志（含 XMAS 变体）
-4. **原始烤炉多方块** + 烤炉配方温度系统 — ✅ 已完成（原始烤炉）
-   - ✅ `PrimitiveBakingOvenMachine`（原始多方块 + 原始 GUI）
+2. **材料/流体补全** — ✅ 已完成（脚本对比原版 131 个材料：全部在位；2 个"缺失"为原版死代码/GTCEu 自带）
+3. **微波炉特殊行为 + GTFO GUI 标志** — ✅ 已完成
+   - ✅ 微波炉爆炸（等级×4）+ 完成音效（`MicrowaveMachine`）
+   - ✅ 音效注册系统（`GTMFOSounds`，3 个音效均已调用）
+   - ✅ GTFO GUI 标志（`GTMFOGuiUtils.withLogo`）+ **XMAS 变体**（`GTValues.XMAS` 门控，本轮补）
+4. **烤炉多方块 + 温度系统** — ✅ 已完成（本轮补温度系统）
+   - ✅ `PrimitiveBakingOvenMachine` / `ElectricBakingOvenMachine` / `SteamBakingOvenMachine`
    - ✅ 注册 `PRIMITIVE_BAKING_OVEN`（3x3x2 土坯砖 + 铁/青铜框架）
    - ✅ 土坯砖链：泥砖×4 配方 → 熔炼土坯砖 → 2x2 外壳 → 加固外壳
    - ✅ 注册 `ADOBE_BRICKS` / `REINFORCED_ADOBE_BRICKS` / `PORCELAIN_TILE` / `DARK_PORCELAIN_TILE` 方块
-   - [ ] 烤炉配方温度系统（现代版已简化为无温度，可选恢复）
-5. **作物系统**（19 作物 + 10 浆果）— ✅ 方块与种植已完成
-   - ✅ `GTFOCropBlock`（基础作物 age 0-5 + 右键收获）
-   - ✅ `GTFORootCropBlock`（根茎作物 age 0-7 + 中期收获/末期收种）
-   - ✅ `GTFOWaterCropBlock`（水稻，水上种植）
-   - ✅ `GTFOBerryBushBlock`（浆果丛 age 0-2 + efficiency 0-4 育种 + 荆棘伤害 + 减速）
-   - ✅ `GTMFOCrops` 注册 19 作物 + 10 浆果丛（延迟解析种子→方块映射）
+   - ✅ **温度系统**（本轮实现）：`ELECTRIC_BAKING_OVEN_RECIPES` + 调温/指数耗电/温度精确匹配/
+     并行=长度；蒸汽烤炉（蒸汽=温度/100、时长×4）；燃料配方（木板/煤/木炭）
+5. **作物系统**（20 作物 + 10 浆果）— ✅ 已完成
+   - ✅ `GTFOCropBlock`（age 0-5 + 右键收获）/ `GTFORootCropBlock`（age 0-7 中期收获）/
+     `GTFOWaterCropBlock`（水稻）/ `GTFOBerryBushBlock`（efficiency 育种 + 荆棘）
+   - ✅ `GTMFOCrops` 注册 **20 作物**（含本轮补的咖啡）+ 10 浆果丛
    - ✅ 右键种植事件（`ForgeCommonEventListener`）
-   - ✅ 修复转换资源：grape/cotton 纹理键、artichoke 阶段数、浆果丛 efficiency 范围
-   - [ ] 世界生成（作物/浆果自然分布）→ P1
-   - [ ] 农场机集成 → P1
-6. **树木系统**（10 树种 + 木板/原木/树苗）— ✅ 方块与生长已完成
-   - ✅ `GTFOBlockLog`（每树独立原木，旋转柱）
-   - ✅ `GTFOBlockPlanks`（每树独立木板）
-   - ✅ `GTFOBlockLeaves`（每树独立树叶，掉落树苗/木棍/果实）
-   - ✅ `GTFOBlockSapling`（每树独立树苗，骨粉/随机刻生长）
-   - ✅ `GTMFOTrees` 注册 40 个方块（10 树 × 原木/木板/树苗/树叶）+ 生长逻辑（标准树冠 + 椰子树棕榈冠）
-   - ✅ `TreeRecipes`（原木→木板 4 个：合成+切割机；木板→木棍）
-   - ✅ 资源重构：变体 blockstate → 每树独立 blockstate（1.20.1 无 metadata 物品）
-   - [ ] 世界生成（树木自然分布）→ P1
-   - [ ] 自定义树形（原版香蕉/椰子树等特有形状）→ 打磨阶段
-   - [ ] 树叶颜色着色（原版每树独立色调）→ 打磨阶段
+   - ✅ 农场机集成 — 11 种 FarmerMode（见 P1）
+   - N/A：作物自然生成（原版世界生成只有树木与浆果丛，没有作物）
+6. **树木系统**（10 树种）— ✅ 已完成
+   - ✅ `GTFOBlockLog` / `GTFOBlockPlanks` / `GTFOBlockLeaves` / `GTFOBlockSapling`（每树独立）
+   - ✅ `GTMFOTrees` 40 个方块 + 生长逻辑；`TreeRecipes`（原木→木板 4 种：合成+切割机；木板→木棍）
+   - ✅ 世界生成（数据驱动 + **本轮补原版 Perlin 聚簇**，见 P1）
+   - ✅ 树叶颜色着色（10 树独立颜色 + 彩虹木坐标彩虹色）
+   - `[简化]` 自定义树形（原版香蕉/椰子树等特有形状）：移植版使用原版树形 placer（fancy/straight），
+     未复刻原版手写生成器
 
-### P1 — 重要功能（进行中 🔄）
-7. **农场机** — ✅ 已完成（简化版）
+### P1 — 重要功能（已完成 ✅）
+7. **农场机** — ✅ 已完成（**完整 FarmerMode 系统**，本轮补全）
    - ✅ `FarmerMachine`（LV-EV，动作间隔 20/10/5/2 tick）
-   - ✅ 9x9 工作区域（循环扫描）
-   - ✅ 假玩家收获（成熟作物右键/破坏 + 掉落收集）
-   - ✅ 自动补种（从输入槽取种子）
-   - ✅ 种子输入/作物输出 9+9 槽 + 充电槽
-   - [ ] 完整 FarmerMode 系统（13 种模式：可可/下界疣/茎类/高杆/根茎/浆果/原版作物等）
-   - [ ] 激光束粒子效果
-   - [ ] 输出面配置 + 自动输出
-8. **生物机器 3 件套** — ✅ 已完成
-9. **温室多方块** — ✅ 已完成
-10. **洒水器覆盖板** — ✅ 已完成
-11. **世界生成**（树/浆果分布）— ✅ 已完成（数据驱动 JSON）
-    - ✅ 10 树种：configured feature（`minecraft:tree`）+ placed feature（稀有度/高度图）+ biome modifier + biome tag
-    - ✅ 10 浆果丛：random_patch + simple_block + would_survive 过滤
-    - ✅ 生物群系映射（原版条件近似）：香蕉→丛林 / 橙子→热带草原 / 柠檬→丛林边缘+森林 / 橄榄→白桦林 / 彩虹木→平原 / 椰子→海滩 等
-    - ✅ 共 100 个 JSON 文件（`data/gtmfo/worldgen` + `forge/biome_modifier` + `tags`）
-    - [ ] 地牢战利品注入（LootModifier）→ P3
-    - [ ] 原版 Perlin 噪声分布系统（当前用标准 rarity 过滤）→ 打磨阶段
-12. **工具**（擀面杖/屠刀）— ✅ 已完成
+   - ✅ **11 种 FarmerMode**（原版 `FarmerModeRegistry` 全部）：原版作物/可可/地狱疣/茎秆（棋盘格）/
+     高杆作物（整列）/地面清理/紫颂/GTFO 作物/根茎作物/浆果丛
+   - ✅ 9x9 工作区域 + 原版两阶段算法（收集作物 → 种植种子，输出满时跳过模式）
+   - ✅ 假玩家收获 + 种子输入/作物输出 9+9 槽 + 充电槽 + 激光音效
+   - ✅ **自动输出**（本轮补：GUI 开关，输出到机器背面；原版 `autoOutputItems`）
+   - `[简化]` 激光束粒子（原版客户端 `GTFOFarmingLaserBeamParticle`）未移植（仅音效）
+   - `[简化]` 输出面配置（原版可选六面）简化为固定背面
+8. **生物机器 3 件套** — ✅ 已完成（年龄分拣/灭绝/提取 + 自定义伤害源）
+9. **温室多方块** — ✅ 已完成（阳光判定/可配置土壤/配方链）
+10. **洒水器覆盖板** — ✅ 已完成（9x9/催熟/保湿/灭火/肥料/粒子）
+11. **世界生成**（树/浆果分布）— ✅ 已完成（**本轮升级为原版 Perlin 聚簇**）
+    - ✅ 10 树种 + 10 浆果丛：configured/placed feature + biome modifier + biome tag
+    - ✅ **原版条件系统**（本轮）：`GTFOFeaturePlacement` 自定义 placement modifier —
+      首个满足条件 + simplex 噪声 cutoff + `ceil(max−cutoff×max)` 数量；`GTFOSimplexNoise`
+      为 1.12 `NoiseGeneratorSimplex` 忠实移植；生物群系集合按原版温湿度公式重算
+    - ✅ 地牢战利品注入（`GTFODungeonLoot` + GTCEu `ChestGenHooks`，41 食物 + 掺加变体）
+    - ✅ `enableGTFOTrees/Berries` 配置实际生效
+12. **工具**（擀面杖 4 材质 / HV 屠刀）— ✅ 已完成
 
-### P2 — 内容补全
+### P2 — 内容补全（已完成 ✅）
 13. **药水效果 10 种** + 掺加系统 — ✅ 已完成
-    - ✅ `CreativeFlyEffect`（创造飞行 + 落地免伤）
-    - ✅ `StepAssistEffect`（台阶辅助，潜行时 0.9 格）
-    - ✅ `SnowGolemSpawnerEffect`（雪人生成）
-    - ✅ `CyanidePoisoningEffect`（分阶段中毒：反胃/虚弱→失明→致死伤害）
-    - ✅ `VentingEffect`（随机传送 + amogus.vent 音效）
-    - ✅ PotionAmplifierEffect / PotionLengthenerEffect（实际生效，非标记）
-    - ✅ `AntiSchizoEffect`（标记）
-    - ✅ `LungCancerEffect`（每 600 tick 降低 1 点最大生命，不可治愈）
-    - ✅ `EnhancedChorusEffect`（潜行看向方向传送 8 格）
-    - ✅ **掺加系统**：`GTMFOLacing`（NBT 标记 + 食用时触发效果）+ 18 条罐装配方（氰化物/碳酸锂/石棉 × 6 种食物）
-    - ✅ **修复**：18 个意大利菜品从普通物品转为食物物品（此前缺食物属性）
-    - ✅ 食物效果接线：BRUSCHETTA/CAPONATA/PASTA_AL_POMODORO/PIZZA_VEGGIE/SANDWICH_BACON
-14. **实体 3 种** — ✅ 已完成（对照原版 `entity/` 包）
-    - ✅ `ItalianBuffaloEntity`（extends Cow）：挤奶 → `GTMFOFluids.ItalianBuffaloMilk` 桶；生成需 3x3 区块内有
-      海洋/河流/海滩群系（`checkSpawnRules` + `BiomeTags.IS_OCEAN/IS_RIVER/IS_BEACH`），对应原版
-      `NEARBY_BIOME_SPAWNS`；刷怪蛋颜色 0x3d352f / 0xf0ded1（与原版一致）
-    - ✅ `StrongSnowmanEntity`（extends SnowGolem）：10 血 / 0.3 速度（原版 `applyEntityAttributes`）、
-      投掷强力雪球、`tickCount > 10000` 自毁；AI 沿用原版（远程攻击+游荡+看玩家+打怪）
-    - ✅ `StrongSnowballEntity`（extends Snowball）：伤害 2-3（对烈焰人 +3），穿过雪傀儡/玩家不消失
-      （原版 `onImpact` 提前 return 的等价实现）
-    - ✅ 渲染器（牛用自定义纹理 `textures/entity/italian_buffalo/italian_buffalo.png`；雪人复用原版；
-      雪球 `ThrownItemRenderer`）、实体属性注册、EN/CN lang、生成生物群系修饰器
-    - ✅ `SnowGolemSpawnerEffect` 修正为原版行为：射线追踪命中方块上方生成**强力雪人** + 力量 IV 1000t
-      （原版 `GTFOEventHandler` 的 `Potion.getPotionById(5)`=Strength 4 级）
-    - 与原版差异：原版 `spawn.addPotionEffect` 用的 id 5 已确认为力量（1.12 id 表），非抗火
-15. **厨房多方块**（订单系统）— ✅ 主体已完成（对照原版 `multiblock/kitchen/` 4 个类）
-    - ✅ `KitchenMachine`（控制器）+ `KitchenCraftNode`（合成步骤）+ `KitchenState`（8 状态枚举，
-      与原版 `KitchenLogicState` 同名同义）
-    - ✅ 结构内机器扫描：`onStructureFormed` 遍历内部 12 格（3 宽 × 4 深 × 1 高），识别
-      `WorkableTieredMachine`（排除 `SimpleGeneratorMachine`，对应原版排除 `SimpleGeneratorMetaTileEntity`）
-    - ✅ 输入/输出总线+流体仓识别（原版 `initializeAbilities` 的等价实现）
-    - ✅ 合成树：从目标物品沿机器配方类型反查（原版是查控制器 NBT 里的"配方书"），BFS + 深度排序 +
-      环保护；基础材料不在机器配方中的视为需玩家提供
-    - ✅ 执行：投料（从输入总线搬入机器 `importItems/importFluids`）→ `RecipeLogic.setupRecipe` →
-      收菜（中间产物回输入总线，最终产物进输出总线，对应原版 `slurpInventory/slurpFluids` 的
-      `getNodes(stack)==null || resultItem.isItemEqual(stack)` 判定）
-    - ✅ 能量：自身 `VA[tier]/2` 维持消耗（原版 `drainEnergy`），并给受控机器补足整道配方所需 EU
-      （原版机器各自供电，这里改为厨房统一供电——`[简化]`）
-    - ✅ 脏污系统：每次启动节点 `dirtiness += 1`，概率卡顿 `random * dirtiness < 10`
-      （原版 `dirtinessChance`）；清洁液 `DistilledWater=2` / `SodiumStearate=16`
-      （原版 `GTFOMaterialHandler` 数值一致），通过 `CleanerProperty`（新建，对应原版 `materials/CleanerProperty`）
-    - ✅ 状态显示（`addDisplayText`）：目标/订单数/状态/机器数/脏污
-    - `[简化]` 结构尺寸：原版动态半径（`sDist`/`bDist` 扫描）+ 自动更新，这里固定 5×2×6
-      （钢管道外壳 + 瓷/暗瓷地板 + 控制器前墙中央），12 个机器位
-    - `[简化]` GUI：原版有"配方卡"物品 + 自绘 `KitchenRecipeWidget`（记录配方书、32 电路定订单数）；
-      这里改为控制器上的**幻影槽**设目标物品 + 按钮循环订单数 1/2/4/8/16/32/64，无配方卡物品
-    - `[简化]` 配方来源：原版需先用配方卡录制配方；这里直接查全局 `RecipeManager`（更省事，但玩家
-      无法限制用哪条配方）
+    - ✅ 10 个效果全部有实际逻辑（创造飞行/台阶/雪人/氰化物/排气/增幅/延长/抗精神分裂/肺癌/紫颂）
+    - ✅ **掺加系统**：`GTMFOLacing` + `GTMFOFoodStats` 食用触发；
+      配方为**动态罐装逻辑**（`LacingCannerLogic`，任意 GTFO 食物可掺加，本轮替换硬编码 6 种）
+    - ✅ 18 个意大利菜品食物属性接线；食物效果接线（BRUSCHETTA/CAPONATA/PASTA_AL_POMODORO 等）
+14. **实体 3 种** — ✅ 已完成（水牛/强雪人/强雪球，含生成/渲染/刷怪蛋/生物群系修饰器）
+15. **厨房多方块** — ✅ 主体已完成（订单系统/脏污/清洁/能量/状态显示）
+    - `[简化]` 结构尺寸固定 5×2×6（原版动态半径扫描）
+    - `[简化]` 目标设定用幻影槽 + 订单按钮（原版"配方卡"物品 + 自绘 GUI）
+    - `[简化]` 配方来源为全局 RecipeManager（原版需配方卡录制）
     - [ ] 配方卡物品 + 录制 GUI（如需完全还原）
     - [ ] 动态尺寸结构（如需完全还原）
-16. **创造标签页拆分** — ✅ 已完成（对照原版 `GTFOValues` 的 8 个 `BaseCreativeTab`）
-    - ✅ 8 个标签页：主 / 食物 / 作物 / 工具 / 方块 / 药品与酒精 / 饮品 / 水果与蔬菜
-    - ✅ `assignTabs()` 在 `FMLCommonSetupEvent` 重分类（原版 `getSubItems` 过滤规则逐条对应）：
-      种子→作物；擀面杖/屠刀→工具；伏特加/列宁檬汁/啤酒/红酒白酒/胶囊→药品酒精；
-      矿泉水/气泡水/果汁/碧雪/咖啡→饮品；香蕉/橙子/葡萄/芒果/杏/柠檬/酸橙/浆果/橄榄/番茄/洋葱/黄瓜/茄子→果蔬；
-      非机器 BlockItem→方块；含 `GTMFOFoodStats` 组件→食物；其余留主标签
-    - ✅ 图标与原版一致（面团/香蕉/洋葱种子/擀面杖/土坯砖/啤酒/橙汁/芒果）
-    - ✅ 标题本地化（EN 走 Registrate，CN 走自定义 provider + 生成 lang）
-17. **配置系统补全** — ✅ 已完成（对照原版 `GTFOConfig` 9 大配置组）
-    - ✅ `GTFOChainsConfig` / `GTFOVanillaOverridesConfig` / `GTFOOtherFoodModConfig` /
-      `GTFONCConfig` / `GTFOAAConfig` / `GTFOFoodConfig` / `GTFOPotionConfig` / `GTFOMiscConfig` /
-      `GTFOWorldGenConfig`，字段名与默认值与原版逐一对应
-    - ✅ 药水开关接线：`creativity`/`stepAssist`/`snowGolemSpawner` 控制对应效果逻辑
-    - ✅ 食物数值接线：硬糖/法棍/薯片/薯条/气泡水/柠檬/酸橙/碧雪 从配置读取（原版即如此）
-    - 说明：NC/AA/AppleCore/Nutrition 相关开关保留但无效果（对应模组未移植），已在注释标注
+16. **创造标签页拆分** — ✅ 已完成（8 个标签页与原版一一对应）
+17. **配置系统补全** — ✅ 已完成（9 组字段逐一对应；本轮补世界生成开关 + deleteBreadRecipe 接线）
+    - 说明：NC/AA/AppleCore/Nutrition 相关开关保留但无效果（**用户已确认联动兼容暂不做**）
+
+### JEI 集成（本轮补全）
+- [x] `FoodInfoCategory`（饥饿/饱和/效果/营养素信息页，移植版增强内容）
+- [x] `LacingCategory`（原版样式：每种掺加物一条，列出全部 GTFO 食物 + 效果/持续文本；
+      罐装机为配方催化剂）
+- [x] `EatingRecipeCategory`（原版 `eating.output`：食物 → 容器输出，本轮补）
+- [x] 语言键 `eating.output` / `lacing.item_list` / `gtmfo.lacing.info.1/2`（EN/CN + 10 语言）
+- N/A：JEI 配方传输到厨房 GUI（原版经 GTCEu 1.12 `ModularUIGuiHandler`；GTCEu 7.5.2 无对应 API）
 
 ### P2.5 — 配方链完整性审计（对照原版 32 条链，2026-09-12）
 

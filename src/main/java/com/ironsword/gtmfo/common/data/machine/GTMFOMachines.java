@@ -224,8 +224,15 @@ public class GTMFOMachines {
         JEILangPairMap.put("gtmfo.jei.food_info.effects", Pair.of("Effects:", "效果："));
         JEILangPairMap.put("gtmfo.jei.lacing", Pair.of("Food Lacing", "食物掺加"));
         JEILangPairMap.put("gtmfo.jei.lacing.effect", Pair.of("Applies: %s", "施加：%s"));
+        // original JEI category titles / lacing info lines
+        JEILangPairMap.put("eating.output", Pair.of("Eating Recipe", "食用"));
+        JEILangPairMap.put("lacing.item_list", Pair.of("Lacing Recipe", "掺药"));
+        JEILangPairMap.put("gtmfo.lacing.info.1", Pair.of("Applies effect:", "施加效果："));
+        JEILangPairMap.put("gtmfo.lacing.info.2", Pair.of("Lasts %s ticks", "持续 %s ticks"));
         JEILangPairMap.put("gtmfo.machine.farmer.tooltip.speed", Pair.of("Action every %s ticks",
                 "每 %s tick 执行一次动作"));
+        JEILangPairMap.put("gtmfo.machine.farmer.auto_output", Pair.of("Auto-output items to the back",
+                "自动输出物品到背面"));
 
         JEILangPairMap.put("gtmfo.machine.slicer.flavor.1", Pair.of("Slap-Chop", "拍拍刀"));
         JEILangPairMap.put("gtmfo.machine.slicer.flavor.2", Pair.of("Slaps those nuts into pieces",

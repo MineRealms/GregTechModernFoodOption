@@ -51,6 +51,11 @@ public class GTMFOFoodStats extends FoodStats {
         return this;
     }
 
+    /** Returns the container item left after eating (empty if none), used by the JEI eating category. */
+    public ItemStack getContainerStack() {
+        return containerItem == null ? ItemStack.EMPTY : containerItem.get();
+    }
+
     @Override
     public ItemStack finishUsingItem(ItemStack food, Level level, LivingEntity livingEntity) {
         if (GTMFOConfigHolder.INSTANCE.devConfigs.nutrientMode){
