@@ -11,6 +11,9 @@
     "gtmfo:crop_oregano",
     "gtmfo:crop_pea",
     "gtmfo:crop_soy",
-    "gtmfo:crop_strawberry"
+    "gtmfo:crop_strawberry",
+    "gtmfo:apricot_sapling",
+    "gtmfo:lemon_sapling",
+    "gtmfo:lime_sapling"
   ]
 }

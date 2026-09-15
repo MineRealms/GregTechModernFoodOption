@@ -16,6 +16,8 @@
     "gtmfo:crop_rice",
     "gtmfo:crop_tomato",
     "gtmfo:crop_white_currant",
-    "gtmfo:crop_white_grape"
+    "gtmfo:crop_white_grape",
+    "gtmfo:olive_sapling",
+    "gtmfo:nutmeg_sapling"
   ]
 }

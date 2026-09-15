@@ -1032,6 +1032,25 @@
      scrap_meat/barg_meat）→ `gtceu:meat_dust`（MEAT 类型）。
 4. **构建**：版本 0.0.5 → **0.0.6**；`compileJava` 通过（仅 JEI 导出工具既有弃用告警）。
 
+## 16.12 农业平衡与季节联动（2026-09-14，版本 0.0.7）
+
+> 详细取证与数值对照见 `docs/AGRICULTURE_BALANCE.md`。整合包实测反馈"香蕉树约 2 分钟一轮，破坏平衡"。
+
+1. **修复果实掉率 10 倍超标（BUG）**：`GTFOBlockLeaves` 的果实掉落误用了树苗掉率常量 20；
+   原版 1.12.2 `BlockLeaves#getDrops` 传给 `dropApple` 的是 **200**（苹果 0.5%），
+   GTFO 的 `getAppleDrop` 再除以每树 divisor。已改为 200：
+   香蕉单叶从 50%×3-6 降到 4%×3-6（整树期望 ~101 → ~8 个），其余树同比例（约 10~12.5 倍削弱）。
+2. **温室限速配置**：新增 `gtfoMiscConfig.greenhouseDurationMultiplier`（1.0~100.0，默认 1.0 保持原速）；
+   `GreenhouseRecipeLogic.setupRecipe` 对本机 `duration` 应用倍率（不改共享 GTRecipe）。
+   整合包设为 **6.0**：树木电路 100 s → 600 s（10 min）、果实电路 150 s → 900 s（15 min），
+   EV 超频后分别 ~75 s / ~112 s。
+3. **树苗季节联动**（SereneSeasons 1.20.1，机制取自反编译 `SeasonalCropGrowthHandler`/`ModFertility`）：
+   10 种树苗加入 `sereneseasons:{spring,summer,autumn,winter,year_round}_crops` 方块+物品标签
+   （春：杏/柠檬/青柠；夏：香蕉/芒果/橙/椰子；秋：橄榄/肉豆蔻；全年：彩虹木），
+   非当季树苗不 randomTick 生长、骨粉无效；上方盖玻璃（`sereneseasons:greenhouse_glass`，
+   含本模组温室玻璃）可全年生长。
+4. 已知未做：温室"电路 4"（肥料加速版，原版存在）未移植；树叶果实掉落未做当季限制。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异

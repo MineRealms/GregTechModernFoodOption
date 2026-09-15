@@ -60,6 +60,11 @@ public class GreenhouseMachine extends WorkableElectricMultiblockMachine {
             super.setupRecipe(recipe);
             if (getMachine().self() instanceof GreenhouseMachine greenhouse) {
                 this.hasSun = greenhouse.checkNaturalLighting();
+                // Balance option: stretch the cycle (see GTFOMiscConfig#greenhouseDurationMultiplier).
+                double multiplier = GTMFOConfigHolder.INSTANCE.gtfoMiscConfig.greenhouseDurationMultiplier;
+                if (multiplier > 1.0D && this.duration > 0) {
+                    this.duration = Math.max(1, (int) Math.round(this.duration * multiplier));
+                }
             }
         }
 

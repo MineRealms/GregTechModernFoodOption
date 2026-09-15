@@ -22,6 +22,10 @@
     "gtmfo:crop_strawberry",
     "gtmfo:crop_tomato",
     "gtmfo:crop_white_currant",
-    "gtmfo:crop_white_grape"
+    "gtmfo:crop_white_grape",
+    "gtmfo:banana_sapling",
+    "gtmfo:mango_sapling",
+    "gtmfo:orange_sapling",
+    "gtmfo:coconut_sapling"
   ]
 }

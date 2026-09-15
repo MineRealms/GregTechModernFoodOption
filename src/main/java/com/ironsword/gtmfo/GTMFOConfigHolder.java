@@ -261,6 +261,14 @@ public class GTMFOConfigHolder {
         public String[] greenhouseDirts = new String[0];
 
         @Configurable
+        @Configurable.Comment({
+                "Multiplier applied to greenhouse recipe durations (trees / sap).",
+                "1.0 = original GTFO speed (2000-4000 ticks per cycle).",
+                "e.g. 6.0 makes every greenhouse cycle six times longer." })
+        @Configurable.DecimalRange(min = 1.0, max = 100.0)
+        public double greenhouseDurationMultiplier = 1.0;
+
+        @Configurable
         @Configurable.Comment("Add furnace recipes for each baking oven recipe?")
         public boolean bakingOvenReplacement = false;
 
