@@ -24,6 +24,10 @@ import static com.ironsword.gtmfo.common.registry.GTMFORegistries.REGISTRATE;
  */
 public class GTMFOTools {
 
+    static {
+        REGISTRATE.creativeModeTab(() -> GTMFOCreativeModeTabs.MAIN_TAB);
+    }
+
     public static final GTToolType ROLLING_PIN = GTToolType.builder("rolling_pin")
             .toolStats(b -> b.crafting())
             .toolClassNames("rolling_pin")
