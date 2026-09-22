@@ -245,11 +245,12 @@ JEI 分类与 GT 配方类型可能不同，见 1.4。
 - 配置（`config/gtmfo.yaml`）：
   ```yaml
   devConfigs:
-    exportJeiRecipes: true
+    exportJeiRecipes: false                          # 默认关闭；需要导出时改为 true
     jeiRecipeExportPath: H:/tools/jei_recipes.json   # 绝对路径直接用；相对路径相对 run/
     jeiNameExportPath: H:/tools/jei_names.json
     jeiExportHiddenRecipes: false
   ```
+- **默认关闭**（模组默认值即 `false`）；启用后需重启客户端/重进存档才会触发（配置在启动时读取）
 - 触发时机：进存档后配方加载完成（防抖 3 秒）自动覆盖导出；每次进存档/配方重载都会重导
 - `version` 字段用于兼容：结构变更时会 +1
 
