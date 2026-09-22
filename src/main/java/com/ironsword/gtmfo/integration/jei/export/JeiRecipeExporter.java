@@ -7,14 +7,20 @@ import com.google.gson.stream.JsonWriter;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.ironsword.gtmfo.GTMFOConfigHolder;
 import com.mojang.logging.LogUtils;
@@ -35,6 +41,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
@@ -57,8 +64,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -184,18 +193,27 @@ public final class JeiRecipeExporter {
                 .sorted(Comparator.comparing(category -> category.getRecipeType().getUid().toString()))
                 .toList();
 
+        // GT machine categories are rendered through LDLib widgets and never add slots via the JEI
+        // layout builder; they are also missing from JEI entirely on some server sessions. Export
+        // every GT category directly from the GTCEu API instead (see exportGtCategories).
+        Set<String> gtCategoryUids = new HashSet<>();
+        for (GTRecipeCategory gtCategory : GTRegistries.RECIPE_CATEGORIES) {
+            gtCategoryUids.add(gtCategory.registryKey.toString());
+        }
+
         int categoryCount = 0;
         int recipeCount = 0;
         try (JsonWriter writer = new JsonWriter(new BufferedWriter(
                 Files.newBufferedWriter(tmp, StandardCharsets.UTF_8), 1 << 20))) {
             writer.beginObject();
             writer.name("format").value("gtmfo_jei_recipes");
-            writer.name("version").value(1);
+            writer.name("version").value(2);
             writer.name("minecraft_version").value("1.20.1");
             writer.name("exported_at").value(Instant.now().toString());
             writer.name("include_hidden").value(includeHidden);
             writer.name("categories").beginArray();
             for (IRecipeCategory<?> category : categories) {
+                if (gtCategoryUids.contains(category.getRecipeType().getUid().toString())) continue;
                 int written = exportCategory(writer, recipeManager, ingredientManager, emptyFocus, category,
                         includeHidden);
                 if (written > 0) {
@@ -203,7 +221,13 @@ public final class JeiRecipeExporter {
                     recipeCount += written;
                 }
             }
-            writer.endArray();
+            try {
+                int[] gtCounts = exportGtCategories(writer);
+                categoryCount += gtCounts[0];
+                recipeCount += gtCounts[1];
+            } catch (Throwable t) {
+                LOGGER.error("[jei-export] failed to export GT categories", t);
+            }            writer.endArray();
             writer.name("summary").beginObject();
             writer.name("category_count").value(categoryCount);
             writer.name("recipe_count").value(recipeCount);
@@ -538,6 +562,7 @@ public final class JeiRecipeExporter {
         writer.name("type").value(type.uid);
         writer.name("title").value(type.title);
         writer.name("recipe_class").value(type.recipeClass);
+        writer.name("kind").value(isInformationCategory(type.uid) ? "information" : "recipe");
 
         writer.name("catalysts").beginArray();
         IRecipeCatalystLookup catalystLookup = recipeManager.createRecipeCatalystLookup(type.recipeType);
@@ -551,6 +576,7 @@ public final class JeiRecipeExporter {
 
         writer.name("recipes").beginArray();
         int index = 0;
+        Set<String> usedIds = new HashSet<>();
         for (Object recipe : recipes) {
             CapturingRecipeLayoutBuilder builder = new CapturingRecipeLayoutBuilder(ingredientManager);
             try {
@@ -559,8 +585,18 @@ public final class JeiRecipeExporter {
                 LOGGER.warn("[jei-export] category {} failed to lay out recipe {}", type.uid, recipe, t);
             }
             ResourceLocation id = recipeId(rawCategory, recipe);
+            String idString = id != null ? id.toString() : null;
+            // JEI returns broken ids for some categories ("minecraft:", duplicated ids); synthesize
+            // a stable per-category id so external tools can address every recipe uniquely.
+            if (!isUsableRecipeId(idString) || !usedIds.add(idString)) {
+                String synthesized = type.uid + "#" + index;
+                while (!usedIds.add(synthesized)) {
+                    synthesized = synthesized + "_";
+                }
+                idString = synthesized;
+            }
             writer.beginObject();
-            writer.name("id").value(id != null ? id.toString() : type.uid + "#" + index);
+            writer.name("id").value(idString);
             writeSlotGroup(writer, "inputs", builder.slots, RecipeIngredientRole.INPUT);
             writeSlotGroup(writer, "outputs", builder.slots, RecipeIngredientRole.OUTPUT);
             if (recipe instanceof GTRecipe gtRecipe) {
@@ -607,24 +643,222 @@ public final class JeiRecipeExporter {
         }
     }
 
+    /** {@code true} when the id is a usable {@code namespace:path} (JEI sometimes returns {@code "minecraft:"}). */
+    private static boolean isUsableRecipeId(String id) {
+        if (id == null) return false;
+        int separator = id.indexOf(':');
+        return separator > 0 && separator < id.length() - 1;
+    }
+
+    /** Categories that only describe information (JEI information pages, GTFO food info) instead of crafting. */
+    private static boolean isInformationCategory(String uid) {
+        return uid.equals("jei:information") || uid.endsWith("_info") || uid.endsWith(":information");
+    }
+
+    // =========================================================
+    // ******* GT recipes, exported from the GTCEu API ******** //
+    // =========================================================
+
+    /**
+     * GT's own JEI categories render recipes through LDLib widgets and never call the JEI layout
+     * builder, so their slots cannot be captured. Worse, on server sessions the GT categories can be
+     * missing from JEI altogether (nothing in this exporter depends on their presence any more).
+     * <p>
+     * This writes one category per GT {@link GTRecipeCategory} straight from the GTCEu recipe
+     * registry, with item/fluid/energy contents and the full {@code gt} requirements block.
+     */
+    private static int[] exportGtCategories(JsonWriter writer) throws IOException {
+        List<GTRecipeCategory> gtCategories = new ArrayList<>();
+        for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
+            if (!category.shouldRegisterDisplays()) continue;
+            gtCategories.add(category);
+        }
+        gtCategories.sort(Comparator.comparing(category -> category.registryKey.toString()));
+
+        Map<GTRecipeCategory, List<ItemStack>> catalystMap = new HashMap<>();
+        for (MachineDefinition machine : GTRegistries.MACHINES) {
+            try {
+                for (GTRecipeType recipeType : machine.getRecipeTypes()) {
+                    for (GTRecipeCategory category : recipeType.getCategories()) {
+                        catalystMap.computeIfAbsent(category, key -> new ArrayList<>()).add(machine.asStack());
+                    }
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+
+        int categoryCount = 0;
+        int recipeCount = 0;
+        for (GTRecipeCategory category : gtCategories) {
+            GTRecipeType recipeType = category.getRecipeType();
+            List<GTRecipe> recipes = new ArrayList<>(recipeType.getRecipesInCategory(category));
+            if (recipes.isEmpty()) continue;
+            recipes.sort(Comparator.comparing(recipe -> recipe.id == null ? "" : recipe.id.toString()));
+
+            writer.beginObject();
+            writer.name("type").value(category.registryKey.toString());
+            writer.name("title").value(gtCategoryTitle(category));
+            writer.name("recipe_class").value(GTRecipe.class.getName());
+            writer.name("kind").value("recipe");
+
+            writer.name("catalysts").beginArray();
+            for (ItemStack catalyst : catalystMap.getOrDefault(category, List.of())) {
+                writeItemStack(writer, catalyst);
+            }
+            writer.endArray();
+
+            writer.name("recipes").beginArray();
+            int index = 0;
+            for (GTRecipe recipe : recipes) {
+                try {
+                    writer.beginObject();
+                    writer.name("id").value(recipe.id != null ? recipe.id.toString()
+                            : category.registryKey + "#" + index);
+                    writer.name("inputs").beginArray();
+                    writeGtCapabilitySlots(writer, recipe.inputs, false);
+                    writeGtCapabilitySlots(writer, recipe.tickInputs, true);
+                    writer.endArray();
+                    writer.name("outputs").beginArray();
+                    writeGtCapabilitySlots(writer, recipe.outputs, false);
+                    writeGtCapabilitySlots(writer, recipe.tickOutputs, true);
+                    writer.endArray();
+                    writeGtRequirements(writer, recipe);
+                    writer.endObject();
+                } catch (Throwable t) {
+                    LOGGER.warn("[jei-export] failed to export GT recipe {}", recipe.id, t);
+                }
+                index++;
+            }
+            writer.endArray();
+            writer.endObject();
+            categoryCount++;
+            recipeCount += recipes.size();
+        }
+        return new int[] { categoryCount, recipeCount };
+    }
+
+    private static String gtCategoryTitle(GTRecipeCategory category) {
+        try {
+            String title = Component.translatable(category.getLanguageKey()).getString();
+            if (title != null && !title.isEmpty()) {
+                return title;
+            }
+        } catch (Throwable ignored) {
+        }
+        return category.registryKey.toString();
+    }
+
+    /** One slot per GT {@link Content}; a {@code name} identifies the capability (item, fluid, ...). */
+    private static void writeGtCapabilitySlots(JsonWriter writer, Map<RecipeCapability<?>, List<Content>> contents,
+                                               boolean perTick) throws IOException {
+        for (Map.Entry<RecipeCapability<?>, List<Content>> entry : contents.entrySet()) {
+            RecipeCapability<?> capability = entry.getKey();
+            if (capability == EURecipeCapability.CAP) {
+                continue; // energy is written into the "gt" block
+            }
+            for (Content content : entry.getValue()) {
+                writer.beginObject();
+                writer.name("name").value(capability.name + (perTick ? "_tick" : ""));
+                if (content.isChanced()) {
+                    writer.name("chance").value(content.chance);
+                    writer.name("max_chance").value(content.maxChance);
+                }
+                writer.name("ingredients").beginArray();
+                writeGtContent(writer, content.content);
+                writer.endArray();
+                writer.endObject();
+            }
+        }
+    }
+
+    private static final int MAX_INGREDIENT_ALTERNATIVES = 64;
+
+    private static void writeGtContent(JsonWriter writer, Object value) throws IOException {
+        if (value == null) return;
+        if (value instanceof ItemStack stack) {
+            writeItemStack(writer, stack);
+        } else if (value instanceof Ingredient ingredient) {
+            ItemStack[] stacks;
+            try {
+                stacks = ingredient.getItems();
+            } catch (Throwable t) {
+                return; // leave the slot empty rather than abort the recipe
+            }
+            int limit = Math.min(stacks.length, MAX_INGREDIENT_ALTERNATIVES);
+            for (int i = 0; i < limit; i++) {
+                writeItemStack(writer, stacks[i]);
+            }
+        } else if (value instanceof FluidIngredient fluidIngredient) {
+            FluidStack[] stacks;
+            try {
+                stacks = fluidIngredient.getStacks();
+            } catch (Throwable t) {
+                return;
+            }
+            int limit = Math.min(stacks.length, MAX_INGREDIENT_ALTERNATIVES);
+            for (int i = 0; i < limit; i++) {
+                writeFluidStack(writer, stacks[i]);
+            }
+        } else if (value instanceof FluidStack fluid) {
+            writeFluidStack(writer, fluid);
+        } else {
+            writer.beginObject();
+            writer.name("type").value(value.getClass().getSimpleName());
+            writer.name("value").value(String.valueOf(value));
+            writer.endObject();
+        }
+    }
+
+    private static void writeItemStack(JsonWriter writer, ItemStack stack) throws IOException {
+        if (stack == null || stack.isEmpty()) return;
+        writer.beginObject();
+        writer.name("type").value("item");
+        writer.name("id").value(String.valueOf(ForgeRegistries.ITEMS.getKey(stack.getItem())));
+        writer.name("count").value(stack.getCount());
+        if (stack.hasTag()) {
+            writer.name("nbt").value(stack.getTag().toString());
+        }
+        writer.endObject();
+    }
+
+    private static void writeFluidStack(JsonWriter writer, FluidStack stack) throws IOException {
+        if (stack == null || stack.isEmpty()) return;
+        writer.beginObject();
+        writer.name("type").value("fluid");
+        writer.name("id").value(String.valueOf(ForgeRegistries.FLUIDS.getKey(stack.getFluid())));
+        writer.name("amount").value(stack.getAmount());
+        if (stack.hasTag()) {
+            writer.name("nbt").value(stack.getTag().toString());
+        }
+        writer.endObject();
+    }
+
     private static void writeSlotGroup(JsonWriter writer, String name,
                                        List<CapturingRecipeLayoutBuilder.CapturedSlot> slots,
                                        RecipeIngredientRole role) throws IOException {
         writer.name(name).beginArray();
+        int slotIndex = 0;
         for (CapturingRecipeLayoutBuilder.CapturedSlot slot : slots) {
             if (slot.role != role || slot.ingredients.isEmpty()) {
                 continue;
             }
             writer.beginObject();
-            if (slot.name != null && !slot.name.isEmpty()) {
-                writer.name("name").value(slot.name);
+            String slotName = slot.name;
+            if (slotName == null || slotName.isEmpty()) {
+                // several mods never name their slots ("Input"/"Result"/...) - give every slot a
+                // stable name so external tools can address it
+                String rolePrefix = role == RecipeIngredientRole.INPUT ? "input"
+                        : role == RecipeIngredientRole.OUTPUT ? "output" : "slot";
+                slotName = rolePrefix + "_" + slotIndex;
             }
+            writer.name("name").value(slotName);
             writer.name("ingredients").beginArray();
             for (ITypedIngredient<?> ingredient : slot.ingredients) {
                 writeIngredient(writer, ingredient);
             }
             writer.endArray();
             writer.endObject();
+            slotIndex++;
         }
         writer.endArray();
     }

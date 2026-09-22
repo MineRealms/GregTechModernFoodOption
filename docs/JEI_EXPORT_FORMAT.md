@@ -19,7 +19,7 @@
 ```json
 {
   "format": "gtmfo_jei_recipes",
-  "version": 1,
+  "version": 2,
   "minecraft_version": "1.20.1",
   "exported_at": "2026-09-13T22:11:03Z",
   "include_hidden": false,
@@ -44,6 +44,7 @@
   "type": "gtceu:macerator",
   "title": "Macerator",
   "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe",
+  "kind": "recipe",
   "catalysts": [ { "type": "item", "id": "gtceu:lv_macerator", "count": 1 } ],
   "recipes": [ ... ]
 }
@@ -54,8 +55,15 @@
 | `type` | JEI RecipeType uid，全局唯一；建图时作为"配方类型/机器组"节点 |
 | `title` | 分类显示名（本地化） |
 | `recipe_class` | 配方对象的 Java 类名（可用于区分 GT 配方与其它模组配方） |
+| `kind` | `recipe` = 真实加工配方；`information` = 纯信息页（`jei:information`、`*_info`），规划时应排除 |
 | `catalysts` | 能执行该分类的机器（催化剂），格式同 ingredient（1.5）；**分类级**，不在每条配方里重复 |
 | `recipes` | 配方数组（1.3） |
+
+> **v2 说明**：GT 的分类（`gtceu:*`）不再取自 JEI —— GT 的 JEI 分类用 LDLib 控件渲染，
+> 不经过 `IRecipeLayoutBuilder`，且在某些联机会话中整个分类为空。现在**直接从 GTCEu API
+> （`GTRegistries.RECIPE_CATEGORIES` + `GTRecipeType.getRecipesInCategory`）导出**，
+> 因此输入/输出槽位来自配方内容（item/fluid capability），`gt` 块完整，催化剂来自机器注册表。
+> GT 分类排在 JEI 分类之后（两段内部各自按 uid 排序）。
 
 注意：`type` 不一定等于 `gt.recipe_type`。GT 子分类（如 `gtceu:large_chemical_reactor`）的
 JEI 分类与 GT 配方类型可能不同，见 1.4。
@@ -73,12 +81,12 @@ JEI 分类与 GT 配方类型可能不同，见 1.4。
 
 | 字段 | 说明 |
 |---|---|
-| `id` | 配方注册名。**绝大多数是全局唯一**；信息类分类（如 `gtceu:bedrock_fluid_diagram`）没有注册名，用 `"<type>#<序号>"` 兜底（共 743 条） |
+| `id` | 配方注册名。**绝大多数是全局唯一**；无法解析、路径为空（如 `"minecraft:"`）或与同分类内其它配方重复时，改用 `"<type>#<序号>"` 兜底（v2 起保证同分类内唯一） |
 | `inputs` | 输入槽（角色 INPUT），只含非空槽 |
 | `outputs` | 输出槽（角色 OUTPUT），只含非空槽 |
 | `gt` | **仅 GT 配方存在**，见 1.4；非 GT 配方（原版合成等）无此字段 |
 
-唯一键建议：`type + "|" + id`（不同分类下 id 可能重名，如回收类配方）。
+> v2 起 `id` **在每个分类内保证唯一**；下游建图请始终用 `type + "|" + id` 作为唯一键。
 
 ### 1.4 GT 需求块（`gt`）
 
@@ -156,7 +164,15 @@ JEI 分类与 GT 配方类型可能不同，见 1.4。
 | `amount` | 流体数量，单位 mB（fluid 专用） |
 | `nbt` | 可选，SNBT 字符串；**同 id 不同 nbt 视为不同材料**（如带材质的 GT 工具/转子） |
 
-> 已知限制：JEI API 不暴露概率产出信息，因此 `gt` 配方里的概率输出没有概率字段（JEI 显示什么就导什么）。
+> v2 起 GT 分类的槽位来自 GTCEu 配方内容 API，因此：
+> - 槽位 `name` 一律存在：能力名（`item` / `fluid` / `item_tick` / `fluid_tick`，以及极少见的其他能力）
+>   或 JEI 分类给出的名称；JEI 分类未命名时自动生成 `input_N` / `output_N`（v2 前该字段可能缺失）；
+> - **GT 概率产出**带 `chance` / `max_chance`（0~10000 与 10000 基准，取自 `Content`），例如：
+>   ```json
+>   {"name":"item","chance":8000,"max_chance":10000,
+>    "ingredients":[{"type":"item","id":"gtceu:raw_rubber","count":1}]}
+>   ```
+> - 标签型原料（`Ingredient` / `FluidIngredient`）会展开为同一槽内的多个候选（上限 64 条/槽）。
 
 ---
 
@@ -236,3 +252,19 @@ JEI 分类与 GT 配方类型可能不同，见 1.4。
   ```
 - 触发时机：进存档后配方加载完成（防抖 3 秒）自动覆盖导出；每次进存档/配方重载都会重导
 - `version` 字段用于兼容：结构变更时会 +1
+
+### v2 变更（2026-09-16，gtmfo-0.0.8）
+
+1. **GT 配方改由 GTCEu API 直出**（修复"GT 分类整体缺失"）：GT 的 JEI 分类走 LDLib 控件渲染，
+   不经过 `IRecipeLayoutBuilder`，某些联机会话中分类甚至完全不在 JEI 里；现在遍历
+   `GTRegistries.RECIPE_CATEGORIES` + `GTRecipeType.getRecipesInCategory`，
+   槽位取自 `GTRecipe.inputs/outputs/tickInputs/tickOutputs`（item / fluid 能力），
+   催化剂取自有该配方类型的机器。
+2. **分类新增 `kind` 字段**（`recipe` / `information`），便于建图时排除信息页
+   （`jei:information`、`*_info`）。
+3. **配方 `id` 同分类内保证唯一**：无法解析、空路径（JEI 偶尔返回 `"minecraft:"`）或重复时，
+   改写为 `"<type>#<序号>"`。
+4. **槽位 `name` 一律存在**（JEI 未命名时生成 `input_N` / `output_N`；GT 槽位用能力名）。
+5. **GT 概率产出带 `chance` / `max_chance`**（JEI API 不暴露概率，此前无法导出）。
+6. 标签型原料展开为同槽多候选（上限 64 条/槽）。
+7. 文件顶层 `version` 升为 **2**；`jei_names.json` 结构不变（仍为 v1）。

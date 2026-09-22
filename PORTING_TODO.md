@@ -1068,6 +1068,34 @@
    `society:milk_pail` 走通用挤奶流程（大小奶/品质按好感度与心情判定）。
 4. **同类参考**：`meadow:water_buffalo`（同包同机制）——本水牛的全部配置与其对齐。
 
+## 16.14 JEI 导出修复 v2（2026-09-16，版本 0.0.8 内）
+
+> 依据 `H:\Tools\sunlit_data_issues.md` 的问题清单修复。**注意**：上一轮（commit `7e181ea`）的提交信息
+> 声称修了这些问题，但实际那次编辑损坏后被 `git checkout` 还原，提交里只有 `tools/*.py` 两个脚本——
+> 本节的修改才是真正生效的版本（已在 0.0.8 的 jar 内）。
+
+1. **根因取证**：扫描用户导出的 `sunlit_jei_recipes.json`（189.9MB / 178 分类）确认
+   **没有任何 `gtceu:*` 分类**（连启动即有数据的信息类分类也没有）；而 GTMFO 自己的 JEI 分类
+   （`gtmfo:eating` 等）在。源码核对（GTCEu 7.5.2/7.5.3 + 官方 JEI 集成）：
+   GT 的配方分类由 `GTRecipeJEICategory extends ModularUIRecipeCategory` 经 **LDLib 控件**渲染，
+   **从不调用 JEI 的 `IRecipeLayoutBuilder`**；且 `GTJEIPlugin.registerRecipes` 只在启动时执行一次，
+   联机会话中分类可能整体为空。
+2. **修复**：导出器不再依赖 JEI 提供 GT 配方——
+   - JEI 循环跳过所有 `gtceu:*` 分类（UID 取自 `GTRegistries.RECIPE_CATEGORIES`）；
+   - 新增 `exportGtCategories()`：遍历 GT 分类注册表 → `GTRecipeType.getRecipesInCategory()` →
+     写 `id / inputs / outputs / gt{}`；槽位来自 `GTRecipe.inputs/outputs/tickInputs/tickOutputs`
+     （`ItemRecipeCapability`→`Ingredient`、`FluidRecipeCapability`→`FluidIngredient`，
+     标签原料展开上限 64/槽；`EURecipeCapability` 归入 `gt` 块）；催化剂来自遍历
+     `GTRegistries.MACHINES` 的反向索引；概率产出写 `chance`/`max_chance`（`Content` 字段）。
+   - 健壮性：单条配方/单个原料失败只告警不中断；GT 段整体异常不影响 JEI 段。
+3. **其余修复**（对应问题清单 P1/P2）：
+   - 配方 `id` 合法化与同分类去重（JEI 偶尔返回 `"minecraft:"` 空路径或重复 id）→ `"<type>#<序号>"`；
+   - 槽位 `name` 一律写出（JEI 未命名 → `input_N` / `output_N`）；
+   - 分类新增 `kind`（`recipe`/`information`）便于下游过滤信息页；
+   - 导出格式 `version` → **2**（`docs/JEI_EXPORT_FORMAT.md` 已更新 v2 变更说明）。
+4. **未做**（非本模组可修）：`society_trading:trade` 的空输入、战利品表概率、Mekanism/TC 等
+   非标原料的结构化（属于对应模组/JEI 集成）；`*_info` 信息页仍导出但已标注 `kind`。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异
