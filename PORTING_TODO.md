@@ -1051,6 +1051,23 @@
    含本模组温室玻璃）可全年生长。
 4. 已知未做：温室"电路 4"（肥料加速版，原版存在）未移植；树叶果实掉落未做当季限制。
 
+## 16.13 畜牧业兼容：义大利水牛产奶 + 好感度（2026-09-16，版本 0.0.8）
+
+> 目标：让本模组的农业生物（义大利水牛 `gtmfo:italian_buffalo`）接入整合包 "Sunlit Valley" 的
+> husbandry 系统（`kubejs/server_scripts/entities/animalBase.js`：好感度/心情/喂食/挤奶/繁殖/抚摸）。
+
+1. **模组侧自带兼容标签**（本轮新增，资源，无代码）：
+   - `data/society/tags/entity_types/husbandry_animal.json` → `gtmfo:italian_buffalo`
+   - `data/society/tags/entity_types/milkable_animal.json` → `gtmfo:italian_buffalo`
+   - 该体系通过 `entity.entityType.tags` 判定动物（`global.checkEntityTag`），标签与包内
+     `handleEntityTags.js` 的写入是**并集**关系，因此模组在任何使用该体系的包中都会被自动识别；
+     society 模组不存在时标签为惰性数据，无副作用。
+2. **整合包侧配合**（KubeJS，已提交到包仓库）：产奶定义（`society:buffalo_milk`/`large_buffalo_milk`，
+   售价 64，接入奶酪压制机/意式咖啡机）+ 三个动物列表（husbandry/milkable/tier2 ×1.25）。
+3. **保留原版行为**：模组自带桶挤奶（`gtceu:italian_buffalo_milk` 流体桶）不受影响；包内使用
+   `society:milk_pail` 走通用挤奶流程（大小奶/品质按好感度与心情判定）。
+4. **同类参考**：`meadow:water_buffalo`（同包同机制）——本水牛的全部配置与其对齐。
+
 ## 17. 技术难点与注意事项
 
 ### 17.1 GTCEu 版本差异
