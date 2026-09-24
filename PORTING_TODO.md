@@ -1096,9 +1096,10 @@
 4. **未做**（非本模组可修）：`society_trading:trade` 的空输入、战利品表概率、Mekanism/TC 等
    非标原料的结构化（属于对应模组/JEI 集成）；`*_info` 信息页仍导出但已标注 `kind`。
 
-## 16.15 营养系统全面完成（2026-09-24，版本 0.0.9）
+## 16.15 营养系统模组侧完成（2026-09-24，版本 0.0.9）
 
-> 依据 `docs/NUTRIENT_INTEGRATION_ANALYSIS.md` 的分析实现；功能说明（配置/标签/接口/包侧示例）见 `docs/NUTRIENT_SYSTEM.md`。
+> 当前功能说明见 `docs/NUTRIENT_SYSTEM.md`；Sunlit Valley 包侧分析见
+> `docs/NUTRIENT_INTEGRATION_ANALYSIS.md`；交给其他 AI 时先读 `docs/NUTRIENT_AI_HANDOFF.md`。
 
 1. **核心修复与机制**（`def246f`）：
    - `gain(5 参)` 由 `put` 覆盖改为**累加**（与单项 `gain` 一致）；新增 `set/remove/clear/copyFrom` 与 `dirty` 标记；
@@ -1110,12 +1111,21 @@
    - **标签驱动**：`gtmfo:nutrient/<name>` 物品标签 → 任意食物可被包侧补营养（`NutrientTags`）；
    - **脚本镜像**：记分板 `gtmfo_<name>` + 玩家 `persistentData.gtmfo_nutrient_<name>`（KubeJS 可直接读）；
    - **JEI 接线修复**：`INutrients.addNutrients` 此前从未被调用 → JEI 食物信息页没有营养数据；现已在
-     `GTMFOFoodStats.Builder.build` 接线（分析报告 §1.3 的第 6 条已更正）。
+     `GTMFOFoodStats.Builder.build` 接线。
 2. **显示**（`d17a03d`、`77c2055`）：食物 tooltip（内置值 + 标签值）、营养名称语言条目（en/zh）、
    客户端同步（`SimpleChannel` + `NutrientSyncPacket`）、左上角 HUD 面板（可配置）、断线清理缓存。
-3. **验收（静态）**：`compileJava` 通过；未实机（按既有纪律）。
-4. **待办（包侧，见 `NUTRIENT_SYSTEM.md` §6）**：开启配置、给非 GTMFO 食物打标签、Puffish Skills
-   `nutrition` 分类、FTB 任务"均衡饮食"支线、经济加成。
+3. **包侧读接口**（`159237e`）：每秒将精确值镜像到玩家 `persistentData.gtmfo_nutrient_<name>`；
+   同时保留整数记分板 `gtmfo_<name>`。
+4. **KubeJS 逐物品扩展**（`651aba1`）：
+   - 服务端脚本 API `GTMFO.nutrients.add/addMany/addAll`，支持五类不同非负浮点值及显式 `0`；
+   - 脚本值按类别覆盖内置值和标签值，未覆盖类别保留原有回退；
+   - 普通其他模组食物在标准完成进食事件中实际累计，排除 GTMFO 组件食物以避免重复；
+   - 定义快照同步到客户端，tooltip 与服务端实际计算使用相同覆盖规则；
+   - 脚本重载重建定义，在线广播，后加入玩家同步当前定义。
+5. **验收（自动化）**：`compileJava`、`compileJava jar`、`processResources jar` 和 `git diff --check` 通过；
+   已检查 JAR 包含 KubeJS 插件入口和定义同步类。尚未完成实际客户端/专用服务端联调。
+6. **待办（包侧）**：开启配置、建立 Sunlit Valley 高频食物精确营养表、Puffish Skills `nutrition`
+   分类、FTB Quests "均衡饮食"支线、适度经济联动，以及 SoLOnion/Quality Food 回归测试。
 
 ## 17. 技术难点与注意事项
 

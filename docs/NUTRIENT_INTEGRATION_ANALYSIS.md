@@ -1,247 +1,353 @@
-# GTMFO 营养系统 × Sunlit Valley 联动分析报告
+# GTMFO 营养系统 × Sunlit Valley 联动分析
 
-> 状态：**mod 侧已实现（gtmfo-0.0.9，2026-09-24）**；包侧联动（标签/技能/任务/经济）待办。实现说明见 `docs/NUTRIENT_SYSTEM.md`
-> 取证范围：GTMFO 仓库源码 + 整合包 "Society: Sunlit Valley"（`G:\MinecraftGames\Sunlit Valley(BaopuEdition)\.minecraft\versions\Society Sunlit Valley`，git HEAD）
-> 原则：所有结论附**文件路径/行号或数值**；不确定处标注"待确认"。
-
----
-
-## 0. 摘要（先看这里）
-
-1. **GTMFO 营养系统目前是"半成品"**：只记录、不衰减、无效果、无同步、无外部接口（详见 §1）。
-2. **整合包已有两套"吃"的元系统**：`SoLOnion`（吃不同食物 → 生命/力量/速度/护甲韧性）与 `Quality Food`（品质 0-3 → 售价 ×1.25/1.5/2）。营养系统**不能与它们抢同一个奖励生态位**（详见 §3.2）。
-3. **推荐联动形态**：营养系统定位为**"类别均衡"第三轴**，主要驱动 **① 经济（售价/属性）** 与 **② 技能/任务（Puffish Skills + FTB 任务）**，只在低阈值给极小属性加成（详见 §4）。
-4. **必须先修的模态问题 3 个**：`gain(5 floats)` 覆盖而非累加（数值失效）、无客户端同步（无法做 HUD/tooltip）、无 KubeJS/外部读取接口（包侧拿不到营养值）（详见 §1.3）。
-5. 营养值覆盖：GTMFO 共 **156 种食物**带营养（均值 ~0.9，单件最高 3.0）；**非 GTMFO 食物默认没有营养值**——是否扩展是核心决策点（§3.4、§6）。
+> 文档性质：**Sunlit Valley 包侧联动分析与实施建议**
+>
+> 状态日期：2026-09-24
+>
+> 当前结论：GTMFO 模组侧基础系统已实现；Sunlit Valley 的技能、任务、经济和其他饮食系统联动尚未接线。
+>
+> 权威功能说明见 [`NUTRIENT_SYSTEM.md`](NUTRIENT_SYSTEM.md)；其他 AI 接手时先读 [`NUTRIENT_AI_HANDOFF.md`](NUTRIENT_AI_HANDOFF.md)。
 
 ---
 
-## 1. GTMFO 营养系统现状（代码取证）
+## 1. 结论摘要
 
-### 1.1 数据结构与数据流
+1. GTMFO 已实现五类营养的累计、衰减、死亡处理、奖励、HUD、tooltip、外部读取以及 KubeJS 逐物品精确定义。
+2. Sunlit Valley 已有两条成熟的饮食轴：SoLOnion 负责“吃过多少种食物”，Quality Food 负责“单件食物品质”。
+3. GTMFO 应作为第三条“类别均衡”轴，不应复制 SoLOnion 的大额生命、力量和速度奖励。
+4. 当前只有**接口层兼容**，没有直接联动代码：SoLOnion、Quality Food、Puffish Skills、FTB Quests 和 ShippingBin 都未读取 GTMFO 营养值。
+5. 推荐包侧先完成常用食物营养表和任务引导，再考虑技能与经济奖励；不要一开始同时引入多套高额属性奖励。
 
+---
+
+## 2. 调研范围与时效
+
+### GTMFO 仓库
+
+```text
+H:\MinecraftMods\GregTechModernFoodOption
 ```
-吃东西 (GTMFOFoodStats.finishUsingItem)
-  └─ if (devConfigs.nutrientMode)                     ← GTMFOConfigHolder.java:69（默认 false）
-       └─ GTMFOCapability.getNutrientsTracker(player) ← forge/GTMFOCapability.java:15
-            └─ NutrientsTracker.gain(dairy, fruit, grain, protein, vegetable)   ← NutrientsTracker.java:24
-                 └─ nutrients.put(...)   ← 玩家 NBT: {nutrients:{dairy:..,...}}  ← serializeNBT():57
-查看/调试: /nutrient query|clear|gain     ← common/command/NutrientCommands.java
+
+当前实现以提交 `651aba1` 及其之前的营养提交为依据。
+
+### Sunlit Valley 调研快照
+
+```text
+G:\MinecraftGames\Sunlit Valley(BaopuEdition)\.minecraft\versions\Society Sunlit Valley
 ```
 
-| 文件 | 作用 |
+本报告中的整合包文件名、配置值和脚本位置来自 2026-09-24 的本地工作区快照。另一个 AI 在实际修改整合包前，应重新确认路径、模组版本和脚本结构没有变化。
+
+---
+
+## 3. GTMFO 模组侧当前能力
+
+### 3.1 玩家状态
+
+固定五类营养：
+
+```text
+dairy / fruit / grain / protein / vegetable
+```
+
+默认规则：
+
+- 单类上限 `30`；
+- 每游戏日每类衰减 `1`；
+- 死亡重置；
+- 每类达到 `5` 增加一颗心；
+- 总生命加成最多五颗心；
+- 五类全部达标时可配置一个均衡效果，但默认关闭；
+- 没有营养不足 debuff。
+
+系统默认关闭，需要整合包显式开启。准确配置见 `NUTRIENT_SYSTEM.md`。
+
+### 3.2 食物定义
+
+目前有三种来源：
+
+1. GTMFO 食物内置值；
+2. `gtmfo:nutrient/<name>` 标签提供统一 `tagValue`；
+3. KubeJS `GTMFO.nutrients.add/addMany/addAll` 提供逐物品、逐类别精确值。
+
+KubeJS 显式类别覆盖该类别的内置值和标签值；显式 `0` 可以关闭该类别。普通标准可食用物品会在完成进食时实际累计，而不是只显示 tooltip。
+
+### 3.3 包侧可读取的数据
+
+精确小数值：
+
+```js
+player.persistentData.getFloat("gtmfo_nutrient_dairy")
+player.persistentData.getFloat("gtmfo_nutrient_fruit")
+player.persistentData.getFloat("gtmfo_nutrient_grain")
+player.persistentData.getFloat("gtmfo_nutrient_protein")
+player.persistentData.getFloat("gtmfo_nutrient_vegetable")
+```
+
+整数记分板镜像：
+
+```text
+gtmfo_dairy
+gtmfo_fruit
+gtmfo_grain
+gtmfo_protein
+gtmfo_vegetable
+```
+
+这两类镜像都依赖 `scoreboardMirror: true`。
+
+### 3.4 已验证和未验证
+
+编译、资源处理、打包和 JAR 内容检查已经通过。尚未进行完整游戏内联调，尤其是 KubeJS 重载、多人后加入、显式 `0` 和普通外部食物累计场景。详见 `NUTRIENT_SYSTEM.md` §12。
+
+---
+
+## 4. Sunlit Valley 现有饮食系统
+
+## 4.1 SoLOnion：食物多样性
+
+调研快照：
+
+- 模组文件：`mods/SoLOnion_FORGE_v1.4.5_mc1.20.1.jar`；
+- 配置：`config/solonion.json`；
+- 记录最近进食中的不同食物；
+- `resetOnDeath: true`；
+- 阈值奖励包含最大生命、力量、速度和护甲韧性；
+- 包内移除了午餐盒类容器，但保留多样性机制。
+
+**与 GTMFO 当前关系：没有直接代码联动。**
+
+二者计算维度不同：
+
+- SoLOnion 关心物品种类数量；
+- GTMFO 关心五类营养是否覆盖和均衡。
+
+死亡都默认重置只是配置设计一致，不代表存在 API 联动。
+
+## 4.2 Quality Food：单件品质
+
+调研快照：
+
+- 模组文件：`mods/quality_food-1.20.1-2.4.3-all.jar`；
+- 品质存储于物品 NBT；
+- 作物和畜牧产出可携带品质；
+- 品质会影响售价倍率和品质效果；
+- 包内有品质清洗机器和材料白名单/黑名单。
+
+**与 GTMFO 当前关系：没有直接代码联动。**
+
+当前：
+
+- 品质不会放大营养摄入；
+- 营养不会改变物品品质；
+- 营养均衡不会自动影响 Quality Food 的价格计算。
+
+## 4.3 Puffish Skills
+
+包内已有多个技能分类，并已在 farming 经验配置中使用 `puffish_skills:eat_food` 事件源。这说明它适合作为营养玩法的任务与成长载体。
+
+**当前尚未实现：**
+
+- `nutrition` 分类；
+- 读取 GTMFO 五类营养的技能条件；
+- 营养吸收、阈值或衰减相关 perk；
+- 吃特定营养类别食物获得的专属 XP。
+
+## 4.4 FTB Quests
+
+包内已有 crops、drinks、pantry、farming 等相关章节，也有本地化流水线。
+
+**当前尚未实现：**
+
+- 五类营养各达到某阈值的观察任务；
+- 均衡饮食教程；
+- 与 Puffish Skills 或 stage 联动的营养任务奖励。
+
+## 4.5 ShippingBin 与经济
+
+包内已有 `shippingbin:*_sell_multiplier` 属性和技能 stage 授予属性的机制，Quality Food 也已经参与售价计算。
+
+**当前尚未实现：**
+
+- 根据玩家营养均衡度调整售价；
+- 根据食物营养密度调整基础售价；
+- GTMFO 营养值与现有品质倍率的组合公式。
+
+---
+
+## 5. 三条饮食轴的推荐分工
+
+| 轴 | 系统 | 回答的问题 | 推荐奖励 |
+|---|---|---|---|
+| 多样性 | SoLOnion | 吃过多少种不同食物 | 现有属性奖励 |
+| 品质 | Quality Food | 这一件食物品质如何 | 品质效果与售价倍率 |
+| 类别均衡 | GTMFO | 乳、果、谷、蛋白、蔬菜是否均衡 | 小额内置生命 + 任务/技能/经济 |
+
+设计原则：
+
+- 保留 GTMFO 默认的小额生命奖励即可；
+- 不再给营养系统叠加大额力量、速度或最大生命；
+- 让包侧奖励重点落在教程、任务、技能成长和适度经济反馈；
+- 用五类最低值体现“短板”，避免只堆一种营养。
+
+---
+
+## 6. 推荐的包侧实施顺序
+
+### 阶段 A：最小可玩闭环
+
+1. 在整合包配置中开启 GTMFO 营养；
+2. 用 `GTMFO.nutrients.addMany()` 给常用主食、作物、肉类、乳制品和复合菜配置精确值；
+3. 标签只用于大量同质原料的快速兜底，复合菜优先写精确值；
+4. 增加一条简单任务或说明，引导玩家观察 HUD 与 tooltip；
+5. 实测一天饮食后五类增长和衰减速度。
+
+### 阶段 B：任务联动
+
+1. 在 pantry 或 crops 章节加入均衡饮食支线；
+2. 使用记分板观察任务检查整数阈值，或使用 KubeJS 读取 `persistentData` 棏查小数；
+3. 建议里程碑从五类各 `5` 开始，不要直接要求 `20` 或 `30`；
+4. 奖励优先用物品、stage、技能 XP 或配方解锁，避免再次大量加属性。
+
+### 阶段 C：技能联动
+
+可选方案：
+
+- 新增 `nutrition` 分类；
+- 吃 `#society:dish` 获得基础经验；
+- 五类全部达到阈值时周期性授予少量 XP；
+- perk 可减少衰减或调整包侧奖励，但当前 GTMFO 没有直接提供“修改单类吸收倍率”的公开脚本 API，若要做此类 perk 需额外开发。
+
+### 阶段 D：经济联动
+
+建议先选一种，避免双重奖励：
+
+- 玩家均衡度给很小的全局售价倍率；或
+- 营养丰富的特定商品提高基础价格。
+
+不要同时把 Quality Food 高品质倍率、技能倍率和营养倍率都设计得很高。
+
+---
+
+## 7. 包侧数值建议
+
+GTMFO 内置食物的历史统计约为每个非零类别 `0.9`/件，单件最高约 `3`。可先使用以下量级：
+
+| 食物类型 | 建议值 |
 |---|---|
-| `api/capability/Nutrients.java` | 五类固定列表 `dairy/fruit/grain/protein/vegetable` |
-| `api/capability/NutrientsTracker.java` | 玩家级 Capability，NBT 持久化；`tick()` **空实现**；`gain(5参)`/`gain(name,amount)`/`remove(name)` |
-| `api/capability/forge/GTMFOCapability.java` | Capability 注册与获取 |
-| `api/item/component/GTMFOFoodStats.java:59-69` | 吃食物时写入营养（受 `nutrientMode` 门控） |
-| `common/data/Foods.java` | **156 种食物的营养数值**（构建时传入 5 个 float） |
-| `GTMFOConfigHolder.java:66-86` | `devConfigs.nutrientMode`（默认 `false`） |
-| `common/command/NutrientCommands.java` | `/nutrient query` / `clear` / `gain`（管理员） |
-| `api/mixin/INutrients.java` | 食物营养接口；由 `mixin/FoodPropertiesMixin` 实现（把营养挂在 `FoodProperties` 上），`integration/jei/FoodInfoCategory` 读取显示。**更正**：此前 `addNutrients` 从未被调用 → JEI 食物页没有营养数据；0.0.9 已在 `GTMFOFoodStats.Builder.build` 接线 |
+| 单一原料 | 主要类别 `0.5–1.0` |
+| 加工原料 | 主要类别 `0.75–1.5` |
+| 普通复合菜 | 两到三类各 `0.5–1.5` |
+| 丰盛主菜 | 三到五类，总值约 `3–6` |
+| 特殊高级食物 | 可略高，但单类通常不超过 `3` |
 
-### 1.2 数值分布（解析 `Foods.java` 共 156 条）
+平衡原则：
 
-| 营养 | 出现食物数 | 总和 | 非零均值 | 单件最大 |
-|---|---|---|---|---|
-| dairy 乳 | 41 | 38.75 | 0.95 | 3.00 |
-| fruit 果 | 48 | 40.75 | 0.85 | 2.00 |
-| grain 谷 | 80 | 72.75 | 0.91 | 2.00 |
-| protein 蛋白 | 69 | 58.50 | 0.85 | 2.50 |
-| vegetable 菜 | 57 | 55.73 | 0.98 | 2.00 |
-
-食物含营养的类别数：0 类 10 种、1 类 58 种、2 类 42 种、3 类 33 种、**4 类 11 种、5 类 2 种**。
-
-→ **量级结论**：单件食物 ~0.9，一顿主菜 ~1~2.5。设计阈值时应对应"吃 N 件不同食物累计到 X"，而不是大数字。
-
-### 1.3 已确认的缺口 / 缺陷
-
-| # | 问题 | 证据 | 影响 |
-|---|---|---|---|
-| 1 | **`gain(5参)` 用 `put` 覆盖而非累加** | `NutrientsTracker.java:24-40`（对比 `gain(name,amount)` 是 `getFloat+amount`） | 营养值永远是"最近一次吃的东西"的值，累计逻辑失效 |
-| 2 | 无**衰减/每日结算** | `tick()` 空（`:20`） | 营养只增不减，一次吃满永久生效 |
-| 3 | 无**客户端同步** | Capability 仅注册 NBT（`ForgeCommonEventListener`），无网络包 | 无法做 HUD/物品 tooltip，玩家看不到营养 |
-| 4 | 无 **KubeJS / 命令式读写接口** | 只有管理员命令 | 包侧（KubeJS/任务/技能）拿不到营养值，无法联动 |
-| 5 | 无**死亡处理** | 未发现 `PlayerEvent.Clone` 复制逻辑 | 待确认：死亡后营养是否丢失（重生于新实体） |
-| 6 | ~~`INutrients` 接口未被使用~~ **（更正：接口本身在用；真正的缺口是 `addNutrients` 从未被调用 → JEI 食物页无营养数据）** | `mixin/FoodPropertiesMixin.java`、`integration/jei/FoodInfoCategory.java` | 0.0.9 已接线修复 |
-| 7 | ~~`nutrientMode` 放在 `devConfigs`~~ **（0.0.9：新增独立配置组 `gtfoNutrientConfig`，旧开关保留兼容）** | `GTMFOConfigHolder.java` | 已修复 |
+- 不要因为食物恢复饥饿值高，就机械地给所有类别都很高；
+- 蔬菜汤等复合菜可覆盖多个类别，但每类应低于纯对应原料的极端值；
+- 用实际配方组成推导类别，而不是仅按物品名称猜测；
+- 显式 `0` 用于修正错误标签或屏蔽 GTMFO 内置类别；
+- 完成第一批定义后，用正常玩家一到三个游戏日的菜单回测。
 
 ---
 
-## 2. Sunlit Valley 现有"吃"相关系统盘点
+## 8. 建议的均衡度公式
 
-### 2.1 SoLOnion（Spice of Life: Onion）——"食物多样性"轴 ✅ 已在用
-- 模组：`mods/SoLOnion_FORGE_v1.4.5_mc1.20.1.jar`；配置 `config/solonion.json`
-- 机制：记录最近 **32** 次进食的不同食物；`resetOnDeath: true`
-- 阈值奖励（节选）：5→+2 生命；10→力量+4 生命；15→+6 生命；20→速度+8 生命；23→+2 护甲韧性；25→+10 生命；28→力量 I；30→+12 生命；35→+16；40→+20
-- 另有 `foodDiversity` 加成（金胡萝卜 +2、金苹果 +2、附魔金苹果 +5、无尽果实 -2 等）
-- 包内对它的改动：**移除** `solonion:lunchbox/lunchbag/golden_lunchbox`（`removeRecipes.js:547-549`、`handleBinBans.js:182-184`）——保留机制，去掉容器
+包侧若需要把五类压缩成一个指标，推荐优先使用最低值：
 
-### 2.2 Quality Food——"单件品质"轴 ✅ 已在用（且**直接影响经济**）
-- 模组：`mods/quality_food-1.20.1-2.4.3-all.jar`
-- 数据：物品 NBT `quality_food:{quality:0..3, effects:[]}`；作物/畜牧产出会带品质（`havestHandling.js:189`、`farmingLoot.js:34`、`animalBase.js:493`、`globalAnimalHandlers.js:145/387`）
-- **价格倍率**（`kubejs/client_scripts/tooltips/addPriceTooltips.js:1-7`）：
-  | 品质 | 常规 | 有 `the_quality_of_the_earth` 技能时 |
-  |---|---|---|
-  | 1 | ×1.25 | ×1.5 |
-  | 2 | ×1.5 | ×2 |
-  | 3 | ×2 | ×3 |
-- 包内还有 `qualityWasher` 机器、`quality_food:material_whitelist/blacklist` 标签等
+```js
+const names = ["dairy", "fruit", "grain", "protein", "vegetable"];
+const values = names.map(name =>
+  player.persistentData.getFloat("gtmfo_nutrient_" + name)
+);
+const balance = Math.min(...values);
+```
 
-### 2.3 Puffish Skills——技能树（**天然的营养载体**）
-- 包内分类：`adventuring / books / farming / fishing / husbandry / mastery / mining`
-  （`kubejs/data/society/puffish_skills/categories/*/`，每个分类含 `category/experience/skills/definitions/connections.json`）
-- **关键证据**：`farming/experience.json` 已使用 **`puffish_skills:eat_food`** 事件源（吃 `#society:dish` → 20 XP）✅
-- `husbandry/experience.json` 用 `puffish_skills:increase_stat`（`animals_bred` → 40 XP）
-- `farming/skills.json` 节点示例：`axe_efficiency+1`、`tiller`、`artisan`、`aged_prize`、`rancher`…
+理由：
 
-### 2.4 经济与"属性"体系
-- 价格表：`global.trades`（`globalRegistry.js:2021+`），分类换算 `global.getConfiguredValue(value, kind)`（`crop/gem/wood/...`）
-- 售价倍率来自**玩家属性**：`shippingbin:{crop,gem,meat,wood,sell}_sell_multiplier`（`config/attributefix.json:1257/1928/2698/3402/3457`；`kubejs/assets/shippingbin/lang/ko_kr.json`）
-- 属性由**技能 stage** 授予：`global.addAttributesFromStages`（`globalServer.js:330`）、`checkAttributes.js` 读取 `player.nbt.Attributes`
-- 价格 tooltip 链路：`addPriceTooltips.js` → `formatNumber(value, quality, doubled)`
+- 鼓励补齐短板；
+- 不会因单一类别堆到上限而掩盖缺失类别；
+- 与“五类全部达标”的内置奖励逻辑一致。
 
-### 2.5 任务（FTB Quests）
-- 相关章节：`crops`（189 quest）、`drinks`（216）、`pantry`（48）、`abandoned_farm`（23）、`ii__building_up_the_farm`（308）、`iii__advanced_farming`（187）
-- 任务标题走本地化键（`ftbquestlocalizer`），即已做过汉化流水线
-- 存在 `society:dish` 标签（餐食集合，`handleItemBlockFluidTags.js:530`）
+若需要 `0–1` 评分，可按目标阈值归一化：
 
-### 2.6 其它相关
-- **SereneSeasons**：季节标签已接入（作物/树苗/温室玻璃，本仓库 `data/sereneseasons/tags/...`）
-- **society** 模组：村民好感/贸易/畜牧（`animalBase.js` 好感度、`husbandryLoot.js`）；畜牧产物带品质
-- 本仓库已给水牛接入畜牧（`data/society/tags/entity_types/*.json`）
+```js
+const target = 10.0;
+const score = Math.min(1.0, balance / target);
+```
+
+这只是包侧建议，不是模组当前提供的内置字段。
 
 ---
 
-## 3. 数值与平衡分析
+## 9. 风险和限制
 
-### 3.1 三条"吃"轴的分工（避免重复奖励）
-
-| 轴 | 系统 | 奖励维度 | 已有奖励 |
-|---|---|---|---|
-| 多样性 | SoLOnion | 吃**不同物品**的数量 | 生命（最高 +20）、力量、速度、护甲韧性 |
-| 品质 | Quality Food | **单件**物品质量 | 售价倍率（×1.25~×3）、品质特效 |
-| **均衡** | **GTMFO 营养（拟）** | **5 类别的覆盖/均衡** | **建议：经济 + 技能/任务（弱属性）** |
-
-> 原则：营养**不要再给"生命/力量"**（与 SoLOnion 重叠）；它的独特性是"**类别**均衡"而非"**物品**多样性"。
-
-### 3.2 阈值 / 衰减建议（基于 §1.2 数值）
-
-设"每日衰减"与"阈值"两参数（建议做成 datapack/config，便于包侧调）：
-
-| 项 | 建议初值 | 依据 |
+| 风险 | 当前情况 | 建议 |
 |---|---|---|
-| 单日衰减 | 每类 -1.0（每天结算一次） | 单件食物 ~0.9 → 需要持续吃才维持 |
-| 均衡阈值 | 5 / 10 / 15 / 20（每类独立） | 20 大致对应"约 20 件对应类别食物"，与 SoLOnion 32 件窗口同量级 |
-| 均衡度评分 | `min(5 类当前值)` 或 `Σmin(类别,阈值)` | 鼓励"补齐短板"而非堆单一类别 |
-| 上限 | 每类 30 | 防止无限囤积 |
-
-### 3.3 覆盖问题（核心决策）
-
-- GTMFO 营养值只覆盖**本模组 156 种食物**；包里 ~400 个模组的大量食物**没有营养值**。
-- 三个选项：
-  - **(c) 只做 GTMFO 食物**（最低成本）：营养成为"用 GTMFO 内容"的激励——与"Gregification"包定位一致 ✅ 推荐起步
-  - **(b) 标签自动映射**：按 `forge:milk→dairy`、`forge:vegetables→vegetable`、`forge:crops/*` 等**标签**推断营养（mod 侧或包侧），覆盖面广但对"复合菜"不精确
-  - **(a) 数据驱动定义**：新增 JSON/datapack 层，包侧可给任意物品指定营养（最灵活，需 mod 侧开发）
-
-### 3.4 与 SoLOnion 的叠加风险
-- 若营养也给属性，玩家可同时吃满 SoLOnion（+20 血）+ 营养（属性）→ 数值膨胀。
-- 建议营养的属性类奖励**只在小阈值**（如每类 ≥5 给 +1 心，封顶 +5），大头放经济与技能。
+| 与 SoLOnion 属性叠加 | GTMFO 默认最多再加五颗心 | 保持小额，不新增同类大属性奖励 |
+| Quality Food 价格膨胀 | 已有最高倍率和技能增强 | 营养经济倍率保持很小或只做固定任务奖励 |
+| 普通外部食物覆盖不足 | 模组提供 API，但包侧尚未建表 | 先做高频食物清单，不要盲目全标签映射 |
+| 特殊食用机制 | 不一定触发标准完成事件 | 对蛋糕、方块食物和特殊模组逐项测试 |
+| KubeJS 重载时机 | 在线时通常一秒内提交 | 重载后等待并重新查看 tooltip，再测试进食 |
+| JEI 展示 | 外部 KubeJS 食物不会全部进入动态 JEI 信息页 | 以物品 tooltip 为准 |
+| 多人协议 | GTMFO 网络协议严格匹配 | 客户端和服务端安装同版本 |
+| 运行时验证不足 | 当前只完成自动构建验证 | 实际整合包接入前执行 §10 清单 |
 
 ---
 
-## 4. 推荐联动方案（B+C 混合）
+## 10. 下一轮实际联调清单
 
-### 方案 A：营养 → 属性（不单独推荐）
-- 实现最容易（mod 侧即可），但与 SoLOnion 抢生态位。
-- 仅作为**低阈值小加成**纳入。
+### 模组功能
 
-### 方案 B：营养 → 经济（推荐之一）
-- 思路：把"营养总值/均衡度"映射为售价加成，接入现有 **属性**体系（`shippingbin:sell_multiplier`），或对"营养丰富"的食物在 `global.trades` 定价上浮。
-- 实现：包侧 KubeJS 读营养（需 mod 提供接口）→ 通过 `global.addAttributesFromStages` 同类机制写属性/或直接改价格表。
-- 好处：与品质/多样性不冲突，符合"农场经营"主题。
+1. 开启 `gtfoNutrientConfig.enabled`；
+2. 给两种普通外部食物设置不同小数值；
+3. 验证 tooltip 与实际累计一致；
+4. 验证显式 `0` 屏蔽内置值或标签值；
+5. 验证未覆盖类别仍使用内置值与标签值；
+6. 验证 GTMFO 自带食物只累计一次；
+7. `/reload` 后删除、修改、增加定义并再次检查；
+8. 第二个客户端后加入，检查 HUD 和 tooltip；
+9. 跨日检查衰减，死亡检查重置；
+10. 测试蛋糕和包内特殊食物。
 
-### 方案 C：营养 → 技能与任务（推荐之一）
-- **Puffish Skills 新分类 `nutrition`**：XP 源用 `puffish_skills:eat_food`（包内已验证可用），技能节点给"营养相关"perk（例：乳制品营养 +25%、均衡阈值 -2、每日衰减减半）。
-- **FTB 任务线**：在 `pantry`/`crops` 章加"均衡饮食"任务（如"五类营养各 ≥10"），奖励可用 stage/属性与营养 perk 联动。
-- 好处：完全复用包内既有框架，可玩性与引导性最好。
+### Sunlit Valley 回归
 
-### 推荐组合
-> **C 为主（技能+任务）+ B 为辅（经济加成）+ A 极小（每类 ≥5 各 +1 心，封顶 +5）**；
-> 营养系统定位＝"**类别均衡**"，与 SoLOnion（物品多样性）、Quality Food（单件品质）形成三轴互补。
-
----
-
-## 5. 技术实施路径（分阶段、每阶段可独立验证）
-
-### 阶段 0：mod 侧必要修复（前置，约 1 个小轮次）
-1. **修 `gain(5参)` 覆盖 → 累加**（`NutrientsTracker.java:24`）；保持 NBT 结构不变（旧存档兼容）。
-2. **加衰减/日结算**：`tick()` 里按游戏日结算（参考包内 husbandry 的"日"计数模式），衰减值/上限走 config。
-3. **营养值数据驱动（决策相关）**：新增 `data/gtmfo/nutrients/*.json`（或 `gtmfo:nutrient/*` 标签），**保留 `Foods.java` 硬编码为默认**，JSON 可覆盖/新增（这样包侧能覆盖非 GTMFO 食物）。
-4. **外部接口**（关键）：至少提供只读访问，三选一或全给：
-   - KubeJS 绑定：`GTMFO.nutrients(player)` 返回 `{dairy,fruit,...}`；
-   - **Scoreboard 镜像**：`gtmfo_nutrient_dairy` 等只读 objective（FTB 任务/其它脚本可直接读）；
-   - 命令增强：`/nutrient query <player>` 支持他人 + 机器可读输出。
-5. *（可选）* 物品 tooltip 显示营养；需先有客户端同步。
-
-### 阶段 1：包侧最小联动（KubeJS）
-- 读营养值 → 写属性（经济，方案 B）与 `nutrition` 技能 XP（方案 C）。
-- 用数据驱动营养（阶段 0.3）给若干**包内常用非 GTMFO 食物**补营养（如 `#forge:crops→vegetable` 批量）。
-
-### 阶段 2：内容建设
-- Puffish Skills `nutrition` 分类（category/experience/skills/definitions/connections 五个 json）。
-- FTB 任务：`pantry` 章新增"均衡饮食"支线（依赖阶段 0 的 scoreboard/接口）。
-- 平衡回测：模拟"日常饮食"→ 达到各阈值的所需天数。
-
-### 阶段 3（可选）：可视化
-- 客户端同步 + HUD（五格小图标）或食物 tooltip 显示"提供营养/当前均衡度"。
+1. SoLOnion 多样性仍正常记录；
+2. Quality Food 品质和价格倍率不变；
+3. ShippingBin 原价格链不受影响；
+4. Puffish Skills 原 `eat_food` 经验正常；
+5. FTB Quests 原章节与本地化正常；
+6. 多人服务器无网络协议或脚本错误。
 
 ---
 
-## 6. 风险与兼容
+## 11. 历史调查结论与当前状态对照
 
-| 风险 | 说明 | 缓解 |
-|---|---|---|
-| 与 SoLOnion 奖励重叠 | 造成数值膨胀 | 营养不给大属性；只给经济/技能/小加成（§3.1） |
-| 存档兼容 | `gain` 行为改变、NBT 结构 | 保持键名 `nutrients`；只改"累加语义"（旧值仍可读） |
-| 死亡丢营养 | 目前未见 Clone 复制 | 阶段 0 明确：对齐 SoLOnion `resetOnDeath`（要么都重置，要么都保留） |
-| 多人/客户端 | 无同步 → HUD 不可能 | 阶段 0.4 先给服务端接口；HUD 放阶段 3 |
-| 性能 | 每日结算 × 在线玩家 | 结算放 `player.tick` 低频（每 X tick 检查日切），或 `SleepFinishedTimeEvent`/日切事件 |
-| KubeJS 顺序 | 属性/技能写入需在 `globalRegistry` 之后 | 沿用包内 `priority` 规律（参考 R2 的 `-30` 教训） |
-| 任务书改动 | 包内任务书已汉化、ID 有约束（历史事故：ID 溢出） | 新任务用现成流水线生成；不改既有章节 key |
-| 覆盖非 GTMFO 食物 | 可能与包内平衡/其它模组冲突 | 先只在包内显式清单内加，不做全量自动 |
+最初调查曾发现以下问题；它们是开发前状态，现已处理：
 
----
+| 历史问题 | 当前状态 |
+|---|---|
+| 五参数 `gain` 覆盖而非累加 | 已修复为正确累计 |
+| 没有每日衰减 | 已实现按游戏日衰减 |
+| 没有死亡处理 | 已实现可配置重置或保留 |
+| 没有客户端同步/HUD | 已实现玩家数值同步和 HUD |
+| 没有食物营养 tooltip | 已实现 |
+| 包侧无法读取玩家营养 | 已提供 `persistentData` 和记分板镜像 |
+| 外部普通食物标签只显示、不实际累计 | 已通过普通进食完成事件接入 |
+| 不同食物只能共享一个标签值 | 已提供 KubeJS 逐物品、逐类别精确值 |
+| KubeJS 定义客户端不可见 | 已提供定义快照同步 |
 
-## 7. 测试清单
-
-1. **静态**：`node --check` 所有新 KubeJS；JSON/tag 语法校验；`gradlew compileJava`（mod 侧）。
-2. **单机**：`/nutrient gain` 与吃食物 → 值**累加**正确；跨日衰减；死亡/重生行为；`nutrition` 技能 XP 增长；任务可完成。
-3. **服务器**：多人并发吃食物/结算无异常；scoreboard 镜像数值与命令一致；无客户端不同步报错。
-4. **回归**：SoLOnion 阈值奖励与营养奖励**可叠加但不叠加同一属性**；品质价格计算不受影响。
+因此，不应再引用“GTMFO 营养系统仍是只记录、无衰减、无同步的半成品”作为当前结论。
 
 ---
 
-## 8. 决策记录（已按推荐默认实现，2026-09-24）
-
-| # | 决策点 | 采用的默认 | 可调配置项 |
-|---|---|---|---|
-| 1 | 奖励形态 | 弱属性（每类 ≥5 → +1 心，封顶 +5 心）+ 可选均衡效果；经济/技能/任务留给包侧 | `benefitThreshold` / `healthPerNutrient` / `healthBonusCap` / `balancedEffect` |
-| 2 | 覆盖范围 | GTMFO 内置值 + **标签驱动**（`gtmfo:nutrient/<name>`），非 GTMFO 食物由包侧打标签 | `tagValue` |
-| 3 | 阈值与衰减 | 衰减 1.0/日、阈值 5、上限 30 | `decayPerDay` / `benefitThreshold` / `cap` |
-| 4 | 死亡处理 | **重置**（对齐 SoLOnion） | `resetOnDeath` |
-| 5 | HUD | 做（左上角面板 + 网络同步） | `hud` |
-
-## 9. 实现记录（mod 侧完成，gtmfo-0.0.9）
+## 12. 相关实现提交
 
 | 提交 | 内容 |
 |---|---|
-| `def246f` | 主体：`gain` 累加修复、`set/remove/clear`、每日衰减、死亡处理、独立配置组 `gtfoNutrientConfig`、阈值收益（最大生命 + 均衡效果）、标签驱动 `NutrientTags`、记分板镜像、JEI 营养数据接线 |
-| `d17a03d` | 食物 tooltip（内置值 + 标签值）+ 语言条目（en/zh） |
-| `77c2055` | 客户端同步（SimpleChannel）+ 客户端缓存 + 左上角 HUD + 断线清理（版本 0.0.9） |
-| `159237e` | 值镜像到玩家 `persistentData`（KubeJS 直接可读） |
-| 工作区当前改动 | KubeJS 逐物品营养注册、普通食物进食事件应用、定义同步与 tooltip 覆盖规则 |
-
-- 新增文件：`common/nutrient/{NutrientEffects,NutrientTags}.java`、`network/{NutrientsNetwork,NutrientSyncPacket}.java`、`client/nutrient/{ClientNutrientCache,NutrientHudOverlay}.java`
-- 对外接口：记分板 `gtmfo_<name>`、`persistentData.gtmfo_nutrient_<name>`、`/nutrient` 命令、JEI 食物页、食物 tooltip、HUD
-- 配置、标签、包侧联动示例：见 `docs/NUTRIENT_SYSTEM.md`
+| `def246f` | 累计、衰减、死亡、配置、生命收益、标签、记分板和 JEI 接线 |
+| `d17a03d` | 食物 tooltip 和中英文营养名称 |
+| `77c2055` | SimpleChannel 同步、客户端缓存和 HUD |
+| `159237e` | 玩家 `persistentData` 镜像 |
+| `a93f098` | 初版系统与联动文档 |
+| `651aba1` | KubeJS 逐物品精确值、普通食物应用、定义同步和 tooltip 统一解析 |
