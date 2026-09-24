@@ -136,6 +136,15 @@ public class GTMFOTooltips {
         add("gtmfo.tooltip.fertile_seasons.summer", "Summer", "夏季");
         add("gtmfo.tooltip.fertile_seasons.autumn", "Autumn", "秋季");
         add("gtmfo.tooltip.fertile_seasons.winter", "Winter", "冬季");
+
+        // 营养系统（Nutrient system）
+        add("gtmfo.nutrient.dairy", "Dairy", "乳制品");
+        add("gtmfo.nutrient.fruit", "Fruit", "水果");
+        add("gtmfo.nutrient.grain", "Grain", "谷物");
+        add("gtmfo.nutrient.protein", "Protein", "蛋白质");
+        add("gtmfo.nutrient.vegetable", "Vegetable", "蔬菜");
+        add("gtmfo.tooltip.nutrients", "Nutrients:", "营养：");
+        add("gtmfo.nutrient.hud.hint", "Nutrients (dairy / fruit / grain / protein / vegetable)", "营养（乳 / 果 / 谷 / 蛋白 / 菜）");
     }
 
     public static void initENLang(RegistrateLangProvider provider) {

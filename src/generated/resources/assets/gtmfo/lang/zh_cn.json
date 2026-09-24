@@ -915,5 +915,12 @@
   "material.gtceu.white_wine": "白葡萄酒",
   "material.gtceu.x_phenothiazine_ii_propyl_chloride": "异丙嗪中间体",
   "material.gtceu.yolk": "蛋黄",
-  "material.gtceu.zest": "碎橙皮"
+  "material.gtceu.zest": "碎橙皮",
+  "gtmfo.nutrient.dairy": "乳制品",
+  "gtmfo.nutrient.fruit": "水果",
+  "gtmfo.nutrient.grain": "谷物",
+  "gtmfo.nutrient.protein": "蛋白质",
+  "gtmfo.nutrient.vegetable": "蔬菜",
+  "gtmfo.tooltip.nutrients": "营养：",
+  "gtmfo.nutrient.hud.hint": "营养（乳 / 果 / 谷 / 蛋白 / 菜）"
 }

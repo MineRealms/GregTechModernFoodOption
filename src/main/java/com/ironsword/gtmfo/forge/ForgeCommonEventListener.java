@@ -196,6 +196,56 @@ public class ForgeCommonEventListener {
     }
 
     /**
+     * Food tooltip: shows how much of each nutrient the item grants (built-in values plus the
+     * {@code gtmfo:nutrient/<name>} tag values).
+     */
+    @SubscribeEvent
+    public static void onFoodTooltip(net.minecraftforge.event.entity.player.ItemTooltipEvent event) {
+        if (!com.ironsword.gtmfo.api.capability.Nutrients.isEnabled()) return;
+        if (!GTMFOConfigHolder.INSTANCE.gtfoNutrientConfig.foodTooltips) return;
+
+        ItemStack stack = event.getItemStack();
+        if (stack.isEmpty()) return;
+        net.minecraft.world.food.FoodProperties food = stack.getFoodProperties(null);
+        if (food == null) return;
+
+        java.util.Map<String, Float> values = new java.util.LinkedHashMap<>();
+        if (food instanceof com.ironsword.gtmfo.api.mixin.INutrients access) {
+            access.getNutrients().forEach((name, value) -> {
+                if (value > 0) values.merge(name, (float) value, Float::sum);
+            });
+        }
+        float[] tagValues = com.ironsword.gtmfo.common.nutrient.NutrientTags.tagValues(stack);
+        for (int i = 0; i < com.ironsword.gtmfo.api.capability.Nutrients.LIST.size(); i++) {
+            if (tagValues[i] > 0) {
+                values.merge(com.ironsword.gtmfo.api.capability.Nutrients.LIST.get(i), tagValues[i], Float::sum);
+            }
+        }
+        if (values.isEmpty()) return;
+
+        StringBuilder line = new StringBuilder();
+        for (String name : com.ironsword.gtmfo.api.capability.Nutrients.LIST) {
+            Float value = values.get(name);
+            if (value == null || value <= 0) continue;
+            if (line.length() > 0) line.append("  ");
+            line.append(net.minecraft.network.chat.Component
+                            .translatable(com.ironsword.gtmfo.api.capability.Nutrients.langKey(name)).getString())
+                    .append(' ').append(formatNutrient(value));
+        }
+        event.getToolTip().add(net.minecraft.network.chat.Component.translatable("gtmfo.tooltip.nutrients")
+                .withStyle(net.minecraft.ChatFormatting.GRAY));
+        event.getToolTip().add(net.minecraft.network.chat.Component.literal(" " + line)
+                .withStyle(net.minecraft.ChatFormatting.DARK_GREEN));
+    }
+
+    private static String formatNutrient(float value) {
+        if (value == Math.round(value)) {
+            return Integer.toString((int) value);
+        }
+        return String.format(java.util.Locale.ROOT, "%.1f", value);
+    }
+
+    /**
      * Plants GTFO crops when a registered seed is right-clicked on farmland (or water for rice).
      */
     @SubscribeEvent

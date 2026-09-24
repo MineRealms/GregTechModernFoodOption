@@ -913,5 +913,12 @@
   "material.gtceu.white_wine": "White Wine",
   "material.gtceu.x_phenothiazine_ii_propyl_chloride": "X-Phenothiazine II Propyl Chloride",
   "material.gtceu.yolk": "Yolk",
-  "material.gtceu.zest": "Zest"
+  "material.gtceu.zest": "Zest",
+  "gtmfo.nutrient.dairy": "Dairy",
+  "gtmfo.nutrient.fruit": "Fruit",
+  "gtmfo.nutrient.grain": "Grain",
+  "gtmfo.nutrient.protein": "Protein",
+  "gtmfo.nutrient.vegetable": "Vegetable",
+  "gtmfo.tooltip.nutrients": "Nutrients:",
+  "gtmfo.nutrient.hud.hint": "Nutrients (dairy / fruit / grain / protein / vegetable)"
 }
