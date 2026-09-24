@@ -14,7 +14,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
  */
 public final class NutrientsNetwork {
 
-    private static final String VERSION = "1";
+    private static final String VERSION = "2";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             GregTechModernFoodOption.id("main"),
@@ -30,10 +30,21 @@ public final class NutrientsNetwork {
                 .decoder(NutrientSyncPacket::decode)
                 .consumerMainThread(NutrientSyncPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(NutrientDefinitionSyncPacket.class, 1, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(NutrientDefinitionSyncPacket::encode)
+                .decoder(NutrientDefinitionSyncPacket::new)
+                .consumerMainThread(NutrientDefinitionSyncPacket::handle)
+                .add();
     }
 
     /** Sends the player's current nutrient values to that player's client. */
     public static void sendToPlayer(ServerPlayer player, NutrientsTracker tracker) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new NutrientSyncPacket(tracker));
+    }
+
+    /** Sends the current KubeJS definition snapshot to one client. */
+    public static void sendDefinitions(ServerPlayer player) {
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                new NutrientDefinitionSyncPacket(com.ironsword.gtmfo.common.nutrient.NutrientDefinitionRegistry.snapshot()));
     }
 }

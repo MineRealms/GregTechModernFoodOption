@@ -32,5 +32,6 @@ public class GTMFOClientForgeEvents {
     @SubscribeEvent
     public static void onLoggingOut(net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
         com.ironsword.gtmfo.client.nutrient.ClientNutrientCache.clear();
+        com.ironsword.gtmfo.common.nutrient.NutrientDefinitionRegistry.clearClient();
     }
 }

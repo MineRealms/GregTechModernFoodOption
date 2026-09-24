@@ -63,8 +63,7 @@ public class GTMFOFoodStats extends FoodStats {
             if (player != null){
                 final NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
                 if (tracker != null){
-                    nutrients.forEach(tracker::gain);
-                    com.ironsword.gtmfo.common.nutrient.NutrientTags.applyTagValues(food, tracker);
+                    com.ironsword.gtmfo.common.nutrient.NutrientDefinitionRegistry.apply(food, tracker, nutrients);
                 }
             }
         }

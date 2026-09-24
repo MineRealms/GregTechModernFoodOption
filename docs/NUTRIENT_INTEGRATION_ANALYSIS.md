@@ -240,6 +240,7 @@
 | `d17a03d` | 食物 tooltip（内置值 + 标签值）+ 语言条目（en/zh） |
 | `77c2055` | 客户端同步（SimpleChannel）+ 客户端缓存 + 左上角 HUD + 断线清理（版本 0.0.9） |
 | `159237e` | 值镜像到玩家 `persistentData`（KubeJS 直接可读） |
+| 工作区当前改动 | KubeJS 逐物品营养注册、普通食物进食事件应用、定义同步与 tooltip 覆盖规则 |
 
 - 新增文件：`common/nutrient/{NutrientEffects,NutrientTags}.java`、`network/{NutrientsNetwork,NutrientSyncPacket}.java`、`client/nutrient/{ClientNutrientCache,NutrientHudOverlay}.java`
 - 对外接口：记分板 `gtmfo_<name>`、`persistentData.gtmfo_nutrient_<name>`、`/nutrient` 命令、JEI 食物页、食物 tooltip、HUD

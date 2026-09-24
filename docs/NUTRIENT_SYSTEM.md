@@ -23,7 +23,8 @@
 | 来源 | 说明 |
 |---|---|
 | GTMFO 内置 | `Foods.java` 中 156 种食物带内置营养值（均值 ~0.9/件，单件最高 3.0） |
-| **物品标签** | 任意食物加入 `gtmfo:nutrient/<name>` 标签 → 每命中一个标签 +`tagValue`（默认 1.0）。用于覆盖**非 GTMFO 食物**（FD、F&C、Pam…） |
+| **KubeJS 逐物品值** | 可为每件食物分别指定蛋白质等数值；同一类别覆盖内置值和标签值 |
+| **物品标签** | 任意食物加入 `gtmfo:nutrient/<name>` 标签 → 每命中一个标签 +`tagValue`（默认 1.0），仅在该类别没有逐物品覆盖时生效 |
 
 标签示例（KubeJS，`server_scripts`）：
 
@@ -36,7 +37,29 @@ ServerEvents.tags("item", (e) => {
 });
 ```
 
-> 注意：标签只影响**进食时的写入**；已有存档的数值不受影响。
+> 注意：标签只影响**进食时的写入**；已有存档的数值不受影响。普通可食用物品会在 Forge 的完整进食事件中应用标签值；绕过该事件的自定义消费逻辑需要模组自行接入。
+
+### 2.1 KubeJS 逐物品营养值
+
+在 `server_scripts` 中可以批量指定不同食物的精确含量：
+
+```js
+GTMFO.nutrients.add("farmersdelight:beef_patty", {
+  protein: 2.5,
+  grain: 0.5
+});
+
+GTMFO.nutrients.addMany({
+  "minecraft:bread": { grain: 1.5 },
+  "farmersdelight:tomato": { vegetable: 0.75, fruit: 0.25 }
+});
+```
+
+- 数值按类别独立覆盖；例如只覆盖 `protein` 时，其他类别仍按内置值和标签值计算。
+- 显式写 `0` 可以关闭该物品该类别的内置/标签营养。
+- 物品 ID、营养名称或数值非法时会记录警告并忽略该条目；批量调用会整体校验后再写入。
+- KubeJS 脚本重载会重建定义表，并同步到在线客户端；客户端加入时也会收到当前定义。
+- 普通食物的定义会实际影响进食与 tooltip；GTMFO 自带食物的内置值也可按类别被覆盖，且不会重复累计。
 
 ---
 

@@ -7,6 +7,7 @@ import com.ironsword.gtmfo.api.capability.forge.GTMFOCapability;
 import com.ironsword.gtmfo.common.command.NutrientCommands;
 import com.ironsword.gtmfo.common.data.GTMFOEffects;
 import com.ironsword.gtmfo.common.data.GTMFOCrops;
+import com.ironsword.gtmfo.common.nutrient.NutrientDefinitionRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +27,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
@@ -70,11 +73,38 @@ public class ForgeCommonEventListener {
      * derived state (health bonus / balanced effect / scoreboard mirror).
      */
     @SubscribeEvent
+    public static void onFoodFinished(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntity().level().isClientSide || !com.ironsword.gtmfo.api.capability.Nutrients.isEnabled()) return;
+        if (!(event.getEntity() instanceof Player player)) return;
+        ItemStack stack = event.getItem();
+        if (stack.isEmpty() || !stack.isEdible()) return;
+        if (com.ironsword.gtmfo.api.item.ExComponentItem.getFoodStats(stack) != null
+                || stack.getItem() instanceof com.ironsword.gtmfo.api.item.PlaceableFoodItem) return;
+        NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
+        if (tracker != null) {
+            com.ironsword.gtmfo.common.nutrient.NutrientDefinitionRegistry.apply(stack, tracker, null);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDatapackSync(OnDatapackSyncEvent event) {
+        for (var player : event.getPlayers()) {
+            com.ironsword.gtmfo.network.NutrientsNetwork.sendDefinitions(player);
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerTick(net.minecraftforge.event.TickEvent.PlayerTickEvent event) {
         if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         Player player = event.player;
         if (player.level().isClientSide) return;
         if (player.tickCount % 20 != 0) return; // once per second is plenty
+        NutrientDefinitionRegistry.commitPending(player.getServer());
+        if (NutrientDefinitionRegistry.consumeCommitBroadcast()) {
+            for (var online : player.getServer().getPlayerList().getPlayers()) {
+                com.ironsword.gtmfo.network.NutrientsNetwork.sendDefinitions(online);
+            }
+        }
         NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
         if (tracker == null) return;
         tracker.tick();
@@ -97,6 +127,7 @@ public class ForgeCommonEventListener {
             if (tracker != null) {
                 com.ironsword.gtmfo.network.NutrientsNetwork.sendToPlayer(player, tracker);
             }
+            com.ironsword.gtmfo.network.NutrientsNetwork.sendDefinitions(player);
         }
     }
 
@@ -228,24 +259,20 @@ public class ForgeCommonEventListener {
         net.minecraft.world.food.FoodProperties food = stack.getFoodProperties(null);
         if (food == null) return;
 
-        java.util.Map<String, Float> values = new java.util.LinkedHashMap<>();
+        java.util.Map<String, Float> builtIns = new java.util.LinkedHashMap<>();
         if (food instanceof com.ironsword.gtmfo.api.mixin.INutrients access) {
-            access.getNutrients().forEach((name, value) -> {
-                if (value > 0) values.merge(name, (float) value, Float::sum);
-            });
+            access.getNutrients().forEach((name, value) -> builtIns.put(name, (float) value));
         }
-        float[] tagValues = com.ironsword.gtmfo.common.nutrient.NutrientTags.tagValues(stack);
-        for (int i = 0; i < com.ironsword.gtmfo.api.capability.Nutrients.LIST.size(); i++) {
-            if (tagValues[i] > 0) {
-                values.merge(com.ironsword.gtmfo.api.capability.Nutrients.LIST.get(i), tagValues[i], Float::sum);
-            }
-        }
-        if (values.isEmpty()) return;
+        float[] resolved = NutrientDefinitionRegistry.displayValues(stack, builtIns);
+        boolean hasValue = false;
+        for (float value : resolved) if (value > 0) { hasValue = true; break; }
+        if (!hasValue) return;
 
         StringBuilder line = new StringBuilder();
-        for (String name : com.ironsword.gtmfo.api.capability.Nutrients.LIST) {
-            Float value = values.get(name);
-            if (value == null || value <= 0) continue;
+        for (int i = 0; i < com.ironsword.gtmfo.api.capability.Nutrients.LIST.size(); i++) {
+            String name = com.ironsword.gtmfo.api.capability.Nutrients.LIST.get(i);
+            float value = resolved[i];
+            if (value <= 0) continue;
             if (line.length() > 0) line.append("  ");
             line.append(net.minecraft.network.chat.Component
                             .translatable(com.ironsword.gtmfo.api.capability.Nutrients.langKey(name)).getString())
