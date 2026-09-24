@@ -58,12 +58,13 @@ public class GTMFOFoodStats extends FoodStats {
 
     @Override
     public ItemStack finishUsingItem(ItemStack food, Level level, LivingEntity livingEntity) {
-        if (GTMFOConfigHolder.INSTANCE.devConfigs.nutrientMode){
+        if (com.ironsword.gtmfo.api.capability.Nutrients.isEnabled()){
             Player player = livingEntity instanceof Player ? (Player) livingEntity : null;
             if (player != null){
                 final NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
                 if (tracker != null){
                     nutrients.forEach(tracker::gain);
+                    com.ironsword.gtmfo.common.nutrient.NutrientTags.applyTagValues(food, tracker);
                 }
             }
         }
@@ -168,6 +169,10 @@ public class GTMFOFoodStats extends FoodStats {
             FoodProperties properties = propertyBuilder.build();
             if (properties instanceof com.ironsword.gtmfo.api.mixin.IEatingDuration duration) {
                 duration.setEatingDuration(eatingDuration);
+            }
+            // expose the values on the FoodProperties as well (JEI food info + item tooltips read them)
+            if (properties instanceof com.ironsword.gtmfo.api.mixin.INutrients nutrientsAccess) {
+                nutrientsAccess.addNutrients(dairy, fruit, grain, protein, vegetable);
             }
             return new GTMFOFoodStats(properties,eatingDuration,isDrink,containerItem).nutrients(dairy,fruit,grain,protein,vegetable);
         }

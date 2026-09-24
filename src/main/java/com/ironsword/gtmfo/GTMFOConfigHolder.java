@@ -28,6 +28,10 @@ public class GTMFOConfigHolder {
     public DevConfigs devConfigs = new DevConfigs();
 
     @Configurable
+    @Configurable.Comment("Nutrient (dairy/fruit/grain/protein/vegetable) system options.")
+    public GTFONutrientConfig gtfoNutrientConfig = new GTFONutrientConfig();
+
+    @Configurable
     @Configurable.Comment("Recipe chain options.")
     public GTFOChainsConfig gtfoChainsConfig = new GTFOChainsConfig();
 
@@ -65,7 +69,8 @@ public class GTMFOConfigHolder {
 
     public static class DevConfigs {
         @Configurable
-        @Configurable.Comment("Enable the nutrient (dairy/fruit/grain/protein/vegetable) system.")
+        @Configurable.Comment({"Legacy switch for the nutrient system - prefer gtfoNutrientConfig.enabled.",
+                "Kept for save/config compatibility; either flag enables the system."})
         public boolean nutrientMode = false;
 
         @Configurable
@@ -293,5 +298,77 @@ public class GTMFOConfigHolder {
         @Configurable
         @Configurable.Comment("Turn on GTFO berry generation? Required for some mod features.")
         public boolean enableGTFOBerries = true;
+    }
+
+    /**
+     * Nutrient system (dairy / fruit / grain / protein / vegetable).
+     *
+     * <p>Eating GTMFO foods adds their built-in nutrient values (see {@code Foods}); items that only
+     * match a {@code gtmfo:nutrient/<name>} tag add {@link #tagValue} instead, which lets packs
+     * cover foods from other mods without touching code.</p>
+     */
+    public static class GTFONutrientConfig {
+        @Configurable
+        @Configurable.Comment("Enable the nutrient system (dairy/fruit/grain/protein/vegetable)?")
+        public boolean enabled = false;
+
+        @Configurable
+        @Configurable.Comment("Maximum stored value per nutrient.")
+        @Configurable.DecimalRange(min = 1.0, max = 1000.0)
+        public double cap = 30.0;
+
+        @Configurable
+        @Configurable.Comment({"Value removed from every nutrient once per in-game day.",
+                "0 = no decay. Offline time does not multiply the decay (one step per observed day change)."})
+        @Configurable.DecimalRange(min = 0.0, max = 100.0)
+        public double decayPerDay = 1.0;
+
+        @Configurable
+        @Configurable.Comment({"Value granted for foods that only match a gtmfo:nutrient/<name> tag",
+                "(GTMFO foods keep their built-in per-item values)."})
+        @Configurable.DecimalRange(min = 0.0, max = 100.0)
+        public double tagValue = 1.0;
+
+        @Configurable
+        @Configurable.Comment("Reset every nutrient when the player dies?")
+        public boolean resetOnDeath = true;
+
+        @Configurable
+        @Configurable.Comment({"Each nutrient at/above this threshold grants max health.",
+                "0 = no health bonus (use when the pack grants its own nutrient rewards)."})
+        @Configurable.DecimalRange(min = 0.0, max = 1000.0)
+        public double benefitThreshold = 5.0;
+
+        @Configurable
+        @Configurable.Comment("Max health granted per qualifying nutrient (2.0 = 1 heart).")
+        @Configurable.DecimalRange(min = 0.0, max = 20.0)
+        public double healthPerNutrient = 2.0;
+
+        @Configurable
+        @Configurable.Comment("Maximum total max-health bonus from nutrients (10.0 = 5 hearts).")
+        @Configurable.DecimalRange(min = 0.0, max = 100.0)
+        public double healthBonusCap = 10.0;
+
+        @Configurable
+        @Configurable.Comment({"Optional effect granted while ALL nutrients are at/above the threshold",
+                "(e.g. minecraft:luck). Empty = disabled."})
+        public String balancedEffect = "";
+
+        @Configurable
+        @Configurable.Comment("Amplifier for the balanced-diet effect (0 = level I).")
+        @Configurable.Range(min = 0, max = 9)
+        public int balancedEffectAmplifier = 0;
+
+        @Configurable
+        @Configurable.Comment("Mirror nutrient values into scoreboard objectives (gtmfo_nutrient_<name>) for quests/scripts.")
+        public boolean scoreboardMirror = true;
+
+        @Configurable
+        @Configurable.Comment("Show the nutrient HUD while playing (client side).")
+        public boolean hud = true;
+
+        @Configurable
+        @Configurable.Comment("Show a food item's nutrient values in its tooltip.")
+        public boolean foodTooltips = true;
     }
 }

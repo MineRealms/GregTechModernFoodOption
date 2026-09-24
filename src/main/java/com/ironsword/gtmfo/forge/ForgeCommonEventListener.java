@@ -1,6 +1,7 @@
 package com.ironsword.gtmfo.forge;
 
 import com.ironsword.gtmfo.GregTechModernFoodOption;
+import com.ironsword.gtmfo.GTMFOConfigHolder;
 import com.ironsword.gtmfo.api.capability.NutrientsTracker;
 import com.ironsword.gtmfo.api.capability.forge.GTMFOCapability;
 import com.ironsword.gtmfo.common.command.NutrientCommands;
@@ -62,6 +63,41 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event){
         NutrientCommands.register(event.getDispatcher(),event.getBuildContext());
+    }
+
+    /**
+     * Nutrient upkeep: decays the stored values on each in-game day change and refreshes the
+     * derived state (health bonus / balanced effect / scoreboard mirror).
+     */
+    @SubscribeEvent
+    public static void onPlayerTick(net.minecraftforge.event.TickEvent.PlayerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
+        Player player = event.player;
+        if (player.level().isClientSide) return;
+        if (player.tickCount % 20 != 0) return; // once per second is plenty
+        NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
+        if (tracker == null) return;
+        tracker.tick();
+        com.ironsword.gtmfo.common.nutrient.NutrientEffects.tick(player, tracker);
+    }
+
+    /**
+     * Keeps (or resets) nutrients when the player entity is cloned: on death the config decides,
+     * on a dimension/End return the values are always carried over.
+     */
+    @SubscribeEvent
+    public static void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+        NutrientsTracker oldTracker = GTMFOCapability.getNutrientsTracker(event.getOriginal());
+        NutrientsTracker newTracker = GTMFOCapability.getNutrientsTracker(event.getEntity());
+        if (oldTracker == null || newTracker == null) return;
+
+        boolean reset = event.isWasDeath()
+                && GTMFOConfigHolder.INSTANCE.gtfoNutrientConfig.resetOnDeath;
+        if (!reset) {
+            newTracker.copyFrom(oldTracker);
+        } else {
+            newTracker.clear();
+        }
     }
 
     @SubscribeEvent
