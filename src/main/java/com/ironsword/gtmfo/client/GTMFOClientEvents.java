@@ -26,6 +26,13 @@ public class GTMFOClientEvents {
                 com.ironsword.gtmfo.client.particle.GTFOSprinkleParticle.Provider::new);
     }
 
+    /** Nutrient HUD (top-left panel, see NutrientHudOverlay). */
+    @SubscribeEvent
+    public static void onRegisterGuiOverlays(net.minecraftforge.client.event.RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll("gtmfo_nutrients",
+                new com.ironsword.gtmfo.client.nutrient.NutrientHudOverlay());
+    }
+
     @SubscribeEvent
     public static void onRegisterBlockColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Block event) {
         for (int i = 0; i < com.ironsword.gtmfo.common.data.GTMFOTrees.LEAVES.size(); i++) {

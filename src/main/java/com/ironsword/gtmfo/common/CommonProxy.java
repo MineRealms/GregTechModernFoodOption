@@ -34,6 +34,8 @@ public class CommonProxy {
 
         GTMFOConfigHolder.init();
 
+        com.ironsword.gtmfo.network.NutrientsNetwork.init();
+
         GTMFOCreativeModeTabs.init();
         GTMFOBlocks.init();
         GTMFOItems.init();

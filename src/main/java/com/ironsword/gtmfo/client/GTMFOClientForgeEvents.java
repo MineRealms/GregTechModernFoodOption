@@ -27,4 +27,10 @@ public class GTMFOClientForgeEvents {
             event.setCanceled(true);
         }
     }
+
+    /** Drop the nutrient snapshot when leaving a world so the HUD does not show stale values. */
+    @SubscribeEvent
+    public static void onLoggingOut(net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
+        com.ironsword.gtmfo.client.nutrient.ClientNutrientCache.clear();
+    }
 }

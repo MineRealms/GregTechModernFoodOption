@@ -79,6 +79,25 @@ public class ForgeCommonEventListener {
         if (tracker == null) return;
         tracker.tick();
         com.ironsword.gtmfo.common.nutrient.NutrientEffects.tick(player, tracker);
+
+        // mirror changes to the owning client (HUD)
+        if (tracker.isDirty()) {
+            if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+                com.ironsword.gtmfo.network.NutrientsNetwork.sendToPlayer(serverPlayer, tracker);
+            }
+            tracker.clearDirty();
+        }
+    }
+
+    /** Sends an initial nutrient snapshot right after joining so the HUD is populated. */
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) {
+            NutrientsTracker tracker = GTMFOCapability.getNutrientsTracker(player);
+            if (tracker != null) {
+                com.ironsword.gtmfo.network.NutrientsNetwork.sendToPlayer(player, tracker);
+            }
+        }
     }
 
     /**
