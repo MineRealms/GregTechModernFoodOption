@@ -59,7 +59,7 @@ public final class NutrientEffects {
 
         applyHealthBonus(player, tracker);
         applyBalancedEffect(player, tracker);
-        mirrorScoreboard(player, tracker);
+        mirror(player, tracker);
     }
 
     // =========================================================
@@ -128,13 +128,27 @@ public final class NutrientEffects {
     }
 
     // =========================================================
-    // ******* scoreboard mirror ****************************** //
+    // ******* script / quest mirror ************************** //
     // =========================================================
 
-    private static void mirrorScoreboard(Player player, NutrientsTracker tracker) {
+    /**
+     * Exposes the values to scripts:
+     * <ul>
+     *   <li>scoreboard objectives {@code gtmfo_<nutrient>} (FTB Quests, command blocks, ...)</li>
+     *   <li>player {@code persistentData} floats {@code gtmfo_nutrient_<nutrient>} (easy to read
+     *       from KubeJS: {@code player.persistentData.getFloat("gtmfo_nutrient_dairy")})</li>
+     * </ul>
+     */
+    private static void mirror(Player player, NutrientsTracker tracker) {
         if (!GTMFOConfigHolder.INSTANCE.gtfoNutrientConfig.scoreboardMirror) return;
-        if (!(player.level() instanceof ServerLevel server)) return;
 
+        // KubeJS friendly mirror
+        net.minecraft.nbt.CompoundTag persistent = player.getPersistentData();
+        for (String name : Nutrients.LIST) {
+            persistent.putFloat("gtmfo_nutrient_" + name, tracker.get(name));
+        }
+
+        if (!(player.level() instanceof ServerLevel server)) return;
         Scoreboard scoreboard = server.getScoreboard();
         String holder = player.getScoreboardName();
         for (String name : Nutrients.LIST) {
