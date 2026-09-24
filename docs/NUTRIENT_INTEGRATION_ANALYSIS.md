@@ -1,6 +1,6 @@
 # GTMFO 营养系统 × Sunlit Valley 联动分析报告
 
-> 状态：**调研阶段（未改动任何代码）**　日期：2026-09-24
+> 状态：**mod 侧已实现（gtmfo-0.0.9，2026-09-24）**；包侧联动（标签/技能/任务/经济）待办。实现说明见 `docs/NUTRIENT_SYSTEM.md`
 > 取证范围：GTMFO 仓库源码 + 整合包 "Society: Sunlit Valley"（`G:\MinecraftGames\Sunlit Valley(BaopuEdition)\.minecraft\versions\Society Sunlit Valley`，git HEAD）
 > 原则：所有结论附**文件路径/行号或数值**；不确定处标注"待确认"。
 
@@ -38,7 +38,7 @@
 | `common/data/Foods.java` | **156 种食物的营养数值**（构建时传入 5 个 float） |
 | `GTMFOConfigHolder.java:66-86` | `devConfigs.nutrientMode`（默认 `false`） |
 | `common/command/NutrientCommands.java` | `/nutrient query` / `clear` / `gain`（管理员） |
-| `api/mixin/INutrients.java` | 定义了 `addNutrients/getNutrients` 接口，但**全仓库没有被 mixin 使用**（死代码） |
+| `api/mixin/INutrients.java` | 食物营养接口；由 `mixin/FoodPropertiesMixin` 实现（把营养挂在 `FoodProperties` 上），`integration/jei/FoodInfoCategory` 读取显示。**更正**：此前 `addNutrients` 从未被调用 → JEI 食物页没有营养数据；0.0.9 已在 `GTMFOFoodStats.Builder.build` 接线 |
 
 ### 1.2 数值分布（解析 `Foods.java` 共 156 条）
 
@@ -63,8 +63,8 @@
 | 3 | 无**客户端同步** | Capability 仅注册 NBT（`ForgeCommonEventListener`），无网络包 | 无法做 HUD/物品 tooltip，玩家看不到营养 |
 | 4 | 无 **KubeJS / 命令式读写接口** | 只有管理员命令 | 包侧（KubeJS/任务/技能）拿不到营养值，无法联动 |
 | 5 | 无**死亡处理** | 未发现 `PlayerEvent.Clone` 复制逻辑 | 待确认：死亡后营养是否丢失（重生于新实体） |
-| 6 | `INutrients` 接口未被使用 | `api/mixin/INutrients.java` | 死代码（清洁度问题） |
-| 7 | `nutrientMode` 放在 `devConfigs` | `GTMFOConfigHolder.java:68` | 语义是"功能开关"却标为开发者选项 |
+| 6 | ~~`INutrients` 接口未被使用~~ **（更正：接口本身在用；真正的缺口是 `addNutrients` 从未被调用 → JEI 食物页无营养数据）** | `mixin/FoodPropertiesMixin.java`、`integration/jei/FoodInfoCategory.java` | 0.0.9 已接线修复 |
+| 7 | ~~`nutrientMode` 放在 `devConfigs`~~ **（0.0.9：新增独立配置组 `gtfoNutrientConfig`，旧开关保留兼容）** | `GTMFOConfigHolder.java` | 已修复 |
 
 ---
 
@@ -222,12 +222,25 @@
 
 ---
 
-## 8. 待用户决策（影响工作量）
+## 8. 决策记录（已按推荐默认实现，2026-09-24）
 
-1. **奖励形态**：接受"经济 + 技能/任务为主、属性为辅"（推荐），还是要更强/更弱的属性向？
-2. **覆盖范围**：(c) 只 GTMFO 食物 / (b) 标签映射 / (a) 数据驱动自定义——选哪个起步？
-3. **阈值与衰减**：接受 §3.2 初值（衰减 1.0/日、阈值 5/10/15/20、上限 30）？还是由 datapack 交给包侧调？
-4. **死亡处理**：营养**重置**（对齐 SoLOnion）还是**保留**？
-5. **是否需要 HUD**（若需要 → 阶段 3 必做，需同步包）。
+| # | 决策点 | 采用的默认 | 可调配置项 |
+|---|---|---|---|
+| 1 | 奖励形态 | 弱属性（每类 ≥5 → +1 心，封顶 +5 心）+ 可选均衡效果；经济/技能/任务留给包侧 | `benefitThreshold` / `healthPerNutrient` / `healthBonusCap` / `balancedEffect` |
+| 2 | 覆盖范围 | GTMFO 内置值 + **标签驱动**（`gtmfo:nutrient/<name>`），非 GTMFO 食物由包侧打标签 | `tagValue` |
+| 3 | 阈值与衰减 | 衰减 1.0/日、阈值 5、上限 30 | `decayPerDay` / `benefitThreshold` / `cap` |
+| 4 | 死亡处理 | **重置**（对齐 SoLOnion） | `resetOnDeath` |
+| 5 | HUD | 做（左上角面板 + 网络同步） | `hud` |
 
-> 决策确定后即可按 §5 阶段 0 开工（一个小轮次、可单独验证）。
+## 9. 实现记录（mod 侧完成，gtmfo-0.0.9）
+
+| 提交 | 内容 |
+|---|---|
+| `def246f` | 主体：`gain` 累加修复、`set/remove/clear`、每日衰减、死亡处理、独立配置组 `gtfoNutrientConfig`、阈值收益（最大生命 + 均衡效果）、标签驱动 `NutrientTags`、记分板镜像、JEI 营养数据接线 |
+| `d17a03d` | 食物 tooltip（内置值 + 标签值）+ 语言条目（en/zh） |
+| `77c2055` | 客户端同步（SimpleChannel）+ 客户端缓存 + 左上角 HUD + 断线清理（版本 0.0.9） |
+| `159237e` | 值镜像到玩家 `persistentData`（KubeJS 直接可读） |
+
+- 新增文件：`common/nutrient/{NutrientEffects,NutrientTags}.java`、`network/{NutrientsNetwork,NutrientSyncPacket}.java`、`client/nutrient/{ClientNutrientCache,NutrientHudOverlay}.java`
+- 对外接口：记分板 `gtmfo_<name>`、`persistentData.gtmfo_nutrient_<name>`、`/nutrient` 命令、JEI 食物页、食物 tooltip、HUD
+- 配置、标签、包侧联动示例：见 `docs/NUTRIENT_SYSTEM.md`
